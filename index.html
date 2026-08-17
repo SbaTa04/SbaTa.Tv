@@ -9,15 +9,27 @@
     <style>
         :root { --main-red: #e50914; --bg-dark: #050811; }
         body { background-color: var(--bg-dark); color: white; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; }
-        .hero-container { height: 85vh; width: 100%; position: relative; display: flex; align-items: center; overflow: hidden; }
-        .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transition: opacity 1s ease; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg-dark) 15%, transparent 60%), linear-gradient(70deg, var(--bg-dark) 30%, transparent 70%); z-index: 1; }
+        
+        /* تأثيرات الشاشات الكبيرة والتلفاز */
         .movie-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); outline: none; }
-        .movie-card:hover, .movie-card:focus { transform: scale(1.1); z-index: 10; }
+        .movie-card:hover, .movie-card:focus { transform: scale(1.1); z-index: 10; border: 3px solid white; border-radius: 15px; }
+        
+        /* هيدر احترافي */
+        .hero-container { height: 85vh; width: 100%; position: relative; display: flex; align-items: center; overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg-dark) 15%, transparent 60%), linear-gradient(70deg, var(--bg-dark) 30%, transparent 70%); z-index: 1; }
+        
+        /* إخفاء السكرول بار */
         ::-webkit-scrollbar { display: none; }
-        .video-wrapper { position: fixed; inset: 0; background: black; z-index: 9999; display: none; }
-        iframe { width: 100%; height: 100%; border: none; }
-        .genre-btn.active { background-color: var(--main-red); color: white; border-color: var(--main-red); }
+        
+        /* مودال الفيديو والقائمة */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .episodes-container { background: #111; padding: 25px; border-radius: 20px; width: 100%; max-width: 900px; max-height: 85vh; overflow-y: auto; border: 1px solid #333; }
+        
+        .episode-btn { background: #222; border-radius: 10px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .episode-btn:hover, .episode-btn:focus { background: var(--main-red); transform: scale(1.05); outline: none; }
+
+        iframe { width: 100%; height: 100%; border: none; border-radius: 15px; }
     </style>
 </head>
 <body>
@@ -25,49 +37,50 @@
     <!-- القائمة العلوية -->
     <nav class="fixed top-0 w-full z-[100] px-6 md:px-12 py-4 flex flex-wrap justify-between items-center bg-black/60 backdrop-blur-lg border-b border-white/10">
         <div class="flex items-center gap-8">
-            <div class="text-3xl md:text-4xl font-black text-red-600 tracking-tighter cursor-pointer" onclick="location.reload()">STARS PRO</div>
+            <div class="text-3xl font-black text-red-600 tracking-tighter cursor-pointer" onclick="location.reload()">STARS PRO</div>
             <div class="hidden md:flex gap-6 text-sm font-bold">
-                <button onclick="changeType('movie')" id="btn-movie" class="text-red-500 hover:text-red-500 transition">أفلام</button>
-                <button onclick="changeType('tv')" id="btn-tv" class="text-gray-400 hover:text-red-500 transition">مسلسلات</button>
-                <button onclick="showFavorites()" class="text-gray-400 hover:text-red-500 transition">مفضلتي ⭐</button>
+                <button onclick="changeType('movie')" id="btn-movie" class="text-red-600 transition">أفلام</button>
+                <button onclick="changeType('tv')" id="btn-tv" class="text-gray-400 hover:text-red-600 transition">مسلسلات</button>
+                <button onclick="showFavorites()" class="text-gray-400 hover:text-red-600 transition">مفضلتي ⭐</button>
             </div>
         </div>
         <div class="flex items-center gap-4 mt-2 md:mt-0 w-full md:w-auto">
-            <input type="text" id="searchInput" placeholder="ابحث عن محتوى..." 
-                class="bg-white/10 border border-white/20 rounded-full px-5 py-2 text-sm outline-none focus:border-red-600 w-full md:w-64">
+            <input type="text" id="searchInput" placeholder="ابحث عن فيلم أو مسلسل..." 
+                class="bg-white/10 border border-white/20 rounded-full px-6 py-2 text-sm outline-none focus:border-red-600 w-full md:w-64 text-white">
         </div>
     </nav>
 
-    <!-- الهيرو -->
+    <!-- واجهة الهيرو -->
     <header class="hero-container">
-        <img id="heroImg" src="" class="hero-bg opacity-0 transition-all duration-1000">
+        <img id="heroImg" src="" class="hero-bg transition-opacity duration-1000">
         <div class="hero-overlay"></div>
-        <div class="relative z-10 px-8 md:px-20 w-full mt-10">
-            <h1 id="heroTitle" class="text-4xl md:text-7xl font-black mb-4 leading-tight">...</h1>
-            <p id="heroDesc" class="text-gray-300 text-sm md:text-xl mb-8 line-clamp-3 max-w-2xl">...</p>
-            <button id="heroPlayBtn" class="bg-red-600 hover:bg-white hover:text-black text-white px-8 py-3 rounded-lg font-black transition-all transform hover:scale-110 text-xl flex items-center gap-2 shadow-2xl">
+        <div class="relative z-10 px-8 md:px-20 w-full mt-20">
+            <h1 id="heroTitle" class="text-4xl md:text-7xl font-black mb-4 leading-tight drop-shadow-2xl">...</h1>
+            <p id="heroDesc" class="text-gray-300 text-sm md:text-xl mb-8 line-clamp-3 max-w-3xl">...</p>
+            <button id="heroPlayBtn" class="bg-red-600 hover:bg-white hover:text-black text-white px-12 py-4 rounded-xl font-black transition-all transform hover:scale-110 text-xl flex items-center gap-3">
                 <span>▶</span> تشغيل الآن
             </button>
         </div>
     </header>
 
-    <!-- شريط التصنيفات (Genres) -->
-    <div class="px-8 md:px-20 py-6 overflow-x-auto flex gap-3 no-scrollbar" id="genreBar">
-        <!-- التصنيفات سيتم وضعها هنا -->
-    </div>
+    <!-- شريط التصنيفات -->
+    <div class="px-8 md:px-20 py-8 overflow-x-auto flex gap-4 no-scrollbar items-center" id="genreBar"></div>
 
     <!-- شبكة المحتوى -->
     <main class="px-6 md:px-20 pb-20 relative z-20">
-        <h2 id="gridTitle" class="text-2xl md:text-3xl font-bold mb-8 pr-4 border-r-4 border-red-600">الأفلام الرائجة</h2>
-        <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-6">
-            <!-- المحتوى يظهر هنا -->
+        <h2 id="gridTitle" class="text-2xl md:text-4xl font-bold mb-10 pr-4 border-r-8 border-red-600">الأكثر رواجاً</h2>
+        <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-6 md:gap-10">
+            <!-- المحتوى يتم توليده هنا -->
         </div>
     </main>
 
-    <!-- مشغل الفيديو -->
-    <div id="videoModal" class="video-wrapper">
-        <button onclick="closeVideo()" class="absolute top-8 left-8 z-[10000] bg-red-600 text-white w-12 h-12 rounded-full text-2xl shadow-2xl">&times;</button>
-        <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe>
+    <!-- مودال المشغل واختيار الحلقات -->
+    <div id="mainModal" class="modal-overlay" onclick="closeModal(event)">
+        <!-- سيتم تبديل المحتوى هنا بين قائمة الحلقات أو iframe الفيديو -->
+        <div id="modalContent" class="w-full h-full flex items-center justify-center" onclick="event.stopPropagation()">
+            <!-- المحتوى الداخلي -->
+        </div>
+        <button onclick="forceClose()" class="absolute top-8 left-8 bg-red-600 text-white w-12 h-12 rounded-full text-2xl font-bold z-[10001] shadow-2xl">&times;</button>
     </div>
 
     <script>
@@ -75,37 +88,35 @@
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMG_PATH = 'https://image.tmdb.org/t/p/original';
         
-        let currentType = 'movie'; // النوع الافتراضي (أفلام)
+        let currentType = 'movie'; 
         let favorites = JSON.parse(localStorage.getItem('stars_favs')) || [];
 
-        // 1. تبديل النوع (فيلم/مسلسل)
+        // --- 1. تبديل النوع (أفلام/مسلسلات) ---
         function changeType(type) {
             currentType = type;
-            document.getElementById('btn-movie').className = type === 'movie' ? 'text-red-500' : 'text-gray-400';
-            document.getElementById('btn-tv').className = type === 'tv' ? 'text-red-500' : 'text-gray-400';
-            document.getElementById('gridTitle').innerText = type === 'movie' ? 'أحدث الأفلام' : 'أحدث المسلسلات';
+            document.getElementById('btn-movie').style.color = type === 'movie' ? '#e50914' : '#9ca3af';
+            document.getElementById('btn-tv').style.color = type === 'tv' ? '#e50914' : '#9ca3af';
             fetchGenres();
             fetchContent(`${BASE_URL}/${type}/popular?api_key=${API_KEY}&language=ar-SA`);
         }
 
-        // 2. جلب التصنيفات
+        // --- 2. جلب التصنيفات ---
         async function fetchGenres() {
             const res = await fetch(`${BASE_URL}/genre/${currentType}/list?api_key=${API_KEY}&language=ar-SA`);
             const data = await res.json();
             const bar = document.getElementById('genreBar');
-            bar.innerHTML = `<button onclick="changeType('${currentType}')" class="genre-btn active px-6 py-2 rounded-full border border-white/20 text-xs whitespace-nowrap">الكل</button>`;
+            bar.innerHTML = `<button onclick="changeType('${currentType}')" class="bg-red-600 px-6 py-2 rounded-full text-sm whitespace-nowrap font-bold">الكل</button>`;
             data.genres.forEach(g => {
-                bar.innerHTML += `<button onclick="fetchByGenre(${g.id}, '${g.name}')" class="genre-btn px-6 py-2 rounded-full border border-white/20 text-xs whitespace-nowrap hover:bg-red-600 transition">${g.name}</button>`;
+                bar.innerHTML += `<button onclick="fetchByGenre(${g.id}, '${g.name}')" class="bg-white/10 hover:bg-red-600 px-6 py-2 rounded-full text-sm whitespace-nowrap transition border border-white/5">${g.name}</button>`;
             });
         }
 
-        // 3. جلب المحتوى حسب التصنيف
         function fetchByGenre(id, name) {
             document.getElementById('gridTitle').innerText = `${name}`;
             fetchContent(`${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&with_genres=${id}&language=ar-SA`);
         }
 
-        // 4. جلب وعرض البيانات
+        // --- 3. جلب وعرض البيانات ---
         async function fetchContent(url) {
             const res = await fetch(url);
             const data = await res.json();
@@ -120,66 +131,117 @@
                 if(!item.poster_path) return;
                 const isFav = favorites.some(f => f.id === item.id);
                 const card = document.createElement('div');
-                card.className = 'movie-card group cursor-pointer';
+                card.className = 'movie-card group cursor-pointer outline-none';
+                card.tabIndex = "0";
                 card.innerHTML = `
-                    <div class="relative overflow-hidden rounded-2xl shadow-lg border-2 border-transparent hover:border-red-600 transition-all">
-                        <img src="${IMG_PATH + item.poster_path}" class="w-full aspect-[2/3] object-cover" onclick="openVideo(${item.id})">
-                        <button onclick="toggleFav(${JSON.stringify(item).replace(/"/g, '&quot;')})" class="absolute top-2 left-2 bg-black/60 p-2 rounded-full text-${isFav ? 'red-500' : 'white'} hover:scale-120 transition">
+                    <div class="relative overflow-hidden rounded-2xl shadow-2xl">
+                        <img src="https://image.tmdb.org/t/p/w500${item.poster_path}" class="w-full aspect-[2/3] object-cover" onclick='openMedia(${JSON.stringify(item).replace(/'/g, "&apos;")})'>
+                        <button onclick='toggleFav(${JSON.stringify(item).replace(/'/g, "&apos;")})' class="absolute top-2 left-2 bg-black/60 p-2 rounded-full text-${isFav ? 'red-500' : 'white'} z-50">
                             ${isFav ? '❤️' : '🤍'}
                         </button>
                     </div>
-                    <h3 class="mt-3 text-xs font-bold truncate">${item.title || item.name}</h3>
+                    <h3 class="mt-4 text-[11px] md:text-sm font-bold truncate text-center">${item.title || item.name}</h3>
                 `;
                 grid.appendChild(card);
             });
         }
 
         function updateHero(item) {
-            const img = document.getElementById('heroImg');
-            img.src = IMG_PATH + item.backdrop_path;
-            img.onload = () => img.classList.replace('opacity-0', 'opacity-100');
+            document.getElementById('heroImg').src = IMG_PATH + item.backdrop_path;
             document.getElementById('heroTitle').innerText = item.title || item.name;
             document.getElementById('heroDesc').innerText = item.overview;
-            document.getElementById('heroPlayBtn').onclick = () => openVideo(item.id);
+            document.getElementById('heroPlayBtn').onclick = () => openMedia(item);
         }
 
-        function openVideo(id) {
-            const modal = document.getElementById('videoModal');
-            const player = document.getElementById('videoPlayer');
-            // الرابط يدعم المسلسلات والأفلام
-            player.src = `https://vidsrc.to/embed/${currentType}/${id}`;
-            modal.style.display = 'block';
+        // --- 4. تشغيل الميديا (فيلم أو مسلسل) ---
+        function openMedia(item) {
+            if(currentType === 'movie') {
+                playVideo(`https://vidsrc.to/embed/movie/${item.id}`);
+            } else {
+                showEpisodesUI(item.id, item.name);
+            }
         }
 
-        function closeVideo() {
-            document.getElementById('videoModal').style.display = 'none';
-            document.getElementById('videoPlayer').src = '';
+        async function showEpisodesUI(tvId, name) {
+            const res = await fetch(`${BASE_URL}/tv/${tvId}?api_key=${API_KEY}&language=ar-SA`);
+            const data = await res.json();
+            
+            const modal = document.getElementById('mainModal');
+            const content = document.getElementById('modalContent');
+            modal.style.display = 'flex';
+            
+            content.innerHTML = `
+                <div class="episodes-container text-right">
+                    <h2 class="text-3xl font-black mb-6 text-red-600">${name}</h2>
+                    <div class="mb-8">
+                        <label class="block mb-3 text-gray-400 font-bold">اختر الموسم:</label>
+                        <select id="seasonSelect" onchange="loadEpisodes(${tvId}, this.value)" class="w-full bg-gray-800 p-4 rounded-xl border border-gray-700 outline-none font-bold">
+                            ${data.seasons.map(s => s.season_number > 0 ? `<option value="${s.season_number}">${s.name}</option>` : '').join('')}
+                        </select>
+                    </div>
+                    <div id="episodesList" class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 gap-4">
+                        <!-- الحلقات -->
+                    </div>
+                </div>
+            `;
+            loadEpisodes(tvId, 1);
         }
 
-        // 5. نظام المفضلة
+        async function loadEpisodes(tvId, seasonNum) {
+            const res = await fetch(`${BASE_URL}/tv/${tvId}/season/${seasonNum}?api_key=${API_KEY}&language=ar-SA`);
+            const data = await res.json();
+            const list = document.getElementById('episodesList');
+            list.innerHTML = data.episodes.map(ep => `
+                <div onclick="playVideo('https://vidsrc.to/embed/tv/${tvId}/${seasonNum}/${ep.episode_number}')" 
+                     class="episode-btn shadow-xl" tabIndex="0">
+                    ${ep.episode_number}
+                </div>
+            `).join('');
+        }
+
+        function playVideo(url) {
+            const modal = document.getElementById('mainModal');
+            const content = document.getElementById('modalContent');
+            modal.style.display = 'flex';
+            content.innerHTML = `<iframe src="${url}" allowfullscreen allow="autoplay"></iframe>`;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function forceClose() {
+            document.getElementById('mainModal').style.display = 'none';
+            document.getElementById('modalContent').innerHTML = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        function closeModal(e) {
+            if(e.target.id === 'mainModal') forceClose();
+        }
+
+        // --- 5. ميزات إضافية ---
         function toggleFav(item) {
             const index = favorites.findIndex(f => f.id === item.id);
             if(index > -1) favorites.splice(index, 1);
             else favorites.push(item);
             localStorage.setItem('stars_favs', JSON.stringify(favorites));
             alert(index > -1 ? 'تم الحذف من المفضلة' : 'تمت الإضافة للمفضلة');
-            location.reload(); 
+            location.reload();
         }
 
         function showFavorites() {
-            document.getElementById('gridTitle').innerText = 'قائمتي المفضلة ⭐';
+            document.getElementById('gridTitle').innerText = 'مفضلتي ⭐';
             displayContent(favorites);
+            window.scrollTo(0, 600);
         }
 
-        // 6. البحث
         searchInput.addEventListener('keyup', (e) => {
             if (e.key === 'Enter' && searchInput.value !== '') {
                 fetchContent(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${searchInput.value}&language=ar-SA`);
                 document.getElementById('gridTitle').innerText = `نتائج البحث عن: ${searchInput.value}`;
+                window.scrollTo(0, 600);
             }
         });
 
-        // البداية
+        // تشغيل الموقع
         changeType('movie');
     </script>
 </body>
