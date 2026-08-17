@@ -5,69 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>سينما ستارز | Cinema Stars TV</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-red: #e50914; --bg-dark: #050811; }
         body { background-color: var(--bg-dark); color: white; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; }
         
-        /* تحسين استجابة الصور */
-        .poster-img { aspect-ratio: 2/3; object-fit: cover; width: 100%; border-radius: 12px; transition: all 0.3s ease; }
+        /* تحسين صورة الهيرو لتغطية الشاشة بالكامل في التلفاز */
+        .hero-container { height: 100vh; width: 100%; position: relative; display: flex; align-items: center; overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transition: opacity 1s ease; }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(70deg, var(--bg-dark) 30%, transparent 70%), linear-gradient(to top, var(--bg-dark) 10%, transparent 40%); z-index: 1; }
 
-        /* تأثير التركيز للريموت كنترول (TV) ولوحة المفاتيح */
-        .movie-card:focus { outline: 4px solid var(--main-red); transform: scale(1.1); z-index: 50; border-radius: 12px; }
-        
+        /* بطاقات الأفلام */
+        .movie-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; outline: none; }
+        .movie-card:hover, .movie-card:focus { transform: scale(1.1); z-index: 10; shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+        .movie-card:focus .card-border { border: 4px solid white; }
+
         /* إخفاء شريط التمرير */
         ::-webkit-scrollbar { display: none; }
-
-        /* تنسيق الفيديو ليكون ملء الشاشة تماماً في التلفاز */
-        .video-wrapper { position: fixed; inset: 0; background: black; z-index: 1000; display: none; }
+        
+        /* مشغل الفيديو ملء الشاشة */
+        .video-wrapper { position: fixed; inset: 0; background: black; z-index: 9999; display: none; }
         iframe { width: 100%; height: 100%; border: none; }
-
-        /* لمسات جمالية للخلفية */
-        .hero-gradient { background: linear-gradient(to top, var(--bg-dark) 10%, transparent 50%, rgba(0,0,0,0.8) 100%); }
     </style>
 </head>
-<body class="selection:bg-red-600">
+<body>
 
-    <!-- القائمة العلوية - متجاوبة -->
-    <nav class="fixed top-0 w-full z-[100] px-6 py-4 flex justify-between items-center bg-gradient-to-b from-black to-transparent">
-        <div class="text-2xl md:text-4xl font-extrabold text-red-600 tracking-tighter">CINEMA STARS</div>
-        <div class="flex items-center gap-4">
-            <input type="text" id="searchInput" placeholder="ابحث..." 
-                class="bg-black/50 border border-gray-600 rounded-full px-4 py-2 text-sm focus:w-64 md:w-48 transition-all outline-none focus:border-red-600 focus:bg-black">
+    <!-- القائمة العلوية -->
+    <nav class="fixed top-0 w-full z-[100] px-6 md:px-12 py-6 flex justify-between items-center transition-all" id="mainNav">
+        <div class="text-3xl md:text-5xl font-black text-red-600 tracking-tighter">CINEMA STARS</div>
+        <div class="flex items-center gap-6">
+            <input type="text" id="searchInput" placeholder="ابحث عن فيلم..." 
+                class="bg-black/40 backdrop-blur-md border border-white/20 rounded-full px-6 py-2 text-white outline-none focus:border-red-600 focus:w-80 transition-all w-40 md:w-64">
         </div>
     </nav>
 
-    <!-- الهيرو (الفيلم الرئيسي) - تصميم 10ft UI -->
-    <header id="hero" class="relative h-[80vh] md:h-screen flex items-end p-8 md:p-20 overflow-hidden">
-        <div class="z-10 max-w-4xl mb-10">
-            <h1 id="heroTitle" class="text-4xl md:text-7xl font-extrabold mb-4 leading-tight">...</h1>
-            <p id="heroDesc" class="text-gray-300 text-sm md:text-xl mb-8 line-clamp-3 md:line-clamp-4 max-w-2xl">...</p>
-            <div class="flex gap-4">
-                <button id="heroPlayBtn" class="bg-red-600 hover:bg-white hover:text-black text-white px-10 py-4 rounded-xl font-extrabold transition-all transform hover:scale-105 text-lg md:text-2xl">
-                    ▶ شـاهد الآن
+    <!-- الهيرو (الواجهة الرئيسية) -->
+    <header class="hero-container">
+        <img id="heroImg" src="" class="hero-bg opacity-0">
+        <div class="hero-overlay"></div>
+        
+        <div class="relative z-10 px-8 md:px-20 w-full max-w-4xl mt-20">
+            <h1 id="heroTitle" class="text-5xl md:text-8xl font-black mb-6 leading-none">...</h1>
+            <p id="heroDesc" class="text-gray-200 text-lg md:text-2xl mb-10 line-clamp-3 md:line-clamp-4 max-w-3xl drop-shadow-lg">...</p>
+            <div class="flex gap-6">
+                <button id="heroPlayBtn" class="bg-white text-black hover:bg-red-600 hover:text-white px-12 py-4 rounded-xl font-black transition-all transform hover:scale-110 text-2xl flex items-center gap-3 shadow-2xl">
+                    <span>▶</span> تشغيل
                 </button>
             </div>
         </div>
-        <div class="absolute inset-0 z-0">
-            <img id="heroImg" src="" class="w-full h-full object-cover opacity-60 transition-opacity duration-1000">
-            <div class="absolute inset-0 hero-gradient"></div>
-        </div>
     </header>
 
-    <!-- قائمة الأفلام - Grid ذكي لجميع الأجهزة -->
-    <main class="p-6 md:p-20 -mt-20 relative z-20">
-        <h2 id="gridTitle" class="text-2xl md:text-4xl font-bold mb-8 text-white/90">الأفلام الرائجة</h2>
+    <!-- شبكة الأفلام -->
+    <main class="relative z-20 px-6 md:px-20 pb-20 -mt-32">
+        <h2 id="gridTitle" class="text-2xl md:text-4xl font-bold mb-10 text-white/80">الأفلام الأكثر رواجاً</h2>
         
-        <!-- Grid متجاوب: 2 موبايل، 4 تابلت، 6 لابتوب/تلفاز -->
-        <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-8">
-            <!-- الأفلام هنا -->
+        <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-6 md:gap-10">
+            <!-- الأفلام تظهر هنا -->
         </div>
     </main>
 
-    <!-- مشغل الفيديو - ملء الشاشة (Full Screen) -->
+    <!-- مشغل الفيديو -->
     <div id="videoModal" class="video-wrapper">
-        <button onclick="closeVideo()" class="absolute top-8 left-8 z-[1100] bg-red-600 text-white w-12 h-12 rounded-full text-2xl font-bold shadow-2xl hover:scale-110 transition">&times;</button>
+        <button onclick="closeVideo()" class="absolute top-10 left-10 z-[10000] bg-white/10 hover:bg-red-600 text-white w-16 h-16 rounded-full text-4xl font-light transition backdrop-blur-md">&times;</button>
         <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe>
     </div>
 
@@ -75,48 +74,52 @@
         const API_KEY = 'a445c76d05e5d5697ad322b954897657';
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMG_PATH = 'https://image.tmdb.org/t/p/original';
+        const POSTER_PATH = 'https://image.tmdb.org/t/p/w500';
         
-        // جلب الأفلام
         async function fetchMovies(url) {
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 displayMovies(data.results);
                 if (data.results[0]) updateHero(data.results[0]);
-            } catch (err) { console.error("Error fetching data"); }
+            } catch (err) { console.error("Error"); }
         }
 
-        // عرض الأفلام مع إضافة خاصية الـ Focus للتلفاز
         function displayMovies(movies) {
             const grid = document.getElementById('movieGrid');
             grid.innerHTML = '';
-            movies.forEach((movie, index) => {
+            movies.forEach(movie => {
                 if(!movie.poster_path) return;
                 const card = document.createElement('div');
-                card.className = 'movie-card group cursor-pointer transition-all duration-300 transform outline-none focus:relative';
-                card.tabIndex = "0"; // تسمح بالتركيز باستخدام أزرار الريموت
+                card.className = 'movie-card group outline-none';
+                card.tabIndex = "0"; 
                 
                 card.innerHTML = `
-                    <div class="relative overflow-hidden rounded-xl shadow-lg border-2 border-transparent group-hover:border-red-600 transition-all">
-                        <img src="${IMG_PATH + movie.poster_path}" class="poster-img" alt="${movie.title}">
-                        <div class="absolute bottom-0 p-2 bg-gradient-to-t from-black to-transparent w-full">
-                           <div class="text-yellow-400 font-bold text-xs md:text-sm">★ ${movie.vote_average.toFixed(1)}</div>
+                    <div class="relative overflow-hidden rounded-2xl shadow-2xl card-border transition-all">
+                        <img src="${POSTER_PATH + movie.poster_path}" class="w-full aspect-[2/3] object-cover" alt="${movie.title}">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                             <div class="bg-white/20 backdrop-blur-md p-4 rounded-full text-white text-3xl">▶</div>
                         </div>
+                        <div class="absolute top-3 right-3 bg-red-600 px-2 py-1 rounded text-[10px] font-bold shadow-lg">HD</div>
                     </div>
-                    <h3 class="mt-2 text-[10px] md:text-sm font-bold truncate text-center group-hover:text-red-500">${movie.title}</h3>
+                    <h3 class="mt-4 text-sm font-bold truncate pr-2 group-hover:text-red-500">${movie.title}</h3>
+                    <div class="flex items-center gap-2 pr-2 text-[10px] text-gray-400">
+                        <span class="text-yellow-500">★ ${movie.vote_average.toFixed(1)}</span>
+                        <span>•</span>
+                        <span>${movie.release_date.split('-')[0]}</span>
+                    </div>
                 `;
                 
-                // تشغيل الفيديو عند الضغط أو ضغط زر "OK" في الريموت
-                const play = () => openVideo(movie.id);
-                card.onclick = play;
-                card.addEventListener('keydown', (e) => { if(e.key === 'Enter') play(); });
-                
+                card.onclick = () => openVideo(movie.id);
+                card.onkeydown = (e) => { if(e.key === 'Enter') openVideo(movie.id); };
                 grid.appendChild(card);
             });
         }
 
         function updateHero(movie) {
-            document.getElementById('heroImg').src = IMG_PATH + movie.backdrop_path;
+            const img = document.getElementById('heroImg');
+            img.src = IMG_PATH + movie.backdrop_path;
+            img.onload = () => img.classList.replace('opacity-0', 'opacity-100');
             document.getElementById('heroTitle').innerText = movie.title;
             document.getElementById('heroDesc').innerText = movie.overview;
             document.getElementById('heroPlayBtn').onclick = () => openVideo(movie.id);
@@ -125,7 +128,7 @@
         function openVideo(id) {
             const modal = document.getElementById('videoModal');
             const player = document.getElementById('videoPlayer');
-            player.src = `https://vidsrc.me/embed/movie?tmdb=${id}`;
+            player.src = `https://vidsrc.to/embed/movie/${id}`;
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
@@ -138,16 +141,21 @@
             document.body.style.overflow = 'auto';
         }
 
-        // البحث (يعمل مع لوحة مفاتيح التلفاز الشاشات الذكية)
+        // تغيير لون الهيدر عند التمرير
+        window.onscroll = () => {
+            const nav = document.getElementById('mainNav');
+            if(window.scrollY > 50) nav.style.background = "var(--bg-dark)";
+            else nav.style.background = "transparent";
+        };
+
         searchInput.addEventListener('keyup', (e) => {
             if (e.key === 'Enter' && searchInput.value !== '') {
                 fetchMovies(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${searchInput.value}&language=ar-SA`);
                 document.getElementById('gridTitle').innerText = `نتائج البحث عن: ${searchInput.value}`;
-                window.scrollTo(0, 500);
+                window.scrollTo(0, 600);
             }
         });
 
-        // البداية: جلب الأفلام الشائعة
         fetchMovies(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=ar-SA&page=1`);
     </script>
 </body>
