@@ -18,7 +18,6 @@
 
         #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 200; display: none; overflow-y: auto; scroll-behavior: smooth; }
         
-        /* تنسيق مساحة الفيديو الاحترافي */
         .video-container { 
             position: relative; 
             width: 100%; 
@@ -27,24 +26,15 @@
             overflow: hidden;
             box-shadow: 0 0 40px rgba(0, 0, 0, 1), 0 0 20px rgba(229, 9, 20, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.05);
-            aspect-ratio: 16 / 9; /* الحفاظ على أبعاد السينما */
+            aspect-ratio: 16 / 9;
         }
 
-        /* جعل الـ iframe يملأ المربع تماماً */
-        #videoPlayer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            z-index: 10;
-        }
+        #videoPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 10; }
 
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--main-red); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; }
         @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        .server-btn { background: #1a1e2e; padding: 10px 20px; border-radius: 12px; font-weight: 800; transition: 0.3s; border: 2px solid transparent; color: #9ca3af; font-size: 0.85rem; }
+        .server-btn { background: #1a1e2e; padding: 10px 20px; border-radius: 12px; font-weight: 800; transition: 0.3s; border: 2px solid transparent; color: #9ca3af; font-size: 0.85rem; white-space: nowrap; }
         .server-btn.active { background: var(--main-red); border-color: white; color: white; transform: scale(1.05); box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3); }
 
         .movie-card { transition: 0.4s; cursor: pointer; }
@@ -60,14 +50,14 @@
     <nav class="fixed top-0 w-full z-[100] px-6 md:px-12 py-4 flex justify-between items-center glass-nav">
         <div class="flex items-center gap-8">
             <div class="text-2xl font-black cursor-pointer tracking-tighter" onclick="location.reload()">
-                <span class="text-white">SbaTa</span><span class="logo-tv">Tv</span>
+                <span class="text-white italic">SbaTa</span><span class="logo-tv">Tv</span>
             </div>
             <div class="hidden md:flex gap-8 text-sm font-bold uppercase">
-                <button onclick="changeType('movie')" id="btn-movie" class="text-red-600 transition">أفلام</button>
-                <button onclick="changeType('tv')" id="btn-tv" class="text-gray-400 hover:text-red-600 transition">مسلسلات</button>
+                <button onclick="changeType('movie')" id="btn-movie" class="text-red-600 transition font-black">أفلام</button>
+                <button onclick="changeType('tv')" id="btn-tv" class="text-gray-400 hover:text-red-600 transition font-black">مسلسلات</button>
             </div>
         </div>
-        <input type="text" id="searchInput" placeholder="ابحث في SbaTa Tv..." class="bg-white/10 border border-white/20 rounded-full px-5 py-2 text-sm outline-none focus:border-red-600 w-40 md:w-80 transition-all">
+        <input type="text" id="searchInput" placeholder="ابحث في SbaTa Tv..." class="bg-white/10 border border-white/20 rounded-full px-5 py-2 text-sm outline-none focus:border-red-600 w-40 md:w-80 transition-all font-bold">
     </nav>
 
     <!-- الصفحة الرئيسية -->
@@ -95,7 +85,7 @@
             <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center w-full">
                 <img id="detailPoster" src="" class="w-56 md:w-72 rounded-3xl shadow-2xl border-4 border-white/5">
                 <div class="text-center md:text-right">
-                    <h1 id="detailTitle" class="text-4xl md:text-7xl font-black mb-6">...</h1>
+                    <h1 id="detailTitle" class="text-4xl md:text-7xl font-black mb-6 italic">...</h1>
                     <p id="detailStory" class="text-gray-200 text-lg md:text-2xl max-w-5xl leading-relaxed">...</p>
                 </div>
             </div>
@@ -108,40 +98,47 @@
         </div>
     </div>
 
-    <!-- صفحة المشغل الاحترافية (تم تعديل مساحة الفيديو هنا) -->
+    <!-- صفحة مشغل الفيديو الاحترافية (تعديل التوزيع الأفقي) -->
     <div id="playerPage" class="fade-in">
-        <nav class="p-6 md:px-12 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-[250]">
-            <div class="flex items-center gap-6">
-                <button onclick="closePlayer()" class="bg-red-600 px-6 py-2 rounded-xl font-black text-sm hover:bg-white hover:text-black transition shadow-lg">← العودة</button>
-                <h2 id="playerTitle" class="text-lg md:text-2xl font-bold truncate text-white/90">...</h2>
+        <nav class="p-4 md:px-12 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-[250] border-b border-white/5">
+            <div class="flex items-center gap-4">
+                <button onclick="closePlayer()" class="bg-red-600 px-4 py-1.5 rounded-xl font-black text-sm hover:bg-white hover:text-black transition shadow-lg">← العودة</button>
+                <h2 id="playerTitle" class="text-sm md:text-xl font-bold truncate text-white/90 italic">...</h2>
             </div>
-            <div class="text-red-600 font-black hidden md:block">SbaTa Tv PREMIUM</div>
+            <div class="text-red-600 font-black text-[10px] md:text-sm">SbaTa Tv PREMIUM</div>
         </nav>
 
-        <div class="flex flex-col lg:flex-row gap-10 p-6 md:p-12">
-            <!-- المشغل المنسق -->
-            <div class="lg:w-3/4">
-                <div class="flex gap-3 mb-6 overflow-x-auto pb-2 no-scrollbar" id="serverList"></div>
-
+        <main class="max-w-[1400px] mx-auto p-4 md:p-8">
+            <!-- منطقة المشغل الرئيسية -->
+            <div class="w-full mb-8">
+                <div class="flex gap-3 mb-4 overflow-x-auto pb-2 no-scrollbar" id="serverList"></div>
                 <div class="video-container">
                     <div id="iframeLoader" class="loader"></div>
                     <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay" onload="document.getElementById('iframeLoader').style.display='none'"></iframe>
                 </div>
-                
-                <div class="mt-10 bg-white/5 p-8 rounded-[30px] border border-white/10 shadow-2xl">
-                    <div class="flex justify-between items-start mb-6">
-                        <h1 id="playerSubTitle" class="text-3xl font-black italic">...</h1>
-                        <div class="bg-yellow-500/10 text-yellow-500 px-4 py-2 rounded-xl font-black text-xl border border-yellow-500/20">⭐ <span id="playerRate">0.0</span></div>
-                    </div>
-                    <p id="playerDesc" class="text-gray-300 text-xl leading-relaxed italic">...</p>
-                </div>
             </div>
 
-            <div class="lg:w-1/4">
-                <h3 class="text-2xl font-black mb-8 flex items-center gap-3"><span class="w-1.5 h-8 bg-red-600 block"></span> قد يعجبك أيضاً</h3>
-                <div id="recommendationsGrid" class="flex flex-col gap-6"></div>
+            <!-- تفاصيل الفيديو -->
+            <div class="bg-white/5 p-6 md:p-10 rounded-[30px] border border-white/10 shadow-2xl mb-12">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 id="playerSubTitle" class="text-2xl md:text-4xl font-black italic">...</h1>
+                    <div class="bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-xl font-black text-sm md:text-xl border border-yellow-500/20">⭐ <span id="playerRate">0.0</span></div>
+                </div>
+                <p id="playerDesc" class="text-gray-300 text-sm md:text-xl leading-relaxed italic opacity-80">...</p>
             </div>
-        </div>
+
+            <!-- الأفلام المقترحة (تحويلها لشكل أفقي/شبكة) -->
+            <div class="w-full">
+                <h3 class="text-xl md:text-2xl font-black mb-8 flex items-center gap-3"><span class="w-1.5 h-8 bg-red-600 block"></span> قد يعجبك أيضاً</h3>
+                <div id="recommendationsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <!-- المقترحات تظهر هنا بشكل أفقي متناسق -->
+                </div>
+            </div>
+        </main>
+
+        <footer class="p-12 text-center text-gray-700 font-bold border-t border-white/5 mt-10">
+            SbaTa Tv &bull; 2024 &bull; PREMIUM STREAMING
+        </footer>
     </div>
 
     <script>
@@ -172,7 +169,7 @@
                         <img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-red-600 text-4xl">▶</div>
                     </div>
-                    <h3 class="mt-3 text-xs font-bold truncate text-center px-2">${item.title || item.name}</h3>
+                    <h3 class="mt-3 text-[10px] md:text-xs font-bold truncate text-center px-2 italic">${item.title || item.name}</h3>
                 `;
                 grid.appendChild(card);
             });
@@ -222,9 +219,9 @@
             document.getElementById('iframeLoader').style.display = 'block';
             const playerPage = document.getElementById('playerPage');
             document.getElementById('videoPlayer').src = url;
-            document.getElementById('playerTitle').innerText = `أنت تشاهد: ${title}`;
+            document.getElementById('playerTitle').innerText = `أنت تشاهد الآن: ${title}`;
             document.getElementById('playerSubTitle').innerText = title;
-            document.getElementById('playerDesc').innerText = desc || "وصف SbaTa Tv: المحتوى متوفر الآن بجودة عالية.";
+            document.getElementById('playerDesc').innerText = desc || "وصف SbaTa Tv: هذا المحتوى متاح للمشاهدة الآن.";
             document.getElementById('playerRate').innerText = rate ? rate.toFixed(1) : "0.0";
             playerPage.style.display = 'block';
             playerPage.scrollTo(0,0);
@@ -237,16 +234,17 @@
             const data = await res.json();
             const grid = document.getElementById('recommendationsGrid');
             grid.innerHTML = '';
-            data.results.slice(0, 6).forEach(item => {
-                grid.innerHTML += `
-                    <div class="flex gap-4 cursor-pointer group hover:bg-white/5 p-2 rounded-xl transition" onclick="closePlayer(); setTimeout(() => openItem(${JSON.stringify(item).replace(/"/g, '&quot;')}), 100)">
-                        <img src="${IMG_W500 + item.poster_path}" class="w-20 rounded-lg shadow-lg group-hover:scale-105 transition-transform">
-                        <div class="flex flex-col justify-center">
-                            <h4 class="text-sm font-bold group-hover:text-red-500 transition line-clamp-1 italic">${item.title || item.name}</h4>
-                            <span class="text-xs text-yellow-500 font-bold mt-1">⭐ ${item.vote_average.toFixed(1)}</span>
-                        </div>
+            data.results.slice(0, 12).forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'movie-card group text-center';
+                card.onclick = () => { closePlayer(); setTimeout(() => openItem(item), 100); };
+                card.innerHTML = `
+                    <div class="relative rounded-xl overflow-hidden aspect-[2/3] shadow-lg border border-white/10 group-hover:border-red-600 transition-all">
+                        <img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover">
                     </div>
+                    <h4 class="mt-2 text-[10px] font-bold truncate italic">${item.title || item.name}</h4>
                 `;
+                grid.appendChild(card);
             });
         }
 
@@ -286,7 +284,7 @@
                 grid.innerHTML += `
                     <div class="movie-card" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - حلقة ${ep.episode_number}', '${ep.overview}', ${rate})">
                         <div class="relative aspect-video rounded-xl overflow-hidden border border-white/5">
-                            <img src="${epImg}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <img src="${epImg}" class="w-full h-full object-cover">
                             <div class="absolute bottom-2 right-2 bg-red-600 px-2 py-0.5 rounded text-[10px] font-black">حلقة ${ep.episode_number}</div>
                         </div>
                         <h4 class="mt-2 text-[10px] md:text-sm font-bold truncate text-center">${ep.name}</h4>
