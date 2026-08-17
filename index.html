@@ -16,10 +16,8 @@
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: var(--main-red); border-radius: 10px; }
 
-        /* صفحة التفاصيل */
         #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 200; display: none; overflow-y: auto; }
         
-        /* تأثير Ambient Glow للمشغل */
         .video-container { 
             position: relative; 
             width: 100%; 
@@ -29,8 +27,11 @@
             overflow: hidden;
         }
 
+        .server-btn { background: #1a1e2e; padding: 8px 20px; border-radius: 8px; font-weight: bold; transition: 0.3s; border: 1px solid transparent; }
+        .server-btn.active { background: var(--main-red); border-color: white; }
+
         .episode-card, .movie-card { transition: 0.3s; cursor: pointer; }
-        .episode-card:hover, .movie-card:hover { transform: scale(1.05); border-color: var(--main-red); }
+        .episode-card:hover, .movie-card:hover { transform: scale(1.05); }
 
         .glass-nav { background: rgba(5, 8, 17, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
         .logo-tv { background: var(--main-red); color: white; padding: 0 8px; border-radius: 8px; margin-right: 5px; }
@@ -45,8 +46,8 @@
                 <span class="text-white">SbaTa</span><span class="logo-tv">Tv</span>
             </div>
             <div class="hidden md:flex gap-8 text-sm font-bold">
-                <button onclick="changeType('movie')" id="btn-movie" class="text-red-600 transition">أفلام</button>
-                <button onclick="changeType('tv')" id="btn-tv" class="text-gray-400 hover:text-red-600 transition">مسلسلات</button>
+                <button onclick="changeType('movie')" id="btn-movie" class="text-red-600 font-bold">أفلام</button>
+                <button onclick="changeType('tv')" id="btn-tv" class="text-gray-400 font-bold hover:text-red-600 transition">مسلسلات</button>
             </div>
         </div>
         <input type="text" id="searchInput" placeholder="ابحث في SbaTa Tv..." class="bg-white/10 border border-white/20 rounded-full px-5 py-2 text-sm outline-none focus:border-red-600 w-40 md:w-72">
@@ -58,9 +59,9 @@
             <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-50">
             <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent"></div>
             <div class="relative z-10 max-w-4xl">
-                <h1 id="heroTitle" class="text-5xl md:text-8xl font-black mb-6">...</h1>
+                <h1 id="heroTitle" class="text-5xl md:text-8xl font-black mb-6 leading-tight">...</h1>
                 <p id="heroDesc" class="text-gray-300 text-lg md:text-2xl mb-10 line-clamp-3">...</p>
-                <button id="heroPlayBtn" class="bg-red-600 text-white px-12 py-4 rounded-xl font-black text-xl hover:scale-110 transition shadow-2xl">▶ شاهد الآن</button>
+                <button id="heroPlayBtn" class="bg-red-600 text-white px-12 py-4 rounded-xl font-black text-xl hover:scale-110 transition shadow-2xl flex items-center gap-3">▶ شاهد الآن</button>
             </div>
         </header>
         <main class="px-6 md:px-20 pb-20 mt-10">
@@ -90,34 +91,36 @@
         </div>
     </div>
 
-    <!-- صفحة مشغل الفيديو الاحترافية -->
+    <!-- صفحة المشغل الاحترافية مع تعدد السيرفرات -->
     <div id="playerPage" class="fade-in">
         <nav class="p-6 flex items-center gap-4 bg-black/40">
             <button onclick="closePlayer()" class="bg-white/10 p-2 px-4 rounded-lg font-bold hover:bg-red-600 transition">← العودة</button>
-            <h2 id="playerTitle" class="text-xl font-bold truncate text-red-500">اسم الفيلم</h2>
+            <h2 id="playerTitle" class="text-xl font-bold truncate text-red-500 italic">...</h2>
         </nav>
 
         <div class="flex flex-col lg:flex-row gap-8 p-6 md:p-10">
-            <!-- منطقة الفيديو -->
             <div class="lg:w-3/4">
-                <div class="video-container aspect-video shadow-[0_0_80px_rgba(229,9,20,0.15)]">
+                <!-- أزرار تبديل السيرفرات -->
+                <div class="flex gap-3 mb-4 overflow-x-auto pb-2 no-scrollbar" id="serverList">
+                    <!-- سيتم وضع أزرار السيرفرات هنا -->
+                </div>
+
+                <div class="video-container aspect-video shadow-[0_0_80px_rgba(229,9,20,0.15)] bg-black">
                     <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe>
                 </div>
+                
                 <div class="mt-8 bg-white/5 p-6 rounded-2xl border border-white/10">
                     <div class="flex justify-between items-start mb-4">
-                        <h1 id="playerSubTitle" class="text-3xl font-black">...</h1>
+                        <h1 id="playerSubTitle" class="text-3xl font-black italic">...</h1>
                         <div class="flex items-center gap-2 text-yellow-500 font-bold">⭐ <span id="playerRate">0.0</span></div>
                     </div>
-                    <p id="playerDesc" class="text-gray-400 text-lg leading-relaxed italic">...</p>
+                    <p id="playerDesc" class="text-gray-400 text-lg leading-relaxed">...</p>
                 </div>
             </div>
 
-            <!-- الجانب: أفلام مقترحة -->
             <div class="lg:w-1/4">
-                <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><span class="w-1 h-6 bg-red-600 block"></span> قد يعجبك أيضاً</h3>
-                <div id="recommendationsGrid" class="flex flex-col gap-6">
-                    <!-- مقترحات -->
-                </div>
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-white/80"><span class="w-1 h-6 bg-red-600 block"></span> قد يعجبك أيضاً</h3>
+                <div id="recommendationsGrid" class="flex flex-col gap-6"></div>
             </div>
         </div>
     </div>
@@ -165,28 +168,52 @@
 
         function openItem(item) {
             if(currentType === 'movie') {
-                openPlayer(item.id, item.title, item.overview, item.vote_average);
+                setupServers(item.id, null, null, item.title, item.overview, item.vote_average);
             } else {
                 showTVDetails(item.id);
             }
         }
 
-        // --- صفحة المشغل الاحترافية ---
-        async function openPlayer(id, title, desc, rate) {
+        // نظام تعدد السيرفرات الجديد
+        function setupServers(id, s, e, title, desc, rate) {
+            const serverList = document.getElementById('serverList');
+            serverList.innerHTML = ''; // تنظيف القائمة
+
+            const servers = [
+                { name: 'سيرفر 1', url: currentType === 'movie' ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${s}/${e}` },
+                { name: 'سيرفر 2', url: currentType === 'movie' ? `https://vidsrc.me/embed/movie?tmdb=${id}` : `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${s}&epi=${e}` },
+                { name: 'سيرفر 3', url: currentType === 'movie' ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${s}/${e}` },
+                { name: 'سيرفر 4', url: currentType === 'movie' ? `https://vidsrc.pro/embed/movie/${id}` : `https://vidsrc.pro/embed/tv/${id}/${s}/${e}` }
+            ];
+
+            servers.forEach((server, index) => {
+                const btn = document.createElement('button');
+                btn.className = `server-btn ${index === 0 ? 'active' : ''}`;
+                btn.innerText = server.name;
+                btn.onclick = (event) => {
+                    document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+                    event.target.classList.add('active');
+                    document.getElementById('videoPlayer').src = server.url;
+                };
+                serverList.appendChild(btn);
+            });
+
+            // فتح المشغل بأول سيرفر تلقائياً
+            openPlayer(servers[0].url, title, desc, rate, id);
+        }
+
+        function openPlayer(url, title, desc, rate, id) {
             const playerPage = document.getElementById('playerPage');
             const iframe = document.getElementById('videoPlayer');
             
-            iframe.src = currentType === 'movie' ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}`;
-            
+            iframe.src = url;
             document.getElementById('playerTitle').innerText = `أنت تشاهد الآن: ${title}`;
             document.getElementById('playerSubTitle').innerText = title;
-            document.getElementById('playerDesc').innerText = desc || "لا يوجد وصف متاح لهذا العمل.";
-            document.getElementById('playerRate').innerText = rate.toFixed(1);
+            document.getElementById('playerDesc').innerText = desc || "وصف غير متاح.";
+            document.getElementById('playerRate').innerText = rate ? rate.toFixed(1) : "0.0";
 
             playerPage.style.display = 'block';
             document.body.style.overflow = 'hidden';
-
-            // جلب مقترحات
             fetchRecommendations(id);
         }
 
@@ -196,20 +223,15 @@
             const grid = document.getElementById('recommendationsGrid');
             grid.innerHTML = '';
             data.results.slice(0, 6).forEach(item => {
-                const row = document.createElement('div');
-                row.className = 'flex gap-4 cursor-pointer group hover:bg-white/5 p-2 rounded-xl transition';
-                row.onclick = () => {
-                    closePlayer();
-                    setTimeout(() => openItem(item), 100);
-                };
-                row.innerHTML = `
-                    <img src="${IMG_W500 + item.poster_path}" class="w-20 rounded-lg shadow-lg">
-                    <div class="flex flex-col justify-center">
-                        <h4 class="text-sm font-bold group-hover:text-red-500 transition line-clamp-1">${item.title || item.name}</h4>
-                        <span class="text-xs text-gray-500 mt-1">⭐ ${item.vote_average.toFixed(1)}</span>
+                grid.innerHTML += `
+                    <div class="flex gap-4 cursor-pointer group hover:bg-white/5 p-2 rounded-xl transition" onclick="closePlayer(); setTimeout(() => openItem(${JSON.stringify(item).replace(/"/g, '&quot;')}), 100)">
+                        <img src="${IMG_W500 + item.poster_path}" class="w-20 rounded-lg shadow-lg">
+                        <div class="flex flex-col justify-center">
+                            <h4 class="text-sm font-bold group-hover:text-red-500 transition line-clamp-1">${item.title || item.name}</h4>
+                            <span class="text-xs text-gray-500 mt-1">⭐ ${item.vote_average.toFixed(1)}</span>
+                        </div>
                     </div>
                 `;
-                grid.appendChild(row);
             });
         }
 
@@ -233,14 +255,14 @@
                 btn.onclick = (e) => {
                     document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
                     e.target.classList.add('active');
-                    loadEpisodes(tvId, s.season_number, data.name);
+                    loadEpisodes(tvId, s.season_number, data.name, data.vote_average);
                 };
                 bar.appendChild(btn);
             });
             document.querySelector('.season-nav-1')?.click();
         }
 
-        async function loadEpisodes(tvId, sNum, tvName) {
+        async function loadEpisodes(tvId, sNum, tvName, rate) {
             const res = await fetch(`${BASE_URL}/tv/${tvId}/season/${sNum}?api_key=${API_KEY}&language=ar-SA`);
             const data = await res.json();
             const grid = document.getElementById('episodesGrid');
@@ -248,7 +270,7 @@
             data.episodes.forEach(ep => {
                 const epImg = ep.still_path ? (IMG_W500 + ep.still_path) : (IMG_W500 + globalBackdrop);
                 grid.innerHTML += `
-                    <div class="episode-card" onclick="openTVPlayer(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - حلقة ${ep.episode_number}', '${ep.overview}')">
+                    <div class="episode-card" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - حلقة ${ep.episode_number}', '${ep.overview}', ${rate})">
                         <div class="relative aspect-video rounded-xl overflow-hidden">
                             <img src="${epImg}" class="w-full h-full object-cover">
                             <div class="absolute bottom-2 right-2 bg-red-600 px-2 py-1 rounded text-[10px] font-bold">الحلقة ${ep.episode_number}</div>
@@ -257,12 +279,6 @@
                     </div>
                 `;
             });
-        }
-
-        function openTVPlayer(id, s, e, title, desc) {
-            const url = `https://vidsrc.to/embed/tv/${id}/${s}/${e}`;
-            openPlayer(id, title, desc, 8.5);
-            document.getElementById('videoPlayer').src = url;
         }
 
         function closePlayer() {
@@ -275,8 +291,8 @@
 
         function changeType(type) {
             currentType = type;
-            document.getElementById('btn-movie').className = type === 'movie' ? 'text-red-600 font-black' : 'text-gray-400';
-            document.getElementById('btn-tv').className = type === 'tv' ? 'text-red-600 font-black' : 'text-gray-400';
+            document.getElementById('btn-movie').className = type === 'movie' ? 'text-red-600 font-black' : 'text-gray-400 font-bold';
+            document.getElementById('btn-tv').className = type === 'tv' ? 'text-red-600 font-black' : 'text-gray-400 font-bold';
             fetchContent(`${BASE_URL}/${type}/popular?api_key=${API_KEY}&language=ar-SA`);
         }
 
