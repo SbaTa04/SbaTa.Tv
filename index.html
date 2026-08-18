@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SbaTa Tv | تجربة سينمائية فريدة</title>
+    <title>SbaTa Tv | عالمك السينمائي</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -13,120 +13,118 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: var(--main-red); border-radius: 10px; }
 
         #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 200; display: none; overflow-y: auto; scroll-behavior: smooth; }
         
         .video-container { 
-            position: relative; 
-            width: 100%; 
-            background: #000; 
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 1), 0 0 20px rgba(229, 9, 20, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            aspect-ratio: 16 / 9;
+            position: relative; width: 100%; background: #000; border-radius: 20px;
+            overflow: hidden; box-shadow: 0 0 40px rgba(0, 0, 0, 1), 0 0 20px rgba(229, 9, 20, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.05); aspect-ratio: 16 / 9;
         }
 
         #videoPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 10; }
 
-        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--main-red); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--main-red); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; }
         @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-        .server-btn { background: #1a1e2e; padding: 10px 20px; border-radius: 12px; font-weight: 800; transition: 0.3s; border: 2px solid transparent; color: #9ca3af; font-size: 0.85rem; white-space: nowrap; }
+        .server-btn { background: #1a1e2e; padding: 8px 16px; border-radius: 10px; font-weight: 800; transition: 0.3s; border: 2px solid transparent; color: #9ca3af; font-size: 0.75rem; white-space: nowrap; }
         .server-btn.active { background: var(--main-red); border-color: white; color: white; transform: scale(1.05); }
 
         .movie-card { transition: 0.4s; cursor: pointer; }
-        .movie-card:hover { transform: translateY(-10px) scale(1.05); }
+        .movie-card:hover { transform: scale(1.05); }
 
         .glass-nav { background: rgba(5, 8, 17, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .logo-tv { background: var(--main-red); color: white; padding: 1px 8px; border-radius: 6px; margin-right: 5px; font-style: italic; }
+        .logo-tv { background: var(--main-red); color: white; padding: 1px 6px; border-radius: 5px; margin-right: 4px; font-style: italic; }
     </style>
 </head>
 <body>
 
-    <!-- القائمة العلوية -->
-    <nav class="fixed top-0 w-full z-[100] px-6 md:px-12 py-4 flex justify-between items-center glass-nav">
-        <div class="flex items-center gap-8">
-            <div class="text-2xl font-black cursor-pointer tracking-tighter" onclick="location.reload()">
-                <span class="text-white">SbaTa</span><span class="logo-tv">Tv</span>
+    <!-- القائمة العلوية المطورة (تعمل على الجوال) -->
+    <nav class="fixed top-0 w-full z-[100] px-4 md:px-12 py-3 flex flex-col md:flex-row justify-between items-center glass-nav gap-3 md:gap-0">
+        <div class="flex items-center justify-between w-full md:w-auto gap-6">
+            <!-- اللوجو -->
+            <div class="text-xl md:text-2xl font-black cursor-pointer tracking-tighter shrink-0" onclick="location.reload()">
+                <span class="text-white italic">SbaTa</span><span class="logo-tv">Tv</span>
             </div>
-            <div class="hidden md:flex gap-8 text-sm font-bold uppercase">
+            <!-- الأزرار (أصبحت تظهر في الجوال الآن) -->
+            <div class="flex gap-4 text-xs md:text-sm font-bold uppercase">
                 <button onclick="changeType('movie')" id="btn-movie" class="text-red-600 transition font-black">أفلام</button>
                 <button onclick="changeType('tv')" id="btn-tv" class="text-gray-400 hover:text-red-600 transition font-black">مسلسلات</button>
             </div>
         </div>
-        <input type="text" id="searchInput" placeholder="ابحث..." class="bg-white/10 border border-white/20 rounded-full px-5 py-2 text-sm outline-none focus:border-red-600 w-40 md:w-80 font-bold text-white">
+        <!-- شريط البحث -->
+        <div class="w-full md:w-80">
+            <input type="text" id="searchInput" placeholder="ابحث في SbaTa Tv..." class="bg-white/10 border border-white/20 rounded-full px-5 py-1.5 text-xs md:text-sm outline-none focus:border-red-600 w-full font-bold text-white shadow-inner">
+        </div>
     </nav>
 
     <!-- الصفحة الرئيسية -->
     <div id="homePage">
-        <!-- تم ضغط الارتفاع لتقليل الفراغ -->
-        <header class="relative h-[60vh] md:h-[70vh] flex items-end p-8 md:p-20 pb-16 md:pb-24 overflow-hidden">
-            <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-50">
+        <header class="relative h-[60vh] md:h-[75vh] flex items-end p-6 md:p-20 pb-12 md:pb-24 overflow-hidden">
+            <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-50 transition-opacity duration-1000">
             <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/30"></div>
             <div class="relative z-10 max-w-4xl">
-                <h1 id="heroTitle" class="text-4xl md:text-7xl font-black mb-4 leading-tight italic">...</h1>
-                <p id="heroDesc" class="text-gray-300 text-xs md:text-xl mb-6 line-clamp-3 md:line-clamp-4">...</p>
-                <button id="heroPlayBtn" class="bg-red-600 text-white px-10 py-3 md:px-12 md:py-4 rounded-2xl font-black text-lg md:text-2xl hover:scale-110 transition shadow-2xl flex items-center gap-3">▶ شاهد الآن</button>
+                <h1 id="heroTitle" class="text-3xl md:text-7xl font-black mb-3 leading-tight italic">...</h1>
+                <p id="heroDesc" class="text-gray-300 text-[10px] md:text-xl mb-6 line-clamp-3 md:line-clamp-4">...</p>
+                <button id="heroPlayBtn" class="bg-red-600 text-white px-8 py-2.5 md:px-12 md:py-4 rounded-xl font-black text-sm md:text-2xl hover:scale-105 transition shadow-2xl flex items-center gap-2">▶ شاهد الآن</button>
             </div>
         </header>
 
-        <!-- الأفلام تبدأ فوراً تحت الهيرو -->
-        <main class="px-6 md:px-20 pb-20 -mt-10 md:-mt-16 relative z-20">
-            <h2 id="gridTitle" class="text-xl md:text-3xl font-black mb-8 border-r-8 border-red-600 pr-4 italic">رائج الآن</h2>
-            <div id="movieGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-4 md:gap-8"></div>
+        <main class="px-4 md:px-20 pb-20 -mt-6 md:-mt-16 relative z-20">
+            <h2 id="gridTitle" class="text-lg md:text-3xl font-black mb-6 border-r-4 md:border-r-8 border-red-600 pr-3 md:pr-4 italic italic">رائج الآن</h2>
+            <div id="movieGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-8"></div>
         </main>
     </div>
 
     <!-- صفحة التفاصيل -->
     <div id="detailPage" class="fade-in pb-20">
-        <button onclick="closeDetails()" class="fixed top-8 left-8 z-[210] bg-white/10 p-4 rounded-full text-2xl font-bold backdrop-blur-md hover:bg-red-600 transition">&times;</button>
-        <div class="relative h-[60vh] flex items-end p-10 md:p-20">
+        <button onclick="closeDetails()" class="fixed top-20 left-4 z-[210] bg-white/10 p-3 rounded-full text-xl font-bold backdrop-blur-md hover:bg-red-600 transition">&times;</button>
+        <div class="relative h-[50vh] md:h-[65vh] flex items-end p-6 md:p-20">
             <img id="detailBg" src="" class="absolute inset-0 w-full h-full object-cover opacity-30">
-            <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center w-full">
-                <img id="detailPoster" src="" class="w-48 md:w-64 rounded-3xl shadow-2xl border-4 border-white/5">
+            <div class="relative z-10 flex flex-col md:flex-row gap-6 md:gap-10 items-center w-full">
+                <img id="detailPoster" src="" class="w-32 md:w-64 rounded-2xl shadow-2xl border-2 border-white/10">
                 <div class="text-center md:text-right">
-                    <h1 id="detailTitle" class="text-3xl md:text-6xl font-black mb-4">...</h1>
-                    <p id="detailStory" class="text-gray-200 text-sm md:text-xl max-w-5xl leading-relaxed">...</p>
+                    <h1 id="detailTitle" class="text-2xl md:text-6xl font-black mb-2 md:mb-4">...</h1>
+                    <p id="detailStory" class="text-gray-200 text-[10px] md:text-xl max-w-5xl leading-relaxed">...</p>
                 </div>
             </div>
         </div>
-        <div class="px-10 md:px-20 mt-10">
-            <h3 class="text-xl md:text-2xl font-black mb-6 flex items-center gap-3"><span class="w-1.5 h-6 bg-red-600 block"></span> المواسم</h3>
-            <div id="seasonsBar" class="flex gap-3 overflow-x-auto pb-4 no-scrollbar"></div>
-            <h3 class="text-xl md:text-2xl font-black mt-10 mb-6 flex items-center gap-3"><span class="w-1.5 h-6 bg-red-600 block"></span> الحلقات</h3>
-            <div id="episodesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+        <div class="px-6 md:px-20 mt-8">
+            <h3 class="text-lg md:text-2xl font-black mb-4 flex items-center gap-2"><span class="w-1 h-5 bg-red-600 block"></span> المواسم</h3>
+            <div id="seasonsBar" class="flex gap-2 overflow-x-auto pb-2 no-scrollbar"></div>
+            <h3 class="text-lg md:text-2xl font-black mt-8 mb-4 flex items-center gap-2"><span class="w-1 h-5 bg-red-600 block"></span> الحلقات</h3>
+            <div id="episodesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-8"></div>
         </div>
     </div>
 
     <!-- صفحة المشغل -->
     <div id="playerPage" class="fade-in">
-        <nav class="p-4 md:px-12 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-[250] border-b border-white/5">
-            <div class="flex items-center gap-4">
-                <button onclick="closePlayer()" class="bg-red-600 px-4 py-1.5 rounded-xl font-black text-sm transition shadow-lg">← العودة</button>
-                <h2 id="playerTitle" class="text-xs md:text-xl font-bold truncate text-white/90">...</h2>
+        <nav class="p-3 md:px-12 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-[250] border-b border-white/5">
+            <div class="flex items-center gap-3">
+                <button onclick="closePlayer()" class="bg-red-600 px-3 py-1 rounded-lg font-black text-xs transition shadow-lg">← العودة</button>
+                <h2 id="playerTitle" class="text-[10px] md:text-xl font-bold truncate text-white/90">...</h2>
             </div>
         </nav>
-        <main class="max-w-[1400px] mx-auto p-4 md:p-8">
-            <div class="w-full mb-8">
-                <div class="flex gap-2 mb-4 overflow-x-auto pb-2 no-scrollbar" id="serverList"></div>
+        <main class="max-w-[1400px] mx-auto p-3 md:p-8">
+            <div class="w-full mb-6">
+                <div class="flex gap-2 mb-3 overflow-x-auto pb-1 no-scrollbar" id="serverList"></div>
                 <div class="video-container">
                     <div id="iframeLoader" class="loader"></div>
                     <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay" onload="document.getElementById('iframeLoader').style.display='none'"></iframe>
                 </div>
             </div>
-            <div class="bg-white/5 p-6 md:p-10 rounded-[30px] border border-white/10 shadow-2xl mb-12">
-                <div class="flex justify-between items-center mb-6">
-                    <h1 id="playerSubTitle" class="text-xl md:text-4xl font-black italic">...</h1>
-                    <div class="bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-xl font-black text-sm md:text-xl border border-yellow-500/20">⭐ <span id="playerRate">0.0</span></div>
+            <div class="bg-white/5 p-4 md:p-10 rounded-2xl border border-white/10 shadow-2xl mb-8 text-right">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 id="playerSubTitle" class="text-lg md:text-4xl font-black italic">...</h1>
+                    <div class="text-yellow-500 font-bold text-xs md:text-xl">⭐ <span id="playerRate">0.0</span></div>
                 </div>
-                <p id="playerDesc" class="text-gray-300 text-xs md:text-lg italic">...</p>
+                <p id="playerDesc" class="text-gray-300 text-[10px] md:text-lg italic leading-relaxed">...</p>
             </div>
             <div class="w-full">
-                <h3 class="text-lg md:text-2xl font-black mb-8 flex items-center gap-3"><span class="w-1.5 h-8 bg-red-600 block"></span> قد يعجبك أيضاً</h3>
-                <div id="recommendationsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+                <h3 class="text-md md:text-2xl font-black mb-6 flex items-center gap-2"><span class="w-1 h-6 bg-red-600 block"></span> قد يعجبك أيضاً</h3>
+                <div id="recommendationsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
             </div>
         </main>
     </div>
@@ -134,9 +132,8 @@
     <script>
         const API_KEY = 'a445c76d05e5d5697ad322b954897657';
         const BASE_URL = 'https://api.themoviedb.org/3';
-        // التصحيح هنا: إضافة /t/ قبل كلمة /p/
-        const IMG_URL = 'https://image.tmdb.org/t/p/original';
         const IMG_W500 = 'https://image.tmdb.org/t/p/w500';
+        const IMG_ORIGINAL = 'https://image.tmdb.org/t/p/original';
         
         let currentType = 'movie'; 
         let globalBackdrop = '';
@@ -156,18 +153,18 @@
                 card.className = 'movie-card group';
                 card.onclick = () => openItem(item);
                 card.innerHTML = `
-                    <div class="relative rounded-2xl overflow-hidden aspect-[2/3] shadow-xl border-2 border-transparent group-hover:border-red-600 transition-all">
-                        <img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://via.placeholder.com/500x750?text=No+Image'">
-                        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-red-600 text-3xl">▶</div>
+                    <div class="relative rounded-xl overflow-hidden aspect-[2/3] shadow-lg border border-white/5 group-hover:border-red-600 transition-all">
+                        <img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://via.placeholder.com/500x750?text=SbaTa+Tv'">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-red-600 text-2xl md:text-4xl">▶</div>
                     </div>
-                    <h3 class="mt-2 text-[10px] md:text-xs font-bold truncate text-center px-1 italic">${item.title || item.name}</h3>
+                    <h3 class="mt-2 text-[9px] md:text-xs font-bold truncate text-center italic">${item.title || item.name}</h3>
                 `;
                 grid.appendChild(card);
             });
         }
 
         function updateHero(item) {
-            document.getElementById('heroImg').src = IMG_URL + item.backdrop_path;
+            document.getElementById('heroImg').src = IMG_ORIGINAL + item.backdrop_path;
             document.getElementById('heroTitle').innerText = item.title || item.name;
             document.getElementById('heroDesc').innerText = item.overview;
             document.getElementById('heroPlayBtn').onclick = () => openItem(item);
@@ -185,9 +182,9 @@
             const serverList = document.getElementById('serverList');
             serverList.innerHTML = '';
             const servers = [
-                { name: 'سيرفر 1', url: currentType === 'movie' ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${s}/${e}` },
-                { name: 'سيرفر 2', url: currentType === 'movie' ? `https://vidsrc.me/embed/movie?tmdb=${id}` : `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${s}&epi=${e}` },
-                { name: 'سيرفر 3', url: currentType === 'movie' ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${s}/${e}` }
+                { name: 'S1', url: currentType === 'movie' ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${s}/${e}` },
+                { name: 'S2', url: currentType === 'movie' ? `https://vidsrc.me/embed/movie?tmdb=${id}` : `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${s}&epi=${e}` },
+                { name: 'S3', url: currentType === 'movie' ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${s}/${e}` }
             ];
 
             servers.forEach((server, index) => {
@@ -224,15 +221,15 @@
             const data = await res.json();
             const grid = document.getElementById('recommendationsGrid');
             grid.innerHTML = '';
-            data.results.slice(0, 12).forEach(item => {
+            data.results.slice(0, 10).forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'movie-card group text-center';
                 card.onclick = () => { closePlayer(); setTimeout(() => openItem(item), 100); };
                 card.innerHTML = `
-                    <div class="relative rounded-xl overflow-hidden aspect-[2/3] shadow-lg border border-white/10 group-hover:border-red-600 transition-all">
-                        <img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/500x750?text=No+Image'">
+                    <div class="relative rounded-xl overflow-hidden aspect-[2/3] shadow border border-white/5 group-hover:border-red-600 transition-all">
+                        <img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover">
                     </div>
-                    <h4 class="mt-2 text-[8px] font-bold truncate italic">${item.title || item.name}</h4>
+                    <h4 class="mt-1 text-[7px] font-bold truncate italic">${item.title || item.name}</h4>
                 `;
                 grid.appendChild(card);
             });
@@ -243,7 +240,7 @@
             const data = await res.json();
             globalBackdrop = data.backdrop_path;
             document.getElementById('detailPage').style.display = 'block';
-            document.getElementById('detailBg').src = IMG_URL + data.backdrop_path;
+            document.getElementById('detailBg').src = IMG_ORIGINAL + data.backdrop_path;
             document.getElementById('detailPoster').src = IMG_W500 + data.poster_path;
             document.getElementById('detailTitle').innerText = data.name;
             document.getElementById('detailStory').innerText = data.overview;
@@ -252,10 +249,10 @@
             data.seasons.forEach(s => {
                 if(s.season_number === 0) return;
                 const btn = document.createElement('button');
-                btn.className = `season-btn season-nav-${s.season_number}`;
+                btn.className = `server-btn season-nav-${s.season_number}`;
                 btn.innerText = s.name;
                 btn.onclick = (e) => {
-                    document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
                     e.target.classList.add('active');
                     loadEpisodes(tvId, s.season_number, data.name, data.vote_average);
                 };
@@ -275,9 +272,9 @@
                     <div class="movie-card" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - حلقة ${ep.episode_number}', '${ep.overview}', ${rate})">
                         <div class="relative aspect-video rounded-xl overflow-hidden border border-white/5">
                             <img src="${epImg}" class="w-full h-full object-cover">
-                            <div class="absolute bottom-2 right-2 bg-red-600 px-2 py-0.5 rounded text-[10px] font-black">حلقة ${ep.episode_number}</div>
+                            <div class="absolute bottom-2 right-2 bg-red-600 px-2 py-0.5 rounded text-[8px] font-black italic text-white">الحلقة ${ep.episode_number}</div>
                         </div>
-                        <h4 class="mt-2 text-[10px] md:text-sm font-bold truncate text-center">${ep.name}</h4>
+                        <h4 class="mt-2 text-[9px] md:text-sm font-bold truncate text-center">${ep.name}</h4>
                     </div>
                 `;
             });
@@ -289,7 +286,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        function closeDetails() { document.getElementById('detailPage').style.display = 'none'; }
+        function closeDetails() { document.getElementById('detailPage').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         function changeType(type) {
             currentType = type;
