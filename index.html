@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-red: #e50914; --bg-dark: #050811; }
-        body { background-color: var(--bg-dark); color: white; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; }
+        body { background-color: var(--bg-dark); color: white; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
         /* تأثيرات الظهور */
         .fade-in { animation: fadeIn 0.6s ease-out; }
@@ -27,7 +27,6 @@
 
         #videoPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 10; }
 
-        /* لودر التحميل */
         .loader-spin { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid var(--main-red); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -39,15 +38,36 @@
 
         .glass-nav { background: rgba(5, 8, 17, 0.96); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.1); }
         .logo-tv { background: var(--main-red); color: white; padding: 2px 8px; border-radius: 6px; margin-right: 5px; font-style: italic; }
+
+        /* تنسيق زر الأعلى الانسيابي */
+        #scrollTopBtn {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #scrollTopBtn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
+
+    <!-- زر الأعلى الاحترافي -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+        class="fixed bottom-8 right-8 z-[300] bg-red-600 text-white w-12 h-12 md:w-14 md:h-14 rounded-full shadow-[0_10px_30px_rgba(229,9,20,0.5)] flex items-center justify-center hover:bg-white hover:text-red-600 transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
 
     <!-- القائمة العلوية -->
     <nav class="fixed top-0 w-full z-[100] px-4 md:px-12 py-3 flex flex-col md:flex-row justify-between items-center glass-nav gap-3 md:gap-0">
         <div class="flex items-center justify-between w-full md:w-auto gap-8">
             <div class="text-2xl md:text-3xl font-black cursor-pointer tracking-tighter shrink-0" onclick="location.reload()">
-                <span class="text-white italic text-shadow-lg">SbaTa</span><span class="logo-tv shadow-lg">Tv</span>
+                <span class="text-white italic">SbaTa</span><span class="logo-tv">Tv</span>
             </div>
             <div class="flex gap-6 text-sm md:text-lg font-bold uppercase">
                 <button onclick="changeType('movie')" id="btn-movie" class="text-red-600 transition font-black scale-110">أفلام</button>
@@ -59,7 +79,7 @@
         </div>
     </nav>
 
-    <!-- واجهة البطل (محدودة ومركزة) -->
+    <!-- الصفحة الرئيسية -->
     <div id="homePage">
         <header class="relative h-[60vh] md:h-[75vh] flex items-end p-8 md:p-20 pb-20 md:pb-32 overflow-hidden">
             <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-50 transition-opacity duration-1000">
@@ -71,32 +91,24 @@
             </div>
         </header>
 
-        <!-- الأقسام والتصنيفات (غير محدودة) -->
         <main class="px-6 md:px-20 pb-20 -mt-16 md:-mt-24 relative z-20">
             <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
                 <h2 id="gridTitle" class="text-2xl md:text-4xl font-black border-r-8 border-red-600 pr-6 italic uppercase tracking-tighter">اكتشف المكتبة</h2>
-                
-                <!-- شريط التصنيفات العالمي -->
-                <div id="genreBar" class="flex gap-3 overflow-x-auto no-scrollbar w-full md:w-auto pb-2">
-                    <!-- التصنيفات تظهر هنا برمجياً -->
-                </div>
+                <div id="genreBar" class="flex gap-3 overflow-x-auto no-scrollbar w-full md:w-auto pb-2"></div>
             </div>
 
-            <div id="movieGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6 md:gap-10">
-                <!-- المحتوى الضخم يظهر هنا -->
-            </div>
+            <div id="movieGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6 md:gap-10"></div>
 
-            <!-- زر التوسع اللانهائي -->
             <div class="flex flex-col items-center mt-20 gap-4">
                 <div id="loadMoreSpinner" class="loader-spin hidden"></div>
-                <button id="loadMoreBtn" onclick="loadNextPage()" class="bg-white/5 border border-white/10 text-white px-12 py-4 rounded-full font-black text-xl hover:bg-red-600 hover:scale-105 transition-all shadow-xl">
-                    استكشاف المزيد من SbaTa Tv ↓
+                <button id="loadMoreBtn" onclick="loadNextPage()" class="bg-white/5 border border-white/10 text-white px-12 py-4 rounded-full font-black text-xl hover:bg-red-600 transition-all shadow-xl">
+                    استكشاف المزيد ↓
                 </button>
             </div>
         </main>
     </div>
 
-    <!-- صفحة التفاصيل (المسلسلات) -->
+    <!-- صفحة التفاصيل -->
     <div id="detailPage" class="fade-in pb-20 text-right">
         <button onclick="closeDetails()" class="fixed top-24 left-8 z-[210] bg-white/10 p-5 rounded-full text-3xl font-bold backdrop-blur-md hover:bg-red-600 transition">&times;</button>
         <div class="relative h-[60vh] flex items-end p-8 md:p-20">
@@ -104,8 +116,8 @@
             <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center w-full">
                 <img id="detailPoster" src="" class="w-56 md:w-80 rounded-[30px] shadow-2xl border-4 border-white/5">
                 <div class="max-w-4xl">
-                    <h1 id="detailTitle" class="text-4xl md:text-8xl font-black mb-6 italic leading-none text-white">...</h1>
-                    <p id="detailStory" class="text-gray-200 text-lg md:text-2xl leading-relaxed italic drop-shadow-lg">...</p>
+                    <h1 id="detailTitle" class="text-4xl md:text-8xl font-black mb-6 italic leading-none">...</h1>
+                    <p id="detailStory" class="text-gray-200 text-lg md:text-2xl leading-relaxed italic">...</p>
                 </div>
             </div>
         </div>
@@ -117,7 +129,7 @@
         </div>
     </div>
 
-    <!-- صفحة المشغل الاحترافية -->
+    <!-- صفحة المشغل -->
     <div id="playerPage" class="fade-in">
         <nav class="p-6 md:px-12 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-[250] border-b border-white/5">
             <div class="flex items-center gap-6">
@@ -156,7 +168,16 @@
         let currentGenre = '';
         let globalBackdrop = '';
 
-        // 1. جلب التصنيفات العالمية (غير محدودة)
+        // منطق زر العودة للأعلى
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.onscroll = function() {
+            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        };
+
         async function fetchGenres() {
             const res = await fetch(`${BASE_URL}/genre/${currentType}/list?api_key=${API_KEY}&language=ar-SA`);
             const data = await res.json();
@@ -167,7 +188,6 @@
             });
         }
 
-        // 2. الفلترة حسب التصنيف (تبحث في كل المكتبة)
         function setCategory(id, el) {
             currentGenre = id;
             currentPage = 1;
@@ -176,7 +196,6 @@
             fetchContent();
         }
 
-        // 3. جلب المحتوى (دعم اللانهائية)
         async function fetchContent(isAppend = false) {
             const spinner = document.getElementById('loadMoreSpinner');
             if (isAppend) spinner.classList.remove('hidden');
@@ -189,14 +208,12 @@
             
             displayGrid(data.results, isAppend);
             if (!isAppend && data.results[0]) updateHero(data.results[0]);
-            
             spinner.classList.add('hidden');
         }
 
         function displayGrid(items, isAppend) {
             const grid = document.getElementById('movieGrid');
             if (!isAppend) grid.innerHTML = '';
-            
             items.forEach(item => {
                 if (!item.poster_path) return;
                 const card = document.createElement('div');
@@ -218,19 +235,16 @@
             fetchContent(true);
         }
 
-        // 4. الانتقال بين الأقسام (تحديث كامل المكتبة)
         function changeType(type) {
             currentType = type;
             currentPage = 1;
             currentGenre = '';
             document.getElementById('btn-movie').className = type === 'movie' ? 'text-red-600 font-black scale-110' : 'text-gray-400 font-bold';
             document.getElementById('btn-tv').className = type === 'tv' ? 'text-red-600 font-black scale-110' : 'text-gray-400 font-bold';
-            document.getElementById('gridTitle').innerText = type === 'movie' ? 'مكتبة الأفلام' : 'مكتبة المسلسلات';
             fetchGenres();
             fetchContent();
         }
 
-        // باقي دوال التشغيل والتفاصيل
         function updateHero(item) {
             document.getElementById('heroImg').src = IMG_URL + (item.backdrop_path || item.poster_path);
             document.getElementById('heroTitle').innerText = item.title || item.name;
@@ -350,7 +364,6 @@
 
         function closeDetails() { document.getElementById('detailPage').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
-        // البحث الشامل (يبحث في ملايين العناوين)
         document.getElementById('searchInput').addEventListener('keyup', (e) => {
             if (e.key === 'Enter' && e.target.value !== '') {
                 fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${e.target.value}&language=ar-SA`)
@@ -363,7 +376,6 @@
             }
         });
 
-        // تشغيل الموقع
         fetchGenres();
         fetchContent();
     </script>
