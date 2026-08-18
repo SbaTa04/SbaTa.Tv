@@ -3,153 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SbaTa Tv | Original Cinema 2026</title>
+    <title>SbaTa Tv | Cinema Stars 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-red: #e50914; --bg-dark: #050811; }
         body { background-color: var(--bg-dark); color: white; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; scroll-behavior: smooth; }
-        
         .fade-in { animation: fadeIn 0.6s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: var(--main-red); border-radius: 10px; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-
-        #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 200; display: none; overflow-y: auto; scroll-behavior: smooth; }
-        
-        /* Dropdowns */
-        .dropdown-content {
-            display: none; position: absolute; top: 100%; right: 0;
-            background: rgba(10, 15, 30, 0.98); backdrop-filter: blur(25px);
-            border: 1px solid rgba(229, 9, 20, 0.4); border-radius: 15px;
-            min-width: 200px; box-shadow: 0 20px 40px rgba(0,0,0,0.9);
-            z-index: 1000; overflow: hidden; padding: 10px 0;
-        }
-        .group:hover .dropdown-content { display: block; animation: fadeIn 0.3s ease; }
-        .dropdown-item { padding: 12px 20px; display: block; font-size: 14px; font-weight: 700; color: #bbb; transition: 0.3s; text-align: right; border-right: 4px solid transparent; }
-        .dropdown-item:hover { background: rgba(229, 9, 20, 0.15); color: white; border-right-color: var(--main-red); padding-right: 25px; }
-
+        #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 200; display: none; overflow-y: auto; }
         .video-container { position: relative; width: 100%; background: #000; border-radius: 24px; overflow: hidden; aspect-ratio: 16 / 9; border: 2px solid rgba(255, 255, 255, 0.05); }
         #videoPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
+        .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background: rgba(10, 15, 30, 0.98); backdrop-filter: blur(25px); border: 1px solid rgba(229, 9, 20, 0.4); border-radius: 15px; min-width: 180px; z-index: 1000; }
+        .group:hover .dropdown-content { display: block; }
         .movie-card { transition: 0.4s; cursor: pointer; flex-shrink: 0; }
-        .movie-card:hover { transform: translateY(-8px) scale(1.03); }
-
-        .glass-nav { background: rgba(5, 8, 17, 0.97); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .logo-tv { background: var(--main-red); color: white; padding: 2px 8px; border-radius: 6px; margin-right: 5px; font-style: italic; }
-        
-        #scrollTopBtn { opacity: 0; visibility: hidden; transition: 0.4s; }
-        #scrollTopBtn.show { opacity: 1; visibility: visible; }
-        
-        .cast-item { width: 90px; text-align: center; flex-shrink: 0; }
-        .cast-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 8px; border: 2px solid #222; }
+        .movie-card:hover { transform: translateY(-8px) scale(1.05); }
+        .logo-tv { background: var(--main-red); color: white; padding: 1px 8px; border-radius: 6px; margin-right: 5px; font-style: italic; }
+        .glass-nav { background: rgba(5, 8, 17, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .server-btn { background: #1a1e2e; padding: 8px 16px; border-radius: 10px; font-weight: 800; transition: 0.3s; color: #9ca3af; font-size: 0.75rem; white-space: nowrap; }
+        .server-btn.active { background: var(--main-red); color: white; border: 1px solid white; }
     </style>
 </head>
 <body>
 
-    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 z-[300] bg-red-600 text-white w-12 h-12 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all opacity-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg></button>
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 z-[300] bg-red-600 text-white w-12 h-12 rounded-full shadow-2xl flex items-center justify-center opacity-0 transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg></button>
 
+    <!-- القائمة العلوية -->
     <nav class="fixed top-0 w-full z-[100] px-4 md:px-12 py-3 flex flex-col md:flex-row justify-between items-center glass-nav gap-3">
         <div class="flex items-center justify-between w-full md:w-auto gap-8">
-            <div class="text-2xl md:text-3xl font-black cursor-pointer tracking-tighter" onclick="location.reload()"><span class="text-white">SbaTa</span><span class="logo-tv">Tv</span></div>
+            <div class="text-2xl md:text-3xl font-black cursor-pointer tracking-tighter" onclick="location.reload()"><span class="text-white italic">SbaTa</span><span class="logo-tv">Tv</span></div>
             <div class="flex gap-6 items-center font-bold">
-                <div class="group relative"><button class="text-red-600 transition text-sm md:text-lg">أفلام ▾</button>
-                    <div class="dropdown-content">
-                        <a href="#" onclick="changeType('movie', '')" class="dropdown-item">✨ التريند والأحدث</a>
-                        <a href="#" onclick="changeType('movie', 'ar')" class="dropdown-item">🎬 أفلام عربية</a>
-                        <a href="#" onclick="changeType('movie', 'en')" class="dropdown-item">🇺🇸 أفلام هوليوود</a>
-                        <a href="#" onclick="changeType('movie', 'tr')" class="dropdown-item">🇹🇷 أفلام تركية</a>
-                    </div>
+                <div class="group relative"><button class="text-red-600 text-sm md:text-lg">أفلام ▾</button>
+                    <div class="dropdown-content"><a onclick="changeType('movie', 'ar')" class="block p-3 text-sm hover:bg-red-600 transition">عربية</a><a onclick="changeType('movie', 'en')" class="block p-3 text-sm hover:bg-red-600 transition">أجنبية</a></div>
                 </div>
-                <div class="group relative"><button class="text-gray-400 hover:text-red-600 transition text-sm md:text-lg">مسلسلات ▾</button>
-                    <div class="dropdown-content">
-                        <a href="#" onclick="changeType('tv', '')" class="dropdown-item">✨ مسلسلات 2026</a>
-                        <a href="#" onclick="changeType('tv', 'ar')" class="dropdown-item">🎬 دراما عربية</a>
-                        <a href="#" onclick="changeType('tv', 'en')" class="dropdown-item">🇺🇸 مسلسلات أجنبية</a>
-                        <a href="#" onclick="changeType('tv', 'tr')" class="dropdown-item">🇹🇷 دراما تركية</a>
-                    </div>
+                <div class="group relative"><button class="text-gray-400 text-sm md:text-lg hover:text-red-600 transition">مسلسلات ▾</button>
+                    <div class="dropdown-content"><a onclick="changeType('tv', 'ar')" class="block p-3 text-sm hover:bg-red-600 transition">عربية</a><a onclick="changeType('tv', 'en')" class="block p-3 text-sm hover:bg-red-600 transition">أجنبية</a><a onclick="changeType('tv', 'tr')" class="block p-3 text-sm hover:bg-red-600 transition">تركية</a></div>
                 </div>
             </div>
         </div>
-        <input type="text" id="searchInput" placeholder="Search Dead City, etc..." class="bg-white/10 border border-white/20 rounded-full px-6 py-1.5 text-sm outline-none focus:border-red-600 w-full md:w-80 text-white font-bold">
+        <input type="text" id="searchInput" placeholder="ابحث مباشرة..." class="bg-white/10 border border-white/20 rounded-full px-5 py-1.5 text-xs md:text-sm outline-none focus:border-red-600 w-full md:w-80 text-white shadow-inner font-bold">
     </nav>
 
+    <!-- الرئيسية -->
     <div id="homePage">
-        <header class="relative h-[60vh] md:h-[70vh] flex items-end p-8 md:p-20 pb-20 overflow-hidden">
-            <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-50">
+        <header class="relative h-[60vh] md:h-[70vh] flex items-end p-6 md:p-20 pb-16 overflow-hidden">
+            <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-50 transition-opacity duration-1000">
             <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/30"></div>
-            <div class="relative z-10 max-w-4xl text-right">
-                <h1 id="heroTitle" class="text-3xl md:text-7xl font-black mb-4 uppercase italic drop-shadow-2xl">...</h1>
-                <p id="heroDesc" class="text-gray-300 text-sm md:text-xl mb-8 line-clamp-3 font-bold italic">...</p>
-                <button id="heroPlayBtn" class="bg-red-600 text-white px-10 py-3 md:px-16 md:py-4 rounded-2xl font-black text-lg md:text-2xl hover:scale-110 transition shadow-2xl">▶ شاهد الآن</button>
+            <div class="relative z-10 max-w-4xl">
+                <h1 id="heroTitle" class="text-3xl md:text-7xl font-black mb-3 italic drop-shadow-2xl text-white uppercase tracking-tighter">...</h1>
+                <p id="heroDesc" class="text-gray-300 text-[10px] md:text-lg mb-6 line-clamp-3 font-bold italic">...</p>
+                <button id="heroPlayBtn" class="bg-red-600 text-white px-10 py-2.5 rounded-xl font-black text-sm md:text-xl shadow-2xl hover:scale-110 transition">▶ شاهد الآن</button>
             </div>
         </header>
 
-        <main class="px-6 md:px-20 pb-20 -mt-10 relative z-20">
-            <section id="comingSoonSection" class="mb-14">
-                <h2 class="text-xl md:text-3xl font-black mb-6 flex items-center gap-3 text-yellow-500 uppercase"><span class="w-1.5 h-8 bg-yellow-500 block"></span> COMING SOON 🔥</h2>
-                <div id="comingSoonGrid" class="flex gap-5 overflow-x-auto no-scrollbar pb-4 scroll-smooth"></div>
+        <main class="px-4 md:px-20 pb-20 -mt-10 relative z-20">
+            <!-- أعمال مختارة (القسم المتفوق) -->
+            <section id="topPicksSection" class="mb-14">
+                <h2 class="text-xl md:text-3xl font-black mb-6 flex items-center gap-3 text-red-600 italic uppercase"><span class="w-1.5 h-8 bg-red-600 block shadow-[0_0_15px_red]"></span> TOP PICKS</h2>
+                <div id="topPicksGrid" class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+                    <!-- سيتم جلب Dead City و Mehmed هنا -->
+                </div>
             </section>
-            <h2 id="gridTitle" class="text-xl md:text-4xl font-black mb-10 border-r-8 border-red-600 pr-6 italic uppercase">TRENDING NOW</h2>
+
+            <!-- قريباً -->
+            <section id="comingSoonSection" class="mb-14">
+                <h2 class="text-lg font-black mb-6 flex items-center gap-2 text-yellow-500 uppercase italic">Coming Soon 🔥</h2>
+                <div id="comingSoonGrid" class="flex gap-4 overflow-x-auto no-scrollbar pb-4"></div>
+            </section>
+
+            <h2 id="gridTitle" class="text-xl md:text-3xl font-black mb-8 border-r-8 border-red-600 pr-4 italic uppercase">Trending Now</h2>
             <div id="movieGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-4 md:gap-8"></div>
             <div class="flex justify-center mt-12"><button onclick="loadNextPage()" class="bg-white/5 border border-white/10 text-white px-10 py-3 rounded-full font-bold hover:bg-red-600 transition shadow-xl">تحميل المزيد ↓</button></div>
         </main>
     </div>
 
-    <div id="detailPage" class="fade-in pb-20 text-right">
+    <!-- صفحة التفاصيل -->
+    <div id="detailPage" class="fade-in pb-10">
         <button onclick="closeDetails()" class="fixed top-20 left-4 z-[210] bg-white/10 p-3 rounded-full text-xl font-bold backdrop-blur-md hover:bg-red-600 transition">&times;</button>
-        <div class="relative min-h-[50vh] flex items-end p-6 md:p-20">
-            <img id="detailBg" src="" class="absolute inset-0 w-full h-full object-cover opacity-30">
+        <div class="relative min-h-[50vh] flex items-end p-6 md:p-12 overflow-hidden">
+            <img id="detailBg" src="" class="absolute inset-0 w-full h-full object-cover opacity-20 transition-opacity">
             <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent"></div>
-            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center w-full">
-                <img id="detailPoster" src="" class="w-40 md:w-64 rounded-3xl shadow-2xl border-4 border-white/5" onerror="this.src='https://via.placeholder.com/500x750?text=SbaTa+Tv'">
-                <div class="max-w-4xl text-right">
-                    <h1 id="detailTitle" class="text-2xl md:text-6xl font-black mb-4 uppercase italic">...</h1>
-                    <p id="detailStory" class="text-gray-200 text-sm md:text-lg leading-relaxed italic font-bold mb-8">...</p>
-                    <div class="flex gap-4">
-                        <button id="detailPlayBtn" class="bg-red-600 text-white px-10 py-3 rounded-xl font-black text-lg shadow-lg hover:scale-105 transition">▶ شاهد الآن</button>
-                        <button id="detailTrailerBtn" class="bg-white/10 border border-white/20 text-white px-8 py-3 rounded-xl font-black text-lg hover:bg-white hover:text-black transition">🎞️ التريلر</button>
+            <div class="relative z-10 flex flex-col md:flex-row gap-6 md:gap-12 items-center w-full">
+                <img id="detailPoster" src="" class="w-40 md:w-60 rounded-3xl shadow-2xl border-2 border-white/10" onerror="this.src='https://via.placeholder.com/500x750?text=SbaTa+Tv'">
+                <div class="text-center md:text-right flex-1">
+                    <h1 id="detailTitle" class="text-2xl md:text-6xl font-black mb-3 italic uppercase text-white">...</h1>
+                    <p id="detailStory" class="text-gray-300 text-[11px] md:text-lg mb-6 leading-relaxed max-w-4xl font-bold italic">...</p>
+                    <div class="flex gap-3 justify-center md:justify-start font-bold">
+                        <button id="detailPlayBtn" class="bg-red-600 text-white px-8 py-2.5 rounded-xl font-black text-sm md:text-lg shadow-lg hover:scale-105 transition">▶ مشاهدة</button>
+                        <button id="detailTrailerBtn" class="bg-white/10 border border-white/20 text-white px-8 py-2.5 rounded-xl font-black text-sm md:text-lg hover:bg-white hover:text-black transition">🎞️ التريلر</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="px-8 md:px-20 mt-10">
-            <h3 class="text-xl font-black mb-6 flex items-center gap-3 uppercase"><span class="w-1.5 h-6 bg-blue-500 block"></span> Top Cast</h3>
-            <div id="castGrid" class="flex gap-6 overflow-x-auto no-scrollbar pb-6 text-center"></div>
-            <div id="seasonsSection" class="hidden">
-                <h3 class="text-xl font-black mb-6 flex items-center gap-3"><span class="w-1.5 h-6 bg-red-600 block"></span> الحلقات والمواسم</h3>
-                <div id="seasonsBar" class="flex gap-3 overflow-x-auto pb-4 no-scrollbar"></div>
-                <div id="episodesGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-8"></div>
-            </div>
-            <h3 class="text-xl font-black mt-12 mb-6 flex items-center gap-3 uppercase"><span class="w-1.5 h-6 bg-red-600 block"></span> More Like This</h3>
+        <div class="px-6 md:px-12 mt-6">
+            <h3 class="text-xl font-black mb-6 flex items-center gap-3 uppercase"><span class="w-1.5 h-6 bg-blue-600 block"></span> Top Cast</h3>
+            <div id="castGrid" class="flex gap-6 overflow-x-auto no-scrollbar pb-6"></div>
+            <div id="episodesSection" class="hidden mb-10"><div id="seasonsBar" class="flex gap-3 overflow-x-auto pb-4 no-scrollbar"></div><div id="episodesGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-6"></div></div>
+            <h3 class="text-xl md:text-2xl font-black mb-6 flex items-center gap-3 uppercase"><span class="w-1.5 h-6 bg-red-600 block"></span> More Like This</h3>
             <div id="similarGrid" class="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-8 gap-4"></div>
         </div>
     </div>
 
-    <div id="playerPage" class="fade-in pb-20">
-        <nav class="p-4 md:px-12 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-[250] border-b border-white/5">
-            <div class="flex items-center gap-4">
-                <button onclick="closePlayer()" class="bg-red-600 px-4 py-1.5 rounded-xl font-black text-sm">← العودة</button>
-                <h2 id="playerTitle" class="text-xs md:text-xl font-bold truncate text-white italic px-4 uppercase">...</h2>
-            </div>
-            <a id="externalPlayerBtn" target="_blank" class="bg-blue-600 px-4 py-2 rounded-lg font-bold text-xs hover:bg-white hover:text-blue-600 transition">فتح في نافذة جديدة ↗</a>
+    <!-- صفحة المشغل -->
+    <div id="playerPage" class="fade-in pb-10">
+        <nav class="p-4 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-[250]">
+            <button onclick="closePlayer()" class="bg-red-600 px-4 py-1.5 rounded-xl font-black text-xs">← العودة</button>
+            <h2 id="playerTitle" class="text-xs md:text-xl font-bold truncate text-white italic px-4 uppercase">...</h2>
         </nav>
-        <main class="max-w-[1400px] mx-auto p-4 md:p-8">
+        <main class="max-w-[1400px] mx-auto p-4">
             <div id="serverList" class="flex gap-2 mb-4 overflow-x-auto no-scrollbar font-bold"></div>
-            <div class="video-container mb-10"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div>
-            <div class="bg-white/5 p-6 md:p-10 rounded-[30px] border border-white/10 shadow-2xl text-right">
-                <h1 id="pSubTitle" class="text-xl md:text-4xl font-black italic mb-4 uppercase text-white">...</h1>
-                <p id="pDesc" class="text-gray-300 text-sm md:text-lg leading-relaxed italic font-bold">...</p>
-            </div>
+            <div class="video-container mb-6 shadow-2xl"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div>
+            <div class="bg-white/5 p-6 rounded-2xl border border-white/10"><h1 id="pSubTitle" class="text-lg md:text-3xl font-black italic mb-4 uppercase">...</h1><p id="pDesc" class="text-gray-300 text-xs md:text-lg italic font-bold">...</p></div>
         </main>
     </div>
 
     <script>
         const API_KEY = 'a445c76d05e5d5697ad322b954897657';
         const BASE_URL = 'https://api.themoviedb.org/3';
-        const IMG_W500 = 'https://image.tmdb.org/t/p/w500';
+        const IMG_URL = 'https://image.tmdb.org/t/p/w500';
         const IMG_ORG = 'https://image.tmdb.org/t/p/original';
         
         let currentType = 'movie'; 
@@ -158,13 +132,26 @@
 
         window.onscroll = () => { document.getElementById('scrollTopBtn').style.opacity = window.scrollY > 500 ? "1" : "0"; };
 
+        // --- البحث المباشر المصحح ---
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const q = e.target.value;
             if(q.length > 2) {
                 fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${q}&language=ar-SA`)
-                .then(res => res.json()).then(data => { displayGrid(data.results, false); document.getElementById('gridTitle').innerText = `Search results for: ${q}`; });
+                .then(res => res.json()).then(data => { displayGrid(data.results, false); document.getElementById('gridTitle').innerText = `Search for: ${q}`; });
             }
         });
+
+        // --- جلب الأعمال المتفوقة للصدارة ---
+        async function fetchTopPicks() {
+            const ids = [157018, 247885, 1399, 1396, 82856]; // IDs for Dead City, Mehmed, Game of Thrones, Breaking Bad, Mandalorian
+            const grid = document.getElementById('topPicksGrid');
+            grid.innerHTML = '';
+            for(let id of ids) {
+                const res = await fetch(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=ar-SA`);
+                const item = await res.json();
+                grid.innerHTML += `<div class="movie-card w-36 md:w-48 group" onclick="showDetails(${item.id}, 'tv')"><div class="relative rounded-2xl overflow-hidden aspect-[2/3] shadow-xl border-2 border-red-600/20 group-hover:border-red-600 transition-all"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover group-hover:scale-110 transition-transform"></div><h4 class="mt-2 text-[10px] font-bold text-center uppercase truncate">${item.original_name}</h4></div>`;
+            }
+        }
 
         async function fetchComingSoon() {
             const res = await fetch(`${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=ar-SA&page=1`);
@@ -173,7 +160,7 @@
             grid.innerHTML = '';
             data.results.forEach(item => {
                 if(!item.poster_path) return;
-                grid.innerHTML += `<div class="movie-card w-32 md:w-44" onclick="showDetails(${item.id})"><div class="relative rounded-2xl overflow-hidden aspect-[2/3] shadow-lg border border-white/5"><img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover"></div><h4 class="mt-2 text-[9px] font-bold text-center uppercase truncate italic opacity-60">${item.original_title}</h4></div>`;
+                grid.innerHTML += `<div class="movie-card w-32 md:w-40" onclick="showDetails(${item.id}, 'movie')"><div class="relative rounded-2xl overflow-hidden aspect-[2/3]"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover"></div></div>`;
             });
         }
 
@@ -194,8 +181,8 @@
                 const year = (item.release_date || item.first_air_date || "2026").split('-')[0];
                 const card = document.createElement('div');
                 card.className = 'movie-card group fade-in';
-                card.onclick = () => showDetails(item.id);
-                card.innerHTML = `<div class="relative rounded-[20px] overflow-hidden aspect-[2/3] shadow-lg border-2 border-transparent group-hover:border-red-600 transition-all"><img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover group-hover:scale-110 transition-transform"><div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-red-600 text-5xl">▶</div><div class="absolute top-2 right-2 bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded-md shadow-lg z-10">${year}</div></div><h3 class="mt-4 text-[10px] font-bold truncate text-center uppercase px-2 italic text-white/80">${item.original_title || item.original_name || item.title}</h3>`;
+                card.onclick = () => showDetails(item.id, currentType);
+                card.innerHTML = `<div class="relative rounded-[20px] overflow-hidden aspect-[2/3] shadow-lg border-2 border-transparent group-hover:border-red-600 transition-all"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover"><div class="absolute top-2 right-2 bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded-md shadow-lg z-10">${year}</div></div><h3 class="mt-2 text-[10px] font-bold truncate text-center uppercase px-2">${item.original_title || item.original_name || item.title}</h3>`;
                 grid.appendChild(card);
             });
         }
@@ -203,39 +190,29 @@
         function updateHero(item) {
             document.getElementById('heroImg').src = item.backdrop_path ? IMG_ORG + item.backdrop_path : IMG_ORG + item.poster_path;
             document.getElementById('heroTitle').innerText = item.original_title || item.original_name || item.title;
-            document.getElementById('heroDesc').innerText = item.overview || "Watch exclusive content on SbaTa Tv.";
-            document.getElementById('heroPlayBtn').onclick = () => showDetails(item.id);
+            document.getElementById('heroDesc').innerText = item.overview || "Watch on SbaTa Tv.";
+            document.getElementById('heroPlayBtn').onclick = () => showDetails(item.id, currentType);
         }
 
-        async function showDetails(id) {
-            const res = await fetch(`${BASE_URL}/${currentType}/${id}?api_key=${API_KEY}&language=ar-SA&append_to_response=videos,credits,similar`);
+        async function showDetails(id, type) {
+            const res = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=ar-SA&append_to_response=videos,credits,similar`);
             const data = await res.json();
             document.getElementById('detailPage').style.display = 'block';
             document.getElementById('detailPage').scrollTo(0,0);
             document.getElementById('detailBg').src = data.backdrop_path ? IMG_ORG + data.backdrop_path : IMG_ORG + data.poster_path;
-            document.getElementById('detailPoster').src = data.poster_path ? IMG_W500 + data.poster_path : 'https://via.placeholder.com/500x750?text=SbaTa+Tv';
+            document.getElementById('detailPoster').src = data.poster_path ? IMG_URL + data.poster_path : 'https://via.placeholder.com/500x750?text=SbaTa+Tv';
             document.getElementById('detailTitle').innerText = data.original_title || data.original_name || data.title;
-            document.getElementById('detailStory').innerText = data.overview || "القصة غير متوفرة بالعربية حالياً.";
-
+            document.getElementById('detailStory').innerText = data.overview || "القصة غير متوفرة بالعربية.";
             const castGrid = document.getElementById('castGrid'); castGrid.innerHTML = '';
-            data.credits.cast.slice(0, 12).forEach(c => { if(c.profile_path) castGrid.innerHTML += `<div class="cast-item"><img src="${IMG_W500 + c.profile_path}" class="cast-img mx-auto shadow-xl"><p class="text-[9px] font-bold truncate uppercase mt-2 text-white/70">${c.name}</p></div>`; });
-
-            const epSection = document.getElementById('seasonsSection');
-            if(currentType === 'tv') { epSection.classList.remove('hidden'); loadSeasons(data); } else { epSection.classList.add('hidden'); }
-
+            data.credits.cast.slice(0, 12).forEach(c => { if(c.profile_path) castGrid.innerHTML += `<div class="cast-item"><img src="${IMG_URL + c.profile_path}" class="cast-img mx-auto"><p class="text-[9px] font-bold truncate uppercase mt-2 text-white/70">${c.name}</p></div>`; });
+            const epSection = document.getElementById('episodesSection');
+            if(type === 'tv') { epSection.classList.remove('hidden'); loadSeasons(data); } else { epSection.classList.add('hidden'); }
             const trailer = data.videos.results.find(v => v.type === 'Trailer');
-            if(trailer) {
-                const tBtn = document.getElementById('detailTrailerBtn');
-                tBtn.style.display = "block";
-                tBtn.onclick = () => { openPlayer(`https://www.youtube.com/embed/${trailer.key}`, "OFFICIAL TRAILER", data.overview); };
-            }
-
-            document.getElementById('detailPlayBtn').onclick = () => {
-                if(currentType === 'movie') setupServers(id, null, null, data.original_title || data.title, data.overview);
-                else document.getElementById('seasonsSection').scrollIntoView({behavior:'smooth'});
-            };
+            const tBtn = document.getElementById('detailTrailerBtn');
+            if(trailer) { tBtn.style.display = "block"; tBtn.onclick = () => { openPlayer(`https://www.youtube.com/embed/${trailer.key}`, "TRAILER", data.overview); }; } else { tBtn.style.display = "none"; }
+            document.getElementById('detailPlayBtn').onclick = () => { if(type === 'movie') setupServers(id, null, null, data.original_title, data.overview); else epSection.scrollIntoView({behavior:'smooth'}); };
             const simGrid = document.getElementById('similarGrid'); simGrid.innerHTML = '';
-            data.similar.results.slice(0, 16).forEach(s => { if(s.poster_path) simGrid.innerHTML += `<div class="movie-card" onclick="showDetails(${s.id})"><img src="${IMG_W500 + s.poster_path}" class="rounded-xl w-full h-full object-cover"></div>`; });
+            data.similar.results.slice(0, 16).forEach(s => { if(s.poster_path) simGrid.innerHTML += `<div class="movie-card" onclick="showDetails(${s.id}, '${type}')"><img src="${IMG_URL + s.poster_path}" class="rounded-xl w-full h-full object-cover"></div>`; });
         }
 
         function loadSeasons(data) {
@@ -249,42 +226,30 @@
             const data = await res.json();
             const grid = document.getElementById('episodesGrid'); grid.innerHTML = '';
             data.episodes.forEach(ep => {
-                const img = ep.still_path ? IMG_W500 + ep.still_path : IMG_ORG + (data.poster_path || "");
-                grid.innerHTML += `<div class="movie-card" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - Ep ${ep.episode_number}', '${ep.overview}')"><div class="aspect-video rounded-xl overflow-hidden border border-white/5 shadow-xl"><img src="${img}" class="w-full h-full object-cover"></div><h4 class="mt-2 text-[10px] font-bold text-center text-white">EPISODE ${ep.episode_number}</h4></div>`;
+                const img = ep.still_path ? IMG_URL + ep.still_path : 'https://via.placeholder.com/500x281?text=Episode';
+                grid.innerHTML += `<div class="movie-card" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - Ep ${ep.episode_number}', '${ep.overview}')"><div class="aspect-video rounded-xl overflow-hidden border border-white/5 shadow-xl"><img src="${img}" class="w-full h-full object-cover"></div><h4 class="mt-2 text-[10px] font-bold text-center">EPISODE ${ep.episode_number}</h4></div>`;
             });
         }
 
         function setupServers(id, s, e, title, desc) {
             const list = document.getElementById('serverList'); list.innerHTML = '';
             const isTV = s !== null;
-            const svs = [
-                {n:'S1 (VIP)', u: isTV ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}` : `https://vidsrc.to/embed/movie/${id}`},
-                {n:'S2 (PRO)', u: isTV ? `https://vidsrc.pro/embed/tv/${id}/${s}/${e}` : `https://vidsrc.pro/embed/movie/${id}`},
-                {n:'S3 (HD)', u: isTV ? `https://embed.su/embed/tv/${id}/${s}/${e}` : `https://embed.su/embed/movie/${id}`}
-            ];
+            const svs = [{n:'S1 (VIP)', u: isTV ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}` : `https://vidsrc.to/embed/movie/${id}`}, {n:'S2 (HD)', u: isTV ? `https://embed.su/embed/tv/${id}/${s}/${e}` : `https://embed.su/embed/movie/${id}`}];
             svs.forEach((v, i) => {
                 const b = document.createElement('button'); b.className = `server-btn ${i===0?'active':''}`; b.innerText = v.n;
-                b.onclick = (event) => { document.querySelectorAll('.server-btn').forEach(x=>x.classList.remove('active')); event.target.classList.add('active'); document.getElementById('videoPlayer').src = v.u; document.getElementById('externalPlayerBtn').href = v.u; };
+                b.onclick = (event) => { document.querySelectorAll('.server-btn').forEach(x=>x.classList.remove('active')); event.target.classList.add('active'); document.getElementById('videoPlayer').src = v.u; };
                 list.appendChild(b);
             });
             openPlayer(svs[0].u, title, desc);
         }
 
-        function openPlayer(url, title, desc) {
-            document.getElementById('playerPage').style.display = 'block';
-            document.getElementById('videoPlayer').src = url;
-            document.getElementById('playerTitle').innerText = title;
-            document.getElementById('pSubTitle').innerText = title;
-            document.getElementById('pDesc').innerText = desc || "Enjoy on SbaTa Tv!";
-            document.getElementById('externalPlayerBtn').href = url;
-        }
-
+        function openPlayer(url, title, desc) { document.getElementById('playerPage').style.display = 'block'; document.getElementById('videoPlayer').src = url; document.getElementById('playerTitle').innerText = title; document.getElementById('pSubTitle').innerText = title; document.getElementById('pDesc').innerText = desc || "Enjoy on SbaTa Tv!"; }
         function closePlayer() { document.getElementById('playerPage').style.display='none'; document.getElementById('videoPlayer').src=''; }
         function closeDetails() { document.getElementById('detailPage').style.display='none'; document.body.style.overflow = 'auto'; }
         function changeType(t, l) { currentType=t; currentLanguage=l; currentPage=1; fetchContent(); }
         function loadNextPage() { currentPage++; fetchContent(true); }
 
-        fetchComingSoon(); fetchContent();
+        fetchTopPicks(); fetchComingSoon(); fetchContent();
     </script>
 </body>
 </html>
