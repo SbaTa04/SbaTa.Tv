@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SbaTa Tv | المنصة الأسطورية 2026</title>
+    <title>SbaTa Tv | تجربة سينمائية فريدة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -42,12 +42,6 @@
         
         #scrollTopBtn { opacity: 0; visibility: hidden; transition: 0.4s; }
         #scrollTopBtn.show { opacity: 1; visibility: visible; }
-        
-        /* Cast Card */
-        .cast-card { flex-shrink: 0; width: 100px; text-align: center; }
-        .cast-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 8px; border: 2px solid var(--main-red); }
-
-        .my-ad-slot { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1); margin: 20px 0; display: flex; align-items: center; justify-content: center; color: #444; font-size: 12px; min-height: 80px; border-radius: 15px; }
     </style>
 </head>
 <body>
@@ -58,7 +52,7 @@
     <!-- القائمة العلوية -->
     <nav class="fixed top-0 w-full z-[100] px-4 md:px-12 py-3 flex flex-col md:flex-row justify-between items-center glass-nav gap-3 md:gap-0">
         <div class="flex items-center justify-between w-full md:w-auto gap-8">
-            <div class="text-2xl md:text-3xl font-black cursor-pointer tracking-tighter shrink-0" onclick="location.reload()"><span class="text-white italic">SbaTa</span><span class="logo-tv">Tv</span></div>
+            <div class="text-2xl md:text-3xl font-black cursor-pointer tracking-tighter" onclick="location.reload()"><span class="text-white italic">SbaTa</span><span class="logo-tv">Tv</span></div>
             <div class="flex gap-6 items-center font-bold">
                 <div class="group relative">
                     <button id="btn-movie" class="text-red-600 transition text-sm md:text-lg flex items-center gap-1">أفلام ▾</button>
@@ -72,7 +66,7 @@
                 <div class="group relative">
                     <button id="btn-tv" class="text-gray-400 hover:text-red-600 transition text-sm md:text-lg flex items-center gap-1">مسلسلات ▾</button>
                     <div class="dropdown-content">
-                        <a href="#" onclick="changeType('tv', '')" class="dropdown-item">✨ مسلسلات 2026</a>
+                        <a href="#" onclick="changeType('tv', '')" class="dropdown-item">✨ مسلسلات حديثة</a>
                         <a href="#" onclick="changeType('tv', 'ar')" class="dropdown-item">🎬 مسلسلات عربية</a>
                         <a href="#" onclick="changeType('tv', 'en')" class="dropdown-item">🇺🇸 مسلسلات أجنبية</a>
                         <a href="#" onclick="changeType('tv', 'tr')" class="dropdown-item">🇹🇷 مسلسلات تركية</a>
@@ -80,86 +74,70 @@
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-80 relative">
-            <input type="text" id="searchInput" placeholder="ابحث مباشرة في SbaTa Tv..." class="bg-white/10 border border-white/20 rounded-full px-6 py-1.5 text-sm outline-none focus:border-red-600 w-full font-bold text-white shadow-xl">
-        </div>
+        <input type="text" id="searchInput" placeholder="ابحث في SbaTa Tv..." class="bg-white/10 border border-white/20 rounded-full px-6 py-1.5 text-sm outline-none focus:border-red-600 w-full md:w-80 font-bold text-white shadow-xl">
     </nav>
 
     <!-- الرئيسية -->
     <div id="homePage">
-        <header class="relative h-[65vh] md:h-[75vh] flex items-end p-8 md:p-20 pb-20 md:pb-32 overflow-hidden">
-            <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-50">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/40"></div>
+        <header class="relative h-[65vh] md:h-[75vh] flex items-end p-8 md:p-20 pb-20 md:pb-28 overflow-hidden">
+            <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-50 transition-opacity duration-1000">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/30"></div>
             <div class="relative z-10 max-w-4xl">
-                <h1 id="heroTitle" class="text-4xl md:text-8xl font-black mb-4 leading-tight italic drop-shadow-2xl">...</h1>
-                <p id="heroDesc" class="text-gray-300 text-sm md:text-xl mb-8 line-clamp-3 font-medium italic">...</p>
-                <div class="flex gap-4">
-                    <button id="heroPlayBtn" class="bg-red-600 text-white px-10 py-3 md:px-14 md:py-4 rounded-2xl font-black text-lg md:text-2xl hover:scale-110 shadow-2xl transition-all">▶ شاهد الآن</button>
-                    <button id="heroTrailerBtn" class="bg-white/10 backdrop-blur-md text-white px-10 py-3 rounded-2xl font-black text-lg hover:bg-white hover:text-black transition-all">🎞️ التريلر</button>
-                </div>
+                <h1 id="heroTitle" class="text-4xl md:text-8xl font-black mb-4 leading-tight italic drop-shadow-2xl text-white">...</h1>
+                <p id="heroDesc" class="text-gray-300 text-sm md:text-xl mb-8 line-clamp-3 font-bold italic">...</p>
+                <!-- إصلاح زر شاهد الآن في الهيرو -->
+                <button id="heroPlayBtn" class="bg-red-600 text-white px-10 py-3 md:px-14 md:py-4 rounded-2xl font-black text-lg md:text-2xl hover:scale-110 shadow-[0_0_40px_rgba(229,9,20,0.5)] transition-all">▶ شاهد الآن</button>
             </div>
         </header>
 
-        <main class="px-6 md:px-20 pb-20 -mt-16 md:-mt-24 relative z-20">
-            <!-- قسم قريباً -->
+        <main class="px-6 md:px-20 pb-20 -mt-16 md:-mt-20 relative z-20">
             <section id="comingSoonSection" class="mb-14">
-                <h2 class="text-2xl font-black mb-6 flex items-center gap-3"><span class="w-1.5 h-8 bg-yellow-500 block"></span> قريباً على SbaTa Tv 🔥</h2>
+                <h2 class="text-2xl font-black mb-6 flex items-center gap-3"><span class="w-1.5 h-8 bg-yellow-500 block"></span> قريباً 🔥</h2>
                 <div id="comingSoonGrid" class="flex gap-5 overflow-x-auto no-scrollbar pb-4"></div>
             </section>
 
             <h2 id="gridTitle" class="text-2xl md:text-4xl font-black mb-10 border-r-8 border-red-600 pr-6 italic uppercase">أحدث التريندات</h2>
             <div id="movieGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6 md:gap-10"></div>
-            <div class="flex justify-center mt-20"><button onclick="loadNextPage()" class="bg-white/5 border border-white/10 text-white px-12 py-4 rounded-full font-black text-xl hover:bg-red-600 shadow-xl transition-all">تحميل المزيد ↓</button></div>
+            <div class="flex justify-center mt-20"><button onclick="loadNextPage()" class="bg-white/5 border border-white/10 text-white px-12 py-4 rounded-full font-black text-xl hover:bg-red-600 transition shadow-xl">تحميل المزيد ↓</button></div>
         </main>
     </div>
 
-    <!-- صفحة التفاصيل (مع طاقم العمل) -->
+    <!-- صفحة التفاصيل (مع زر التريلر المدمج هنا) -->
     <div id="detailPage" class="fade-in pb-20 text-right">
-        <button onclick="closeDetails()" class="fixed top-24 left-8 z-[210] bg-white/10 p-5 rounded-full text-3xl font-bold backdrop-blur-md hover:bg-red-600 transition">&times;</button>
-        <div class="relative h-[60vh] flex items-end p-8 md:p-20">
+        <button onclick="closeDetails()" class="fixed top-8 left-8 z-[210] bg-white/10 p-4 rounded-full text-2xl font-bold backdrop-blur-md hover:bg-red-600 transition">&times;</button>
+        <div class="relative h-[65vh] flex items-end p-8 md:p-20">
             <img id="detailBg" src="" class="absolute inset-0 w-full h-full object-cover opacity-30">
             <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center w-full">
-                <img id="detailPoster" src="" class="w-56 md:w-80 rounded-[30px] shadow-2xl border-4 border-white/5">
+                <!-- صورة البوستر مع معالج الخطأ -->
+                <img id="detailPoster" src="" class="w-48 md:w-64 rounded-3xl shadow-2xl border-4 border-white/5" onerror="this.src='https://via.placeholder.com/500x750?text=SbaTa+Tv'">
                 <div class="max-w-4xl">
-                    <h1 id="detailTitle" class="text-4xl md:text-8xl font-black mb-6 italic leading-none">...</h1>
-                    <p id="detailStory" class="text-gray-200 text-lg md:text-2xl leading-relaxed font-bold italic mb-6">...</p>
-                    <button id="detailTrailerBtn" class="bg-red-600 px-8 py-2 rounded-xl font-black shadow-lg hover:scale-105 transition-all">🎥 مشاهدة التريلر</button>
+                    <h1 id="detailTitle" class="text-3xl md:text-6xl font-black mb-4 italic leading-tight text-white">...</h1>
+                    <p id="detailStory" class="text-gray-200 text-sm md:text-lg leading-relaxed italic font-bold mb-8">...</p>
+                    <div class="flex gap-4">
+                        <button id="detailPlayBtn" class="bg-red-600 text-white px-10 py-3 rounded-xl font-black text-lg hover:scale-105 transition shadow-lg">▶ مشاهدة الآن</button>
+                        <button id="detailTrailerBtn" class="bg-white/10 border border-white/20 text-white px-8 py-3 rounded-xl font-black text-lg hover:bg-white hover:text-black transition">🎞️ مشاهدة التريلر</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="px-8 md:px-20 mt-16">
-            <!-- قسم الممثلين -->
-            <h3 class="text-3xl font-black mb-8 flex items-center gap-4"><span class="w-2 h-10 bg-blue-500 block"></span> طاقم العمل</h3>
-            <div id="castGrid" class="flex gap-6 overflow-x-auto no-scrollbar pb-8"></div>
-
-            <div id="seasonsSection">
-                <h3 class="text-3xl font-black mb-10 flex items-center gap-4"><span class="w-2 h-10 bg-red-600 block"></span> المواسم</h3>
-                <div id="seasonsBar" class="flex gap-4 overflow-x-auto pb-6 no-scrollbar"></div>
-                <h3 class="text-3xl font-black mt-16 mb-10 flex items-center gap-4"><span class="w-2 h-10 bg-red-600 block"></span> الحلقات</h3>
-                <div id="episodesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8"></div>
-            </div>
+        <div class="px-8 md:px-20 mt-12">
+            <h3 id="seasonsHeading" class="text-2xl font-black mb-8 flex items-center gap-4 text-white"><span class="w-2 h-8 bg-red-600 block"></span> المواسم</h3>
+            <div id="seasonsBar" class="flex gap-4 overflow-x-auto pb-4 no-scrollbar"></div>
+            <h3 class="text-2xl font-black mt-12 mb-8 flex items-center gap-4 text-white"><span class="w-2 h-8 bg-red-600 block"></span> الحلقات</h3>
+            <div id="episodesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8"></div>
         </div>
     </div>
 
-    <!-- المشغل (مع التنقل بين الحلقات) -->
+    <!-- صفحة المشغل -->
     <div id="playerPage" class="fade-in">
         <nav class="p-6 md:px-12 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-[250] border-b border-white/5">
-            <div class="flex items-center gap-6">
-                <button onclick="closePlayer()" class="bg-red-600 px-8 py-2 rounded-xl font-black text-sm hover:bg-white hover:text-black transition">← العودة</button>
-                <h2 id="playerTitle" class="text-lg md:text-2xl font-bold truncate text-white italic px-4">...</h2>
-            </div>
-            <div id="episodeNav" class="hidden flex gap-4">
-                <button id="prevEp" class="bg-white/5 p-2 px-4 rounded-lg hover:bg-red-600 transition font-bold">الحلقة السابقة</button>
-                <button id="nextEp" class="bg-white/5 p-2 px-4 rounded-lg hover:bg-red-600 transition font-bold">الحلقة التالية</button>
-            </div>
+            <button onclick="closePlayer()" class="bg-red-600 px-8 py-2 rounded-xl font-black text-sm hover:bg-white hover:text-black transition">← العودة</button>
+            <h2 id="playerTitle" class="text-lg md:text-2xl font-bold truncate text-white italic px-4">...</h2>
+            <div class="text-red-600 font-black italic hidden md:block">SbaTa Tv PREMIUM</div>
         </nav>
         <main class="max-w-[1500px] mx-auto p-6 md:p-12 text-right">
-            <div class="flex gap-3 mb-6 overflow-x-auto pb-2 no-scrollbar" id="serverList"></div>
+            <div class="flex gap-3 mb-6 overflow-x-auto pb-2 no-scrollbar font-bold" id="serverList"></div>
             <div class="video-container mb-10"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div>
-            <div class="bg-white/5 p-10 rounded-[40px] border border-white/10 mb-16 shadow-2xl">
-                <h1 id="playerSubTitle" class="text-3xl md:text-6xl font-black italic mb-4">...</h1>
-                <p id="playerDesc" class="text-gray-300 text-xl leading-relaxed italic opacity-80">...</p>
-            </div>
             <h3 class="text-3xl font-black mb-10 flex items-center gap-4"><span class="w-2 h-10 bg-red-600 block"></span> قد يعجبك أيضاً</h3>
             <div id="recommendationsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8 text-center"></div>
         </main>
@@ -168,42 +146,29 @@
     <script>
         const API_KEY = 'a445c76d05e5d5697ad322b954897657';
         const BASE_URL = 'https://api.themoviedb.org/3';
-        const IMG_URL = 'https://image.tmdb.org/t/p/original';
         const IMG_W500 = 'https://image.tmdb.org/t/p/w500';
+        const IMG_ORIGINAL = 'https://image.tmdb.org/t/p/original';
         
         let currentType = 'movie'; 
         let currentPage = 1;
         let currentLanguage = '';
-        let globalBackdrop = '';
-        let currentEpisodesList = [];
-        let currentEpIndex = 0;
 
         window.onscroll = () => {
             const btn = document.getElementById('scrollTopBtn');
             if (window.scrollY > 500) btn.classList.add('show'); else btn.classList.remove('show');
         };
 
-        // --- البحث المباشر (Live Search) ---
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const query = e.target.value;
-            if (query.length > 2) {
-                fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${query}&language=ar-SA`)
-                .then(res => res.json()).then(data => {
-                    displayGrid(data.results, false);
-                    document.getElementById('gridTitle').innerText = `نتائج البحث عن: ${query}`;
-                });
-            }
-        });
-
+        // دالة جلب "قريباً" مع إصلاح الصور
         async function fetchComingSoon() {
             const res = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=ar-SA&primary_release_date.gte=2026-08-18&sort_by=primary_release_date.asc`);
             const data = await res.json();
             const grid = document.getElementById('comingSoonGrid');
             data.results.slice(0, 10).forEach(item => {
+                const img = item.poster_path ? IMG_W500 + item.poster_path : 'https://via.placeholder.com/500x750?text=SbaTa+Tv';
                 const card = document.createElement('div');
                 card.className = 'movie-card w-36 group';
-                card.onclick = () => openItem(item);
-                card.innerHTML = `<div class="relative rounded-2xl overflow-hidden aspect-[2/3] shadow-xl"><img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover"><div class="absolute top-2 left-2 bg-yellow-500 text-black text-[8px] font-black px-2 py-1 rounded">قريباً</div></div>`;
+                card.onclick = () => showDetails(item.id);
+                card.innerHTML = `<div class="relative rounded-2xl overflow-hidden aspect-[2/3] shadow-xl"><img src="${img}" class="w-full h-full object-cover"><div class="absolute top-2 left-2 bg-yellow-500 text-black text-[8px] font-black px-2 py-1 rounded">قريباً</div></div>`;
                 grid.appendChild(card);
             });
         }
@@ -221,97 +186,91 @@
             const grid = document.getElementById('movieGrid');
             if (!isAppend) grid.innerHTML = '';
             items.forEach(item => {
-                if (!item.poster_path) return;
+                const img = item.poster_path ? IMG_W500 + item.poster_path : 'https://via.placeholder.com/500x750?text=SbaTa+Tv';
                 const year = (item.release_date || item.first_air_date || "2026").split('-')[0];
                 const card = document.createElement('div');
                 card.className = 'movie-card group fade-in';
-                card.onclick = () => openItem(item);
-                card.innerHTML = `<div class="relative rounded-[20px] overflow-hidden aspect-[2/3] shadow-2xl border-2 border-transparent group-hover:border-red-600 transition-all"><img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover group-hover:scale-110 transition-transform"><div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-red-600 text-5xl">▶</div><div class="absolute top-2 right-2 bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded-md shadow-lg">${year}</div></div><h3 class="mt-4 text-xs font-bold truncate text-center">${item.title || item.name}</h3>`;
+                card.onclick = () => showDetails(item.id);
+                card.innerHTML = `<div class="relative rounded-[20px] overflow-hidden aspect-[2/3] shadow-2xl border-2 border-transparent group-hover:border-red-600 transition-all"><img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform"><div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-red-600 text-5xl">▶</div><div class="absolute top-2 right-2 bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded-md shadow-lg">${year}</div></div><h3 class="mt-4 text-xs font-bold truncate text-center">${item.title || item.name}</h3>`;
                 grid.appendChild(card);
             });
         }
 
-        async function updateHero(item) {
-            document.getElementById('heroImg').src = IMG_URL + (item.backdrop_path || item.poster_path);
+        function updateHero(item) {
+            const bg = item.backdrop_path ? IMG_ORIGINAL + item.backdrop_path : IMG_ORIGINAL + item.poster_path;
+            document.getElementById('heroImg').src = bg;
             document.getElementById('heroTitle').innerText = item.title || item.name;
-            document.getElementById('heroDesc').innerText = item.overview || "اكتشف أحدث العروض الحصرية.";
-            document.getElementById('heroPlayBtn').onclick = () => openItem(item);
-            
-            // جلب التريلر للهيرو
-            const videoRes = await fetch(`${BASE_URL}/${currentType}/${item.id}/videos?api_key=${API_KEY}`);
-            const videoData = await videoRes.json();
-            const trailer = videoData.results.find(v => v.type === 'Trailer');
-            document.getElementById('heroTrailerBtn').onclick = () => trailer ? playVideo(`https://www.youtube.com/embed/${trailer.key}`) : alert('التريلر غير متوفر');
+            document.getElementById('heroDesc').innerText = item.overview || "مشاهدة ممتعة على SbaTa Tv!";
+            // إصلاح زر شاهد الآن في الهيرو ليفتح التفاصيل
+            document.getElementById('heroPlayBtn').onclick = () => showDetails(item.id);
         }
 
-        function openItem(item) {
-            if(currentType === 'movie') setupServers(item.id, null, null, item.title, item.overview, item.vote_average);
-            else showTVDetails(item.id);
-        }
-
-        async function showTVDetails(tvId) {
-            const res = await fetch(`${BASE_URL}/tv/${tvId}?api_key=${API_KEY}&language=ar-SA&append_to_response=credits,videos`);
+        async function showDetails(id) {
+            const res = await fetch(`${BASE_URL}/${currentType}/${id}?api_key=${API_KEY}&language=ar-SA&append_to_response=videos`);
             const data = await res.json();
-            globalBackdrop = data.backdrop_path;
-            document.getElementById('detailPage').style.display = 'block';
-            document.getElementById('detailBg').src = IMG_URL + data.backdrop_path;
-            document.getElementById('detailPoster').src = IMG_W500 + data.poster_path;
-            document.getElementById('detailTitle').innerText = data.name;
-            document.getElementById('detailStory').innerText = data.overview;
             
-            // التريلر في صفحة التفاصيل
+            document.getElementById('detailPage').style.display = 'block';
+            document.getElementById('detailPage').scrollTo(0,0);
+            
+            const bg = data.backdrop_path ? IMG_ORIGINAL + data.backdrop_path : IMG_ORIGINAL + data.poster_path;
+            document.getElementById('detailBg').src = bg;
+            document.getElementById('detailPoster').src = IMG_W500 + data.poster_path;
+            document.getElementById('detailTitle').innerText = data.title || data.name;
+            document.getElementById('detailStory').innerText = data.overview || "وصف العمل غير متوفر حالياً.";
+
+            // التريلر (YouTube)
             const trailer = data.videos.results.find(v => v.type === 'Trailer');
-            document.getElementById('detailTrailerBtn').onclick = () => trailer ? playVideo(`https://www.youtube.com/embed/${trailer.key}`) : alert('التريلر غير متوفر');
+            const trailerBtn = document.getElementById('detailTrailerBtn');
+            if(trailer) {
+                trailerBtn.style.display = 'block';
+                trailerBtn.onclick = () => playVideo(`https://www.youtube.com/embed/${trailer.key}`);
+            } else {
+                trailerBtn.style.display = 'none';
+            }
 
-            // عرض الممثلين
-            const castGrid = document.getElementById('castGrid');
-            castGrid.innerHTML = '';
-            data.credits.cast.slice(0, 15).forEach(person => {
-                if(!person.profile_path) return;
-                castGrid.innerHTML += `<div class="cast-card"><img src="${IMG_W500 + person.profile_path}" class="cast-img"><p class="text-[10px] font-bold truncate">${person.name}</p></div>`;
-            });
+            // زر التشغيل المباشر
+            document.getElementById('detailPlayBtn').onclick = () => {
+                if(currentType === 'movie') setupServers(id, null, null, data.title);
+                else document.getElementById('seasonsHeading').scrollIntoView({behavior:'smooth'});
+            };
 
+            // معالجة المواسم إذا كان مسلسل
             const bar = document.getElementById('seasonsBar');
-            bar.innerHTML = '';
-            data.seasons.forEach(s => {
-                if(s.season_number === 0) return;
-                const btn = document.createElement('button');
-                btn.className = `server-btn season-nav-${s.season_number}`;
-                btn.innerText = s.name;
-                btn.onclick = (e) => {
-                    document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    loadEpisodes(tvId, s.season_number, data.name, data.vote_average);
-                };
-                bar.appendChild(btn);
-            });
-            document.querySelector('.season-nav-1')?.click();
+            const heading = document.getElementById('seasonsHeading');
+            if(currentType === 'tv') {
+                heading.style.display = 'flex';
+                bar.innerHTML = '';
+                data.seasons.forEach(s => {
+                    if(s.season_number === 0) return;
+                    const btn = document.createElement('button');
+                    btn.className = `server-btn season-nav-${s.season_number}`;
+                    btn.innerText = s.name;
+                    btn.onclick = (e) => {
+                        document.querySelectorAll('.season-btn').forEach(b => b.classList.remove('active'));
+                        loadEpisodes(id, s.season_number, data.name);
+                    };
+                    bar.appendChild(btn);
+                });
+                loadEpisodes(id, 1, data.name);
+            } else {
+                heading.style.display = 'none';
+                bar.innerHTML = '';
+                document.getElementById('episodesGrid').innerHTML = '';
+            }
         }
 
-        async function loadEpisodes(tvId, sNum, tvName, rate) {
+        async function loadEpisodes(tvId, sNum, tvName) {
             const res = await fetch(`${BASE_URL}/tv/${tvId}/season/${sNum}?api_key=${API_KEY}&language=ar-SA`);
             const data = await res.json();
-            currentEpisodesList = data.episodes;
             const grid = document.getElementById('episodesGrid');
             grid.innerHTML = '';
-            data.episodes.forEach((ep, index) => {
-                const epImg = ep.still_path ? (IMG_W500 + ep.still_path) : (IMG_W500 + globalBackdrop);
-                grid.innerHTML += `<div class="movie-card" onclick="startEpisode(${index}, ${tvId}, ${sNum}, '${tvName}')"><div class="relative aspect-video rounded-xl overflow-hidden border border-white/5"><img src="${epImg}" class="w-full h-full object-cover"></div><h4 class="mt-2 text-[10px] font-bold truncate text-center italic">حلقة ${ep.episode_number}</h4></div>`;
+            data.episodes.forEach(ep => {
+                const img = ep.still_path ? IMG_W500 + ep.still_path : IMG_W500 + data.poster_path;
+                grid.innerHTML += `<div class="movie-card" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - حلقة ${ep.episode_number}')"><div class="relative aspect-video rounded-xl overflow-hidden border border-white/5"><img src="${img}" class="w-full h-full object-cover"></div><h4 class="mt-2 text-[10px] font-bold truncate text-center">حلقة ${ep.episode_number}</h4></div>`;
             });
         }
 
-        function startEpisode(index, tvId, sNum, tvName) {
-            currentEpIndex = index;
-            const ep = currentEpisodesList[index];
-            setupServers(tvId, sNum, ep.episode_number, `${tvName} - حلقة ${ep.episode_number}`, ep.overview, 8.5);
-            
-            // تفعيل أزرار التنقل
-            document.getElementById('episodeNav').classList.remove('hidden');
-            document.getElementById('prevEp').onclick = () => index > 0 && startEpisode(index - 1, tvId, sNum, tvName);
-            document.getElementById('nextEp').onclick = () => index < currentEpisodesList.length - 1 && startEpisode(index + 1, tvId, sNum, tvName);
-        }
-
-        function setupServers(id, s, e, title, desc, rate) {
+        function setupServers(id, s, e, title) {
             const serverList = document.getElementById('serverList');
             serverList.innerHTML = '';
             const servers = [
@@ -326,25 +285,31 @@
                 btn.onclick = (ev) => { document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active')); ev.target.classList.add('active'); document.getElementById('videoPlayer').src = server.url; };
                 serverList.appendChild(btn);
             });
-            openPlayer(servers[0].url, title, desc, rate, id);
+            openPlayer(servers[0].url, title, id);
         }
 
-        function openPlayer(url, title, desc, rate, id) {
+        function openPlayer(url, title, id) {
             const page = document.getElementById('playerPage');
             document.getElementById('videoPlayer').src = url;
             document.getElementById('playerTitle').innerText = title;
-            document.getElementById('playerSubTitle').innerText = title;
-            document.getElementById('playerDesc').innerText = desc || "مشاهدة ممتعة!";
-            document.getElementById('playerRate').innerText = (rate || 7.5).toFixed(1);
             page.style.display = 'block'; page.scrollTo(0,0); document.body.style.overflow = 'hidden';
             fetchRecommendations(id);
         }
 
         function playVideo(url) {
-            const page = document.getElementById('playerPage');
+            document.getElementById('playerPage').style.display = 'block';
             document.getElementById('videoPlayer').src = url;
-            document.getElementById('episodeNav').classList.add('hidden');
-            page.style.display = 'block';
+            document.getElementById('playerTitle').innerText = "عرض التريلر الرسمي";
+        }
+
+        async function fetchRecommendations(id) {
+            const res = await fetch(`${BASE_URL}/${currentType}/${id}/similar?api_key=${API_KEY}&language=ar-SA`);
+            const data = await res.json();
+            const grid = document.getElementById('recommendationsGrid');
+            grid.innerHTML = '';
+            data.results.slice(0, 12).forEach(item => {
+                grid.innerHTML += `<div class="movie-card group text-center" onclick="closePlayer(); setTimeout(() => showDetails(${item.id}), 100)"><div class="relative rounded-xl overflow-hidden aspect-[2/3] shadow-lg border border-white/5"><img src="${IMG_W500 + item.poster_path}" class="w-full h-full object-cover"></div></div>`;
+            });
         }
 
         function closePlayer() { document.getElementById('playerPage').style.display = 'none'; document.getElementById('videoPlayer').src = ''; document.body.style.overflow = 'auto'; }
