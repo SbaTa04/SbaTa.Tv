@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SbaTa Tv | TOP PICKS 2026</title>
+    <title>SbaTa Tv | Golden Edition 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main-red: #e50914; --bg-dark: #050811; }
+        :root { --main-yellow: #facc15; --bg-dark: #050811; }
         body { background-color: var(--bg-dark); color: white; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
         /* تحسينات التلفاز والمنصات الكبيرة */
@@ -21,24 +21,24 @@
 
         ::-webkit-scrollbar { display: none; }
 
-        /* نظام الفوكس للتلفاز */
-        :focus { outline: 4px solid white !important; transform: scale(1.1) !important; z-index: 100; border-radius: 15px; box-shadow: 0 0 25px var(--main-red); }
+        /* نظام الفوكس للتلفاز باللون الأصفر */
+        :focus { outline: 4px solid var(--main-yellow) !important; transform: scale(1.1) !important; z-index: 100; border-radius: 15px; box-shadow: 0 0 30px var(--main-yellow); }
 
         #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 9999; display: none; overflow-y: auto; }
         
-        /* القائمة المنسدلة المصلحة */
+        /* القائمة المنسدلة الذهبية */
         .dropdown-content {
             display: none; position: absolute; top: 100%; right: 0;
             background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(25px);
-            border: 1px solid rgba(229, 9, 20, 0.5); border-radius: 12px;
+            border: 1px solid var(--main-yellow); border-radius: 12px;
             min-width: 200px; box-shadow: 0 20px 50px rgba(0,0,0,1);
             z-index: 5000; overflow: hidden;
         }
         .group:hover .dropdown-content { display: block; animation: fadeIn 0.3s ease; }
         .dropdown-item { padding: 12px 20px; display: block; font-size: 15px; font-weight: 700; color: #ccc; transition: 0.3s; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
-        .dropdown-item:hover { background: var(--main-red); color: white; padding-right: 30px; }
+        .dropdown-item:hover { background: var(--main-yellow); color: black; padding-right: 30px; }
 
-        /* أزرار السلايدر - نتفليكس ستايل */
+        /* أزرار السلايدر */
         .slider-btn {
             position: absolute; top: 0; bottom: 0; width: 50px;
             background: rgba(0,0,0,0.5); color: white; display: flex;
@@ -46,29 +46,34 @@
             cursor: pointer; opacity: 0; transition: 0.4s; border: none; font-size: 2rem;
         }
         .slider-container:hover .slider-btn { opacity: 1; }
-        .slider-btn:hover { background: rgba(0,0,0,0.8); color: var(--main-red); }
+        .slider-btn:hover { background: rgba(0,0,0,0.8); color: var(--main-yellow); }
         .btn-left { left: 0; border-radius: 0 15px 15px 0; } 
         .btn-right { right: 0; border-radius: 15px 0 0 15px; }
 
         .movie-card { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex-shrink: 0; width: 140px; outline: none; }
         
         .glass-nav { background: rgba(5, 8, 17, 0.96); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .logo-tv { background: var(--main-red); color: white; padding: 0 8px; border-radius: 6px; margin-right: 5px; font-style: italic; }
+        
+        /* اللوجو الأصفر */
+        .logo-tv { background: var(--main-yellow); color: black; padding: 0 8px; border-radius: 6px; margin-right: 5px; font-style: italic; }
 
-        .video-container { position: relative; width: 100%; background: #000; border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 9; border: 2px solid rgba(255, 255, 255, 0.1); }
+        .video-container { position: relative; width: 100%; background: #000; border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 9; border: 2px solid var(--main-yellow); }
         #videoPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
+    <!-- زر الأعلى الأصفر -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-10 right-10 z-[300] bg-yellow-400 text-black w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all opacity-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg></button>
+
     <!-- Navbar -->
     <nav class="fixed top-0 w-full z-[2000] px-4 md:px-12 py-3 flex flex-col md:flex-row justify-between items-center glass-nav gap-3">
         <div class="flex items-center justify-between w-full md:w-auto gap-8">
+            <!-- اللوجو الجديد -->
             <div class="text-2xl md:text-4xl font-black cursor-pointer tracking-tighter" onclick="location.reload()">SbaTa<span class="logo-tv">Tv</span></div>
             <div class="flex gap-6 items-center font-bold">
-                <!-- قائمة أفلام -->
                 <div class="group relative">
-                    <button class="text-red-600 text-sm md:text-xl px-2 py-1">أفلام ▾</button>
+                    <button class="text-yellow-400 text-sm md:text-xl px-2 py-1">أفلام ▾</button>
                     <div class="dropdown-content">
                         <div onclick="changeType('movie', '')" class="dropdown-item">✨ الأحدث 2026</div>
                         <div onclick="changeType('movie', 'ar')" class="dropdown-item">🎬 أفلام عربية</div>
@@ -76,9 +81,8 @@
                         <div onclick="changeType('movie', 'tr')" class="dropdown-item">🇹🇷 أفلام تركية</div>
                     </div>
                 </div>
-                <!-- قائمة مسلسلات -->
                 <div class="group relative">
-                    <button class="text-gray-400 hover:text-red-600 text-sm md:text-xl px-2 py-1">مسلسلات ▾</button>
+                    <button class="text-gray-400 hover:text-yellow-400 text-sm md:text-xl px-2 py-1 transition">مسلسلات ▾</button>
                     <div class="dropdown-content">
                         <div onclick="changeType('tv', '')" class="dropdown-item">✨ مسلسلات 2026</div>
                         <div onclick="changeType('tv', 'ar')" class="dropdown-item">🎬 مسلسلات عربية</div>
@@ -88,7 +92,7 @@
                 </div>
             </div>
         </div>
-        <input type="text" id="searchInput" placeholder="Search Original Titles..." class="bg-white/10 border-2 border-white/5 rounded-full px-6 py-1.5 text-lg outline-none focus:border-red-600 w-full md:w-[450px] text-white font-bold">
+        <input type="text" id="searchInput" placeholder="Search Original Titles..." class="bg-white/10 border-2 border-yellow-500/20 rounded-full px-8 py-1.5 text-lg outline-none focus:border-yellow-400 w-full md:w-[450px] text-white font-bold">
     </nav>
 
     <!-- الرئيسية -->
@@ -97,74 +101,75 @@
             <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-40">
             <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/30"></div>
             <div class="relative z-10 max-w-5xl text-right">
-                <h1 id="heroTitle" class="text-3xl md:text-8xl font-black mb-4 uppercase italic text-white tracking-tighter leading-none">...</h1>
+                <h1 id="heroTitle" class="text-3xl md:text-8xl font-black mb-4 uppercase italic drop-shadow-2xl text-white tracking-tighter leading-none">...</h1>
                 <p id="heroDesc" class="text-gray-200 text-sm md:text-2xl mb-8 line-clamp-3 font-bold italic max-w-4xl">...</p>
-                <button id="heroPlayBtn" class="bg-red-600 text-white px-10 py-3 md:px-16 md:py-5 rounded-2xl font-black text-xl md:text-3xl shadow-2xl hover:scale-110 transition">▶ شاهد الآن</button>
+                <button id="heroPlayBtn" class="bg-yellow-400 text-black px-12 py-4 md:px-16 md:py-5 rounded-2xl font-black text-xl md:text-3xl shadow-2xl hover:scale-110 transition">▶ WATCH NOW</button>
             </div>
         </header>
 
         <main class="px-6 md:px-24 pb-32 -mt-10 relative z-20">
             <!-- TOP PICKS Slider -->
             <section class="mb-16">
-                <h2 class="text-2xl md:text-4xl font-black mb-6 flex items-center gap-4 text-red-600 italic uppercase"><span class="w-2 h-10 bg-red-600 block shadow-[0_0_15px_red]"></span> TOP PICKS</h2>
+                <h2 class="text-2xl md:text-4xl font-black mb-6 flex items-center gap-4 text-yellow-400 italic uppercase"><span class="w-2 h-10 bg-yellow-400 block shadow-[0_0_15px_#facc15]"></span> TOP PICKS</h2>
                 <div class="slider-container relative group">
                     <button onclick="slide('topPicksGrid', -500)" class="slider-btn btn-left">❮</button>
-                    <div id="topPicksGrid" class="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar pb-6 scroll-smooth"></div>
+                    <div id="topPicksGrid" class="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar pb-4 scroll-smooth"></div>
                     <button onclick="slide('topPicksGrid', 500)" class="slider-btn btn-right">❯</button>
                 </div>
             </section>
 
             <!-- COMING SOON Slider -->
             <section class="mb-16">
-                <h2 class="text-2xl md:text-4xl font-black mb-6 flex items-center gap-4 text-yellow-500 uppercase italic"><span class="w-2 h-10 bg-yellow-500 block shadow-[0_0_15px_#fbbf24]"></span> COMING SOON</h2>
+                <h2 class="text-2xl md:text-4xl font-black mb-6 flex items-center gap-4 text-white uppercase italic"><span class="w-2 h-10 bg-white block shadow-[0_0_15px_white]"></span> COMING SOON</h2>
                 <div class="slider-container relative group">
                     <button onclick="slide('comingSoonGrid', -500)" class="slider-btn btn-left">❮</button>
-                    <div id="comingSoonGrid" class="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar pb-6 scroll-smooth"></div>
+                    <div id="comingSoonGrid" class="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar pb-4 scroll-smooth"></div>
                     <button onclick="slide('comingSoonGrid', 500)" class="slider-btn btn-right">❯</button>
                 </div>
             </section>
 
-            <h2 id="gridTitle" class="text-2xl md:text-5xl font-black mb-12 border-r-8 border-red-600 pr-6 uppercase tracking-widest italic">TRENDING</h2>
+            <h2 id="gridTitle" class="text-2xl md:text-5xl font-black mb-12 border-r-8 border-yellow-400 pr-6 uppercase tracking-widest italic">TRENDING</h2>
             <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 md:gap-10"></div>
-            <div class="flex justify-center mt-20"><button onclick="loadNextPage()" class="bg-white/5 border-2 border-white/10 text-white px-12 py-4 rounded-full font-black text-xl hover:bg-red-600 transition shadow-xl">تحميل المزيد ↓</button></div>
+            <div class="flex justify-center mt-20"><button onclick="loadNextPage()" class="bg-white/5 border-2 border-yellow-400/20 text-white px-12 py-4 rounded-full font-black text-2xl hover:bg-yellow-400 hover:text-black transition shadow-xl">Explore More ↓</button></div>
         </main>
     </div>
 
-    <!-- Detail & Player -->
+    <!-- Detail Page -->
     <div id="detailPage" class="fade-in pb-20">
-        <button onclick="closeDetails()" class="fixed top-24 left-8 z-[10000] bg-red-600 p-3 rounded-full text-2xl font-bold shadow-2xl">&times;</button>
+        <button onclick="closeDetails()" class="fixed top-24 left-8 z-[10000] bg-yellow-400 text-black p-3 rounded-full text-2xl font-bold shadow-2xl transition">&times;</button>
         <div class="relative min-h-[50vh] md:min-h-[70vh] flex items-end p-8 md:p-24">
             <img id="detailBg" src="" class="absolute inset-0 w-full h-full object-cover opacity-30">
             <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent"></div>
             <div class="relative z-10 flex flex-col md:flex-row gap-12 items-center w-full text-right">
-                <img id="detailPoster" src="" class="w-56 md:w-80 rounded-[40px] shadow-2xl border-4 border-white/10">
+                <img id="detailPoster" src="" class="w-56 md:w-80 rounded-[40px] shadow-2xl border-4 border-yellow-400/20">
                 <div class="flex-1">
                     <h1 id="detailTitle" class="text-3xl md:text-7xl font-black mb-4 uppercase italic text-white leading-tight">...</h1>
                     <p id="detailStory" class="text-gray-200 text-sm md:text-2xl leading-relaxed max-w-4xl font-bold italic mb-10">...</p>
                     <div class="flex gap-4 justify-center md:justify-start">
-                        <button id="detailPlayBtn" class="bg-red-600 text-white px-10 py-3 md:px-14 md:py-4 rounded-2xl font-black text-xl md:text-2xl shadow-2xl">▶ شاهد الآن</button>
+                        <button id="detailPlayBtn" class="bg-yellow-400 text-black px-10 py-3 md:px-14 md:py-4 rounded-2xl font-black text-xl md:text-2xl shadow-2xl hover:scale-110">▶ شاهد الآن</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="px-8 md:px-24 mt-16 text-right">
             <div id="episodesSection" class="hidden mb-20">
-                <div id="seasonsBar" class="flex gap-4 overflow-x-auto pb-4 no-scrollbar"></div>
-                <div id="episodesGrid" class="grid grid-cols-2 md:grid-cols-5 gap-6 mt-10"></div>
+                <div id="seasonsBar" class="flex gap-4 overflow-x-auto pb-4 no-scrollbar items-center"></div>
+                <div id="episodesGrid" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8 mt-10"></div>
             </div>
-            <h3 class="text-2xl md:text-4xl font-black mb-10 uppercase">Recommendations</h3>
-            <div id="similarGrid" class="grid grid-cols-3 md:grid-cols-8 gap-6"></div>
+            <h3 class="text-2xl md:text-4xl font-black mb-10 uppercase text-yellow-400">Recommendations</h3>
+            <div id="similarGrid" class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-6"></div>
         </div>
     </div>
 
+    <!-- Player Page -->
     <div id="playerPage" class="fade-in pb-20">
         <nav class="p-6 md:p-10 flex items-center justify-between bg-black/80 sticky top-0 z-[10000]">
-            <button onclick="closePlayer()" class="bg-red-600 px-8 py-2 rounded-2xl font-black text-lg">← BACK</button>
-            <h2 id="playerTitle" class="text-lg md:text-3xl font-bold truncate text-white uppercase px-6">...</h2>
+            <button onclick="closePlayer()" class="bg-yellow-400 text-black px-10 py-3 rounded-2xl font-black text-xl shadow-2xl hover:bg-white transition">← BACK</button>
+            <h2 id="playerTitle" class="text-lg md:text-3xl font-bold truncate text-white uppercase px-6 italic">...</h2>
         </nav>
         <main class="max-w-[1400px] mx-auto p-6 md:p-12">
-            <div id="serverList" class="flex gap-4 mb-8 overflow-x-auto no-scrollbar"></div>
-            <div class="video-container shadow-[0_0_100px_rgba(229,9,20,0.5)]"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div>
+            <div id="serverList" class="flex gap-4 mb-8 overflow-x-auto no-scrollbar font-black text-black"></div>
+            <div class="video-container shadow-[0_0_100px_rgba(250,204,21,0.2)]"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div>
         </main>
     </div>
 
@@ -182,21 +187,20 @@
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const q = e.target.value;
             if(q.length > 2) {
-                fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${q}&language=en-US`)
-                .then(r => r.json()).then(d => displayGrid(d.results, false));
+                fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${q}&language=ar-SA`)
+                .then(r => r.json()).then(d => displayGrid(data.results, false));
             }
         });
 
-        // جلب TOP PICKS وتثبيت Dead City (157018) وحذف المعطوب
         async function fetchTopPicks() {
-            const ids = [157018, 247885, 94997, 1399, 1396, 100088, 115036]; 
+            const ids = [157018, 247885, 94997, 1399, 1396, 115036]; 
             const grid = document.getElementById('topPicksGrid'); grid.innerHTML = '';
             for(let id of ids) {
                 try {
                     const res = await fetch(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=en-US`);
                     const item = await res.json();
                     if(item.poster_path) {
-                        grid.innerHTML += `<div class="movie-card group" tabindex="0" onclick="showDetails(${item.id}, 'tv')"><div class="relative rounded-[25px] overflow-hidden aspect-[2/3] shadow-2xl border-4 border-white/5 group-hover:border-red-600 transition-all"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover"></div></div>`;
+                        grid.innerHTML += `<div class="movie-card group" tabindex="0" onclick="openItemById(${item.id}, 'tv')"><div class="relative rounded-[25px] overflow-hidden aspect-[2/3] shadow-2xl border-4 border-white/5 group-hover:border-yellow-400 transition-all"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover"></div></div>`;
                     }
                 } catch(e) {}
             }
@@ -208,13 +212,12 @@
             const grid = document.getElementById('comingSoonGrid'); grid.innerHTML = '';
             data.results.forEach(item => {
                 if(!item.poster_path) return;
-                grid.innerHTML += `<div class="movie-card" tabindex="0" onclick="showDetails(${item.id}, 'movie')"><div class="relative rounded-[25px] overflow-hidden aspect-[2/3] shadow-2xl border-4 border-white/5"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover"></div></div>`;
+                grid.innerHTML += `<div class="movie-card coming-soon-card" tabindex="0" onclick="openItemById(${item.id}, 'movie')"><div class="relative rounded-[25px] overflow-hidden aspect-[2/3] shadow-2xl border-4 border-white/5 group-hover:border-yellow-400 transition-all"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover"></div></div>`;
             });
         }
 
         async function fetchContent(isAppend = false) {
             let url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&page=${currentPage}`;
-            if (currentLanguage) url += `&with_original_language=${currentLanguage}`;
             const res = await fetch(url);
             const data = await res.json();
             displayGrid(data.results, isAppend);
@@ -226,18 +229,19 @@
             items.forEach(item => {
                 if(!item.poster_path) return;
                 const title = item.original_title || item.original_name || item.title;
-                grid.innerHTML += `<div class="movie-card group w-full" tabindex="0" onclick="showDetails(${item.id}, '${currentType}')"><div class="relative rounded-[25px] overflow-hidden aspect-[2/3] shadow-2xl border-2 border-transparent group-hover:border-red-600 transition-all"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div><h3 class="mt-3 text-[12px] font-bold truncate text-center uppercase italic text-white/70">${title}</h3></div>`;
+                const year = (item.release_date || item.first_air_date || "2026").split('-')[0];
+                grid.innerHTML += `<div class="movie-card group w-full" tabindex="0" onclick="openItemById(${item.id}, '${currentType}')"><div class="relative rounded-[20px] overflow-hidden aspect-[2/3] shadow-2xl border-2 border-transparent group-hover:border-yellow-400 transition-all"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute top-3 right-3 bg-yellow-400 text-black text-[10px] font-black px-2 py-0.5 rounded-md">${year}</div></div><h3 class="mt-3 text-[12px] font-bold truncate text-center uppercase italic text-white/70">${title}</h3></div>`;
             });
         }
 
         function updateHero(item) {
             document.getElementById('heroImg').src = item.backdrop_path ? IMG_ORG + item.backdrop_path : IMG_ORG + item.poster_path;
             document.getElementById('heroTitle').innerText = item.original_title || item.original_name || item.title;
-            document.getElementById('heroDesc').innerText = item.overview || "Stream the best cinema experience on SbaTa Tv.";
-            document.getElementById('heroPlayBtn').onclick = () => showDetails(item.id, currentType);
+            document.getElementById('heroDesc').innerText = item.overview || "Stream the best original cinema only on SbaTa Tv.";
+            document.getElementById('heroPlayBtn').onclick = () => openItemById(item.id, currentType);
         }
 
-        async function showDetails(id, type) {
+        async function openItemById(id, type) {
             const res = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=ar-SA&append_to_response=similar`);
             const data = await res.json();
             const resEn = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=en-US`);
@@ -252,10 +256,10 @@
             const epSection = document.getElementById('episodesSection');
             if(type === 'tv') { epSection.classList.remove('hidden'); loadSeasons(data); } else { epSection.classList.add('hidden'); }
 
-            document.getElementById('detailPlayBtn').onclick = () => { if(type === 'movie') setupServers(id, null, null, dataEn.original_title); else document.getElementById('seasonsBar').scrollIntoView({behavior:'smooth'}); };
+            document.getElementById('detailPlayBtn').onclick = () => { if(type === 'movie') setupServers(id, null, null, dataEn.original_title || dataEn.title); else document.getElementById('seasonsBar').scrollIntoView({behavior:'smooth'}); };
 
             const simGrid = document.getElementById('similarGrid'); simGrid.innerHTML = '';
-            data.similar.results.slice(0, 16).forEach(s => { if(s.poster_path) simGrid.innerHTML += `<div class="movie-card group" tabindex="0" onclick="showDetails(${s.id}, '${type}')"><img src="${IMG_URL + s.poster_path}" class="rounded-[25px] w-full h-full object-cover shadow-2xl"></div>`; });
+            data.similar.results.slice(0, 16).forEach(s => { if(s.poster_path) simGrid.innerHTML += `<div class="movie-card group" tabindex="0" onclick="openItemById(${s.id}, '${type}')"><img src="${IMG_URL + s.poster_path}" class="rounded-[25px] w-full h-full object-cover shadow-2xl border-2 border-white/5 hover:border-yellow-400"></div>`; });
         }
 
         function loadSeasons(data) {
@@ -270,17 +274,16 @@
             const grid = document.getElementById('episodesGrid'); grid.innerHTML = '';
             data.episodes.forEach(ep => {
                 const img = ep.still_path ? IMG_URL + ep.still_path : 'https://via.placeholder.com/500x281?text=Episode';
-                grid.innerHTML += `<div class="movie-card w-full" tabindex="0" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName.toUpperCase()} - EP ${ep.episode_number}')"><div class="aspect-video rounded-[20px] overflow-hidden border-2 border-white/5 shadow-2xl"><img src="${img}" class="w-full h-full object-cover"></div><h4 class="mt-3 text-sm font-bold text-center uppercase">EP ${ep.episode_number}</h4></div>`;
+                grid.innerHTML += `<div class="movie-card w-full" tabindex="0" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName.toUpperCase()} - EP ${ep.episode_number}')"><div class="aspect-video rounded-[20px] overflow-hidden border-2 border-white/5 shadow-2xl group-hover:border-yellow-400"><img src="${img}" class="w-full h-full object-cover"></div><h4 class="mt-3 text-sm font-bold text-center uppercase">EP ${ep.episode_number}</h4></div>`;
             });
         }
 
         function setupServers(id, s, e, title) {
             const list = document.getElementById('serverList'); list.innerHTML = '';
             const isTV = s !== null;
-            // سيرفرات التلفاز VIP
-            const svs = [{n:'SERVER 1 (VIP)', u: isTV ? `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${s}&epi=${e}` : `https://vidsrc.me/embed/movie?tmdb=${id}`}, {n:'SERVER 2 (HD)', u: isTV ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}` : `https://vidsrc.to/embed/movie/${id}`}];
+            const svs = [{n:'VIP SERVER', u: isTV ? `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${s}&epi=${e}` : `https://vidsrc.me/embed/movie?tmdb=${id}`}, {n:'HD MIRROR', u: isTV ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}` : `https://vidsrc.to/embed/movie/${id}`}];
             svs.forEach((v, i) => {
-                const b = document.createElement('button'); b.className = `server-btn ${i===0?'active' : ''} text-lg px-8 py-3`; b.innerText = v.n; b.tabIndex="0";
+                const b = document.createElement('button'); b.className = `server-btn ${i===0?'active' : ''} text-black bg-yellow-400 font-black px-10 py-3`; b.innerText = v.n; b.tabIndex="0";
                 b.onclick = (event) => { document.querySelectorAll('.server-btn').forEach(x=>x.classList.remove('active')); event.target.classList.add('active'); document.getElementById('videoPlayer').src = v.u; };
                 list.appendChild(b);
             });
