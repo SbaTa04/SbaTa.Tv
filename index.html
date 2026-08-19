@@ -3,68 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SbaTa Tv | Universal Cinema 2026</title>
+    <title>SbaTa Tv | Cinema Pro 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-red: #e50914; --bg-dark: #050811; }
-        body { background-color: var(--bg-dark); color: white; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; scroll-behavior: smooth; font-size: 14px; }
+        body { background-color: var(--bg-dark); color: white; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; scroll-behavior: smooth; }
         
-        /* تحسينات التلفاز TV Box */
-        @media (min-width: 1024px) {
-            body { font-size: 16px; }
-            .hero-content { padding-bottom: 50px !important; }
-            .movie-card { width: 180px !important; }
-            h1 { font-size: 3rem !important; }
+        /* تحسين استجابة التلفاز */
+        @media (min-width: 1025px) {
+            .movie-card { width: 220px !important; }
+            .coming-soon-card { width: 280px !important; }
         }
 
         .fade-in { animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--main-red); border-radius: 10px; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        ::-webkit-scrollbar { display: none; }
 
-        /* نظام الفوكس للريموت */
-        :focus { outline: 3px solid white !important; transform: scale(1.05) !important; z-index: 50; }
+        /* نظام الفوكس للتلفاز */
+        :focus { outline: 4px solid white !important; transform: scale(1.1) !important; z-index: 100; border-radius: 15px; }
 
-        #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 200; display: none; overflow-y: auto; }
+        #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 9999; display: none; overflow-y: auto; }
         
-        .video-container { position: relative; width: 100%; background: #000; border-radius: 15px; overflow: hidden; aspect-ratio: 16 / 9; border: 1px solid rgba(255, 255, 255, 0.1); }
-        #videoPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-
-        .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background: #111; border: 1px solid #333; border-radius: 10px; min-width: 160px; z-index: 1000; }
-        .group:hover .dropdown-content { display: block; }
-        .dropdown-item { padding: 10px 15px; display: block; font-size: 13px; color: #ccc; cursor: pointer; text-align: right; }
+        /* القائمة المنسدلة الاحترافية */
+        .dropdown-content {
+            display: none; position: absolute; top: 100%; right: 0;
+            background: rgba(15, 15, 15, 0.98); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
+            min-width: 220px; box-shadow: 0 20px 50px rgba(0,0,0,1);
+            z-index: 5000; overflow: hidden;
+        }
+        .group:hover .dropdown-content { display: block; animation: fadeIn 0.3s ease; }
+        .dropdown-item { padding: 12px 20px; display: block; font-size: 15px; font-weight: 700; color: #ccc; transition: 0.3s; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
         .dropdown-item:hover { background: var(--main-red); color: white; }
 
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: rgba(0,0,0,0.8); color: white; border-radius: 50%; z-index: 10; display: flex; items-center; justify-content: center; cursor: pointer; border: 1px solid #333; }
-        .btn-left { left: 10px; } .btn-right { right: 10px; }
+        /* أزرار السلايدر - نتفليكس ستايل */
+        .slider-btn {
+            position: absolute; top: 0; bottom: 0; width: 60px;
+            background: rgba(0,0,0,0.5); color: white; display: flex;
+            align-items: center; justify-content: center; z-index: 50;
+            cursor: pointer; opacity: 0; transition: 0.4s; border: none; font-size: 2.5rem;
+        }
+        .slider-container:hover .slider-btn { opacity: 1; }
+        .slider-btn:hover { background: rgba(0,0,0,0.8); color: var(--main-red); }
+        .btn-left { left: 0; } .btn-right { right: 0; }
 
-        .logo-tv { background: var(--main-red); color: white; padding: 0 6px; border-radius: 4px; margin-right: 4px; }
-        .glass-nav { background: rgba(5, 8, 17, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .movie-card { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex-shrink: 0; width: 140px; }
+        .coming-soon-card { width: 180px; }
+
+        .glass-nav { background: rgba(5, 8, 17, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .logo-tv { background: var(--main-red); color: white; padding: 0 8px; border-radius: 6px; margin-right: 5px; font-style: italic; }
+
+        .video-container { position: relative; width: 100%; background: #000; border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 9; border: 2px solid rgba(255, 255, 255, 0.1); }
+        #videoPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
-    <!-- زر الأعلى -->
-    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 z-[300] bg-red-600 text-white w-10 h-10 rounded-full shadow-2xl flex items-center justify-center opacity-0 transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg></button>
-
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-[1000] px-4 md:px-12 py-3 flex flex-col md:flex-row justify-between items-center glass-nav gap-2">
-        <div class="flex items-center justify-between w-full md:w-auto gap-6">
-            <div class="text-xl md:text-2xl font-black cursor-pointer" onclick="location.reload()">SbaTa<span class="logo-tv">Tv</span></div>
-            <div class="flex gap-4 font-bold">
+    <nav class="fixed top-0 w-full z-[2000] px-4 md:px-12 py-4 flex flex-col md:flex-row justify-between items-center glass-nav gap-4">
+        <div class="flex items-center justify-between w-full md:w-auto gap-10">
+            <div class="text-3xl md:text-4xl font-black cursor-pointer tracking-tighter" onclick="location.reload()">SbaTa<span class="logo-tv">Tv</span></div>
+            <div class="flex gap-8 items-center font-bold">
                 <div class="group relative">
-                    <button class="text-red-600 text-sm md:text-base">أفلام ▾</button>
+                    <button class="text-red-600 text-lg md:text-xl">أفلام ▾</button>
                     <div class="dropdown-content">
+                        <div onclick="changeType('movie', '')" class="dropdown-item">✨ الأحدث 2026</div>
                         <div onclick="changeType('movie', 'ar')" class="dropdown-item">🎬 أفلام عربية</div>
                         <div onclick="changeType('movie', 'en')" class="dropdown-item">🇺🇸 أفلام أجنبية</div>
+                        <div onclick="changeType('movie', 'tr')" class="dropdown-item">🇹🇷 أفلام تركية</div>
                     </div>
                 </div>
                 <div class="group relative">
-                    <button class="text-gray-400 text-sm md:text-base">مسلسلات ▾</button>
+                    <button class="text-gray-400 hover:text-red-600 text-lg md:text-xl">مسلسلات ▾</button>
                     <div class="dropdown-content">
+                        <div onclick="changeType('tv', '')" class="dropdown-item">✨ مسلسلات 2026</div>
                         <div onclick="changeType('tv', 'ar')" class="dropdown-item">🎬 مسلسلات عربية</div>
                         <div onclick="changeType('tv', 'en')" class="dropdown-item">🇺🇸 مسلسلات أجنبية</div>
                         <div onclick="changeType('tv', 'tr')" class="dropdown-item">🇹🇷 مسلسلات تركية</div>
@@ -72,85 +86,83 @@
                 </div>
             </div>
         </div>
-        <input type="text" id="searchInput" placeholder="Search..." class="bg-white/10 border border-white/20 rounded-full px-4 py-1 text-sm outline-none focus:border-red-600 w-full md:w-64 text-white">
+        <input type="text" id="searchInput" placeholder="Search Original Titles..." class="bg-white/10 border-2 border-white/5 rounded-full px-8 py-2 text-lg outline-none focus:border-red-600 w-full md:w-[450px] text-white font-bold">
     </nav>
 
     <!-- Main Page -->
     <div id="homePage">
-        <header class="relative h-[55vh] md:h-[70vh] flex items-end p-6 md:p-20 pb-10 overflow-hidden">
+        <header class="relative h-[65vh] md:h-[85vh] flex items-end p-8 md:p-24 pb-20 overflow-hidden">
             <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-40">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/20"></div>
-            <div class="relative z-10 max-w-4xl text-right hero-content">
-                <h1 id="heroTitle" class="text-2xl md:text-6xl font-black mb-2 uppercase italic text-white leading-tight">...</h1>
-                <p id="heroDesc" class="text-gray-300 text-[10px] md:text-lg mb-4 line-clamp-2 md:line-clamp-3">...</p>
-                <button id="heroPlayBtn" class="bg-red-600 text-white px-6 py-2 md:px-10 md:py-3 rounded-lg font-black text-sm md:text-xl shadow-xl">▶ شاهد الآن</button>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/30"></div>
+            <div class="relative z-10 max-w-5xl text-right">
+                <h1 id="heroTitle" class="text-4xl md:text-8xl font-black mb-4 uppercase italic text-white tracking-tighter leading-none">...</h1>
+                <p id="heroDesc" class="text-gray-200 text-sm md:text-2xl mb-8 line-clamp-3 font-bold italic max-w-4xl leading-relaxed">...</p>
+                <button id="heroPlayBtn" class="bg-red-600 text-white px-12 py-4 md:px-20 md:py-6 rounded-2xl font-black text-xl md:text-3xl shadow-2xl hover:scale-110 transition">▶ شاهد الآن</button>
             </div>
         </header>
 
-        <main class="px-4 md:px-20 pb-20 -mt-5 relative z-20">
-            <!-- TOP PICKS -->
-            <section class="mb-10">
-                <h2 class="text-lg md:text-2xl font-black mb-4 flex items-center gap-2 text-red-600 uppercase italic"><span class="w-1 h-5 bg-red-600 block"></span> TOP PICKS</h2>
-                <div class="relative group slider-container">
-                    <div id="topPicksGrid" class="flex gap-3 overflow-x-auto no-scrollbar pb-2 scroll-smooth"></div>
-                    <div onclick="slide('topPicksGrid', -200)" class="slider-btn btn-left">❮</div>
-                    <div onclick="slide('topPicksGrid', 200)" class="slider-btn btn-right">❯</div>
+        <main class="px-6 md:px-24 pb-32 -mt-10 relative z-20">
+            <!-- TOP PICKS Slider -->
+            <section class="mb-16">
+                <h2 class="text-2xl md:text-4xl font-black mb-6 flex items-center gap-4 text-red-600 italic uppercase"><span class="w-2 h-10 bg-red-600 block shadow-[0_0_15px_red]"></span> TOP PICKS</h2>
+                <div class="slider-container relative group">
+                    <button onclick="slide('topPicksGrid', -500)" class="slider-btn btn-left">❮</button>
+                    <div id="topPicksGrid" class="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar pb-4 scroll-smooth"></div>
+                    <button onclick="slide('topPicksGrid', 500)" class="slider-btn btn-right">❯</button>
                 </div>
             </section>
 
-            <!-- COMING SOON -->
-            <section class="mb-10">
-                <h2 class="text-lg md:text-2xl font-black mb-4 flex items-center gap-2 text-yellow-500 uppercase italic"><span class="w-1 h-5 bg-yellow-500 block"></span> Coming Soon</h2>
-                <div class="relative group slider-container">
-                    <div id="comingSoonGrid" class="flex gap-3 overflow-x-auto no-scrollbar pb-2 scroll-smooth"></div>
-                    <div onclick="slide('comingSoonGrid', -200)" class="slider-btn btn-left">❮</div>
-                    <div onclick="slide('comingSoonGrid', 200)" class="slider-btn btn-right">❯</div>
+            <!-- COMING SOON Slider -->
+            <section class="mb-16">
+                <h2 class="text-2xl md:text-4xl font-black mb-6 flex items-center gap-4 text-yellow-500 uppercase italic"><span class="w-2 h-10 bg-yellow-500 block shadow-[0_0_15px_#fbbf24]"></span> COMING SOON</h2>
+                <div class="slider-container relative group">
+                    <button onclick="slide('comingSoonGrid', -500)" class="slider-btn btn-left">❮</button>
+                    <div id="comingSoonGrid" class="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar pb-4 scroll-smooth"></div>
+                    <button onclick="slide('comingSoonGrid', 500)" class="slider-btn btn-right">❯</button>
                 </div>
             </section>
 
-            <h2 id="gridTitle" class="text-lg md:text-2xl font-black mb-6 border-r-4 border-red-600 pr-3 uppercase">Trending</h2>
-            <div id="movieGrid" class="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-8 gap-4"></div>
-            <div class="flex justify-center mt-10"><button onclick="loadNextPage()" class="bg-white/5 border border-white/10 text-white px-8 py-2 rounded-full text-sm font-bold hover:bg-red-600 transition">تحميل المزيد ↓</button></div>
+            <h2 id="gridTitle" class="text-2xl md:text-5xl font-black mb-12 border-r-8 border-red-600 pr-6 uppercase tracking-widest italic">TRENDING</h2>
+            <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 md:gap-10"></div>
+            <div class="flex justify-center mt-20"><button onclick="loadNextPage()" class="bg-white/5 border-2 border-white/10 text-white px-12 py-4 rounded-full font-black text-2xl hover:bg-red-600 transition shadow-xl">تحميل المزيد ↓</button></div>
         </main>
     </div>
 
-    <!-- Detail Page -->
-    <div id="detailPage" class="fade-in pb-10">
-        <button onclick="closeDetails()" class="fixed top-20 left-4 z-[210] bg-black/50 p-2 rounded-full text-xl font-bold">&times;</button>
-        <div class="relative min-h-[40vh] md:min-h-[50vh] flex items-end p-6 md:p-12 overflow-hidden">
-            <img id="detailBg" src="" class="absolute inset-0 w-full h-full object-cover opacity-20">
-            <div class="relative z-10 flex flex-col md:flex-row gap-6 items-center w-full">
-                <img id="detailPoster" src="" class="w-32 md:w-56 rounded-xl shadow-2xl border border-white/10" onerror="this.src='https://via.placeholder.com/500x750?text=SbaTa+Tv'">
+    <!-- Detail & Player Pages remain standard but fixed -->
+    <div id="detailPage" class="fade-in pb-20">
+        <button onclick="closeDetails()" class="fixed top-24 left-8 z-[10000] bg-red-600 p-4 rounded-full text-3xl font-bold transition shadow-2xl">&times;</button>
+        <div class="relative min-h-[50vh] md:min-h-[70vh] flex items-end p-8 md:p-24">
+            <img id="detailBg" src="" class="absolute inset-0 w-full h-full object-cover opacity-30">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent"></div>
+            <div class="relative z-10 flex flex-col md:flex-row gap-12 items-center w-full">
+                <img id="detailPoster" src="" class="w-56 md:w-80 rounded-[40px] shadow-2xl border-4 border-white/10">
                 <div class="text-center md:text-right flex-1">
-                    <h1 id="detailTitle" class="text-xl md:text-5xl font-black mb-2 uppercase text-white">...</h1>
-                    <p id="detailStory" class="text-gray-300 text-[10px] md:text-base mb-4 leading-relaxed max-w-3xl font-bold">...</p>
-                    <div class="flex gap-3 justify-center md:justify-start">
-                        <button id="detailPlayBtn" class="bg-red-600 text-white px-6 py-2 rounded-lg font-black text-sm">▶ مشاهدة</button>
-                        <button id="detailTrailerBtn" class="bg-white/10 text-white px-6 py-2 rounded-lg font-black text-sm">🎞️ التريلر</button>
+                    <h1 id="detailTitle" class="text-3xl md:text-7xl font-black mb-4 uppercase italic text-white leading-none">...</h1>
+                    <p id="detailStory" class="text-gray-200 text-lg md:text-2xl leading-relaxed max-w-4xl font-bold italic mb-10">...</p>
+                    <div class="flex gap-6 justify-center md:justify-start">
+                        <button id="detailPlayBtn" class="bg-red-600 text-white px-12 py-4 rounded-2xl font-black text-xl md:text-3xl shadow-2xl hover:scale-110">▶ WATCH NOW</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="px-6 md:px-12 mt-6">
-            <div id="episodesSection" class="hidden mb-6">
-                <h3 class="text-lg font-black mb-4">Episodes</h3>
-                <div id="seasonsBar" class="flex gap-2 overflow-x-auto pb-2 no-scrollbar"></div>
-                <div id="episodesGrid" class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-4"></div>
+        <div class="px-8 md:px-24 mt-16 text-right">
+            <div id="episodesSection" class="hidden mb-20">
+                <div id="seasonsBar" class="flex gap-4 overflow-x-auto pb-4 no-scrollbar items-center"></div>
+                <div id="episodesGrid" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8 mt-10"></div>
             </div>
-            <h3 class="text-lg font-black mb-4 uppercase">Recommendations</h3>
-            <div id="similarGrid" class="grid grid-cols-3 md:grid-cols-8 gap-3"></div>
+            <h3 class="text-2xl md:text-4xl font-black mb-10 uppercase">Recommendations</h3>
+            <div id="similarGrid" class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-6"></div>
         </div>
     </div>
 
-    <!-- Player Page -->
-    <div id="playerPage" class="fade-in pb-10">
-        <nav class="p-3 flex items-center justify-between bg-black/80 sticky top-0 z-[250]">
-            <button onclick="closePlayer()" class="bg-red-600 px-4 py-1 rounded-lg font-black text-xs">← BACK</button>
-            <h2 id="playerTitle" class="text-xs md:text-base font-bold truncate text-white uppercase px-2">...</h2>
+    <div id="playerPage" class="fade-in pb-20">
+        <nav class="p-6 md:p-10 flex items-center justify-between bg-black/80 sticky top-0 z-[10000]">
+            <button onclick="closePlayer()" class="bg-red-600 px-10 py-3 rounded-2xl font-black text-xl shadow-2xl">← BACK</button>
+            <h2 id="playerTitle" class="text-xl md:text-3xl font-bold truncate text-white uppercase px-6">...</h2>
         </nav>
-        <main class="max-w-[1200px] mx-auto p-4">
-            <div id="serverList" class="flex gap-2 mb-4 overflow-x-auto no-scrollbar"></div>
-            <div class="video-container"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div>
+        <main class="max-w-[1400px] mx-auto p-6 md:p-12">
+            <div id="serverList" class="flex gap-4 mb-8 overflow-x-auto no-scrollbar font-black"></div>
+            <div class="video-container shadow-[0_0_100px_rgba(229,9,20,0.5)]"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div>
         </main>
     </div>
 
@@ -166,19 +178,21 @@
         function slide(id, amt) { document.getElementById(id).scrollBy({left: amt, behavior: 'smooth'}); }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
-            if(e.target.value.length > 2) {
-                fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${e.target.value}&language=en-US`)
+            const q = e.target.value;
+            if(q.length > 2) {
+                fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${q}&language=en-US`)
                 .then(r => r.json()).then(d => displayGrid(d.results, false));
             }
         });
 
+        // جلب TOP PICKS وتثبيت Dead City
         async function fetchTopPicks() {
-            const ids = [157018, 247885, 1399, 1396, 94997]; // Dead City is FIRST
+            const ids = [157018, 247885, 1399, 1396, 94997, 71446, 60625]; 
             const grid = document.getElementById('topPicksGrid'); grid.innerHTML = '';
             for(let id of ids) {
                 const res = await fetch(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=en-US`);
                 const item = await res.json();
-                grid.innerHTML += `<div class="movie-card" tabindex="0" onclick="showDetails(${item.id}, 'tv')"><img src="${IMG_URL + item.poster_path}" class="rounded-xl w-full aspect-[2/3] object-cover shadow-lg border border-white/10"></div>`;
+                grid.innerHTML += `<div class="movie-card group" tabindex="0" onclick="showDetails(${item.id}, 'tv')"><div class="relative rounded-[25px] overflow-hidden aspect-[2/3] shadow-2xl border-4 border-white/5 group-hover:border-red-600 transition-all"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover"></div></div>`;
             }
         }
 
@@ -188,12 +202,12 @@
             const grid = document.getElementById('comingSoonGrid'); grid.innerHTML = '';
             data.results.forEach(item => {
                 if(!item.poster_path) return;
-                grid.innerHTML += `<div class="movie-card" tabindex="0" onclick="showDetails(${item.id}, 'movie')"><img src="${IMG_URL + item.poster_path}" class="rounded-xl w-full aspect-[2/3] object-cover shadow-lg border border-white/10"></div>`;
+                grid.innerHTML += `<div class="movie-card coming-soon-card" tabindex="0" onclick="showDetails(${item.id}, 'movie')"><div class="relative rounded-[25px] overflow-hidden aspect-[2/3] shadow-2xl border-4 border-white/5"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover"></div><h4 class="mt-4 text-xs font-bold text-center uppercase italic opacity-60">${item.original_title}</h4></div>`;
             });
         }
 
         async function fetchContent(isAppend = false) {
-            let url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&language=ar-SA&sort_by=popularity.desc&page=${currentPage}`;
+            let url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&page=${currentPage}`;
             if (currentLanguage) url += `&with_original_language=${currentLanguage}`;
             const res = await fetch(url);
             const data = await res.json();
@@ -206,14 +220,14 @@
             items.forEach(item => {
                 if(!item.poster_path) return;
                 const title = item.original_title || item.original_name || item.title;
-                grid.innerHTML += `<div class="movie-card group" tabindex="0" onclick="showDetails(${item.id}, '${currentType}')"><img src="${IMG_URL + item.poster_path}" class="rounded-xl w-full aspect-[2/3] object-cover shadow-lg border border-white/10"><h3 class="mt-2 text-[10px] font-bold truncate text-center uppercase text-white/70">${title}</h3></div>`;
+                grid.innerHTML += `<div class="movie-card group w-full" tabindex="0" onclick="showDetails(${item.id}, '${currentType}')"><div class="relative rounded-[20px] overflow-hidden aspect-[2/3] shadow-2xl border-2 border-transparent group-hover:border-red-600 transition-all"><img src="${IMG_URL + item.poster_path}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div><h3 class="mt-3 text-xs font-bold truncate text-center uppercase italic text-white/70">${title}</h3></div>`;
             });
         }
 
         function updateHero(item) {
             document.getElementById('heroImg').src = item.backdrop_path ? IMG_ORG + item.backdrop_path : IMG_ORG + item.poster_path;
             document.getElementById('heroTitle').innerText = item.original_title || item.original_name || item.title;
-            document.getElementById('heroDesc').innerText = item.overview || "Enjoy watching on SbaTa Tv.";
+            document.getElementById('heroDesc').innerText = item.overview || "World-class entertainment on SbaTa Tv.";
             document.getElementById('heroPlayBtn').onclick = () => showDetails(item.id, currentType);
         }
 
@@ -232,19 +246,15 @@
             const epSection = document.getElementById('episodesSection');
             if(type === 'tv') { epSection.classList.remove('hidden'); loadSeasons(data); } else { epSection.classList.add('hidden'); }
 
-            const trailer = data.videos.results.find(v => v.type === 'Trailer');
-            const tBtn = document.getElementById('detailTrailerBtn');
-            if(trailer) { tBtn.style.display = "block"; tBtn.onclick = () => { openPlayer(`https://www.youtube.com/embed/${trailer.key}`, "TRAILER"); }; } else { tBtn.style.display = "none"; }
-            
             document.getElementById('detailPlayBtn').onclick = () => { if(type === 'movie') setupServers(id, null, null, dataEn.original_title); else document.getElementById('seasonsBar').scrollIntoView({behavior:'smooth'}); };
 
             const simGrid = document.getElementById('similarGrid'); simGrid.innerHTML = '';
-            data.similar.results.slice(0, 16).forEach(s => { if(s.poster_path) simGrid.innerHTML += `<div class="movie-card group" tabindex="0" onclick="showDetails(${s.id}, '${type}')"><img src="${IMG_URL + s.poster_path}" class="rounded-xl w-full h-full object-cover shadow-lg border border-white/10"></div>`; });
+            data.similar.results.slice(0, 16).forEach(s => { if(s.poster_path) simGrid.innerHTML += `<div class="movie-card group" tabindex="0" onclick="showDetails(${s.id}, '${type}')"><img src="${IMG_URL + s.poster_path}" class="rounded-[25px] w-full h-full object-cover shadow-2xl"></div>`; });
         }
 
         function loadSeasons(data) {
             const bar = document.getElementById('seasonsBar'); bar.innerHTML = '';
-            data.seasons.forEach(s => { if(s.season_number === 0) return; const btn = document.createElement('button'); btn.className = "server-btn"; btn.innerText = s.name; btn.tabIndex="0"; btn.onclick = () => loadEpisodes(data.id, s.season_number, data.original_name || data.name); bar.appendChild(btn); });
+            data.seasons.forEach(s => { if(s.season_number === 0) return; const btn = document.createElement('button'); btn.className = "server-btn text-xl px-10 py-4"; btn.innerText = s.name; btn.tabIndex="0"; btn.onclick = () => loadEpisodes(data.id, s.season_number, data.original_name || data.name); bar.appendChild(btn); });
             loadEpisodes(data.id, data.seasons[data.seasons.length-1].season_number, data.original_name || data.name);
         }
 
@@ -254,17 +264,16 @@
             const grid = document.getElementById('episodesGrid'); grid.innerHTML = '';
             data.episodes.forEach(ep => {
                 const img = ep.still_path ? IMG_URL + ep.still_path : 'https://via.placeholder.com/500x281?text=Episode';
-                grid.innerHTML += `<div class="movie-card" tabindex="0" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - Ep ${ep.episode_number}')"><img src="${img}" class="rounded-xl w-full aspect-video object-cover"><h4 class="mt-2 text-[10px] font-bold text-center uppercase">EP ${ep.episode_number}</h4></div>`;
+                grid.innerHTML += `<div class="movie-card w-full" tabindex="0" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName.toUpperCase()} - EP ${ep.episode_number}')"><div class="aspect-video rounded-[20px] overflow-hidden border-2 border-white/5 shadow-2xl"><img src="${img}" class="w-full h-full object-cover"></div><h4 class="mt-4 text-xs font-bold text-center uppercase">EP ${ep.episode_number}</h4></div>`;
             });
         }
 
         function setupServers(id, s, e, title) {
             const list = document.getElementById('serverList'); list.innerHTML = '';
             const isTV = s !== null;
-            // استخدام سيرفرات ثابتة جداً للتلفاز
-            const svs = [{n:'S1', u: isTV ? `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${s}&epi=${e}` : `https://vidsrc.me/embed/movie?tmdb=${id}`}, {n:'S2', u: isTV ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}` : `https://vidsrc.to/embed/movie/${id}`}];
+            const svs = [{n:'S1 (VIP)', u: isTV ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}` : `https://vidsrc.to/embed/movie/${id}`}, {n:'S2 (HD)', u: isTV ? `https://embed.su/embed/tv/${id}/${s}/${e}` : `https://embed.su/embed/movie/${id}`}];
             svs.forEach((v, i) => {
-                const b = document.createElement('button'); b.className = `server-btn ${i===0?'active' : ''}`; b.innerText = v.n; b.tabIndex="0";
+                const b = document.createElement('button'); b.className = `server-btn ${i===0?'active' : ''} text-xl px-12 py-5`; b.innerText = v.n; b.tabIndex="0";
                 b.onclick = (event) => { document.querySelectorAll('.server-btn').forEach(x=>x.classList.remove('active')); event.target.classList.add('active'); document.getElementById('videoPlayer').src = v.u; };
                 list.appendChild(b);
             });
@@ -273,7 +282,7 @@
 
         function openPlayer(url, title) { document.getElementById('playerPage').style.display = 'block'; document.getElementById('videoPlayer').src = url; document.getElementById('playerTitle').innerText = title; }
         function closePlayer() { document.getElementById('playerPage').style.display='none'; document.getElementById('videoPlayer').src=''; }
-        function closeDetails() { document.getElementById('detailPage').style.display='none'; }
+        function closeDetails() { document.getElementById('detailPage').style.display='none'; document.body.style.overflow = 'auto'; }
         function changeType(t, l) { currentType=t; currentLanguage=l; currentPage=1; fetchContent(); }
         function loadNextPage() { currentPage++; fetchContent(true); }
 
