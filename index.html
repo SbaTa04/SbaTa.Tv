@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SbaTa Tv | Golden Edition 2026</title>
+    <title>SbaTa Tv | Golden Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -15,117 +15,79 @@
 
         ::-webkit-scrollbar { display: none; }
         *:focus { outline: none !important; }
-        *:focus-visible { outline: 3px solid var(--main-yellow) !important; outline-offset: 4px; transform: scale(1.05) !important; z-index: 100; box-shadow: 0 0 30px var(--main-yellow); border-radius: 15px; }
+        *:focus-visible { outline: 3px solid var(--main-yellow) !important; outline-offset: 4px; border-radius: 10px; }
 
-        #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 9999; display: none; overflow-y: auto; scroll-behavior: smooth; }
+        #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 9999; display: none; overflow-y: auto; }
         
-        .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(25px); border: 1px solid var(--main-yellow); border-radius: 12px; min-width: 180px; z-index: 5000; overflow: hidden; }
-        .group:hover .dropdown-content { display: block; }
-        .dropdown-item { padding: 12px 20px; display: block; font-size: 14px; font-weight: 800; color: #fff; transition: 0.3s; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
-        .dropdown-item:hover { background: var(--main-yellow); color: black; }
-
-        .slider-btn { position: absolute; top: 0; bottom: 0; width: 45px; background: rgba(0,0,0,0.6); color: var(--main-yellow); display: flex; align-items: center; justify-content: center; z-index: 50; cursor: pointer; opacity: 0; transition: 0.4s; border: none; font-size: 2rem; }
-        .slider-container:hover .slider-btn { opacity: 1; }
-        .slider-btn:hover { background: rgba(0,0,0,0.8); }
-        .btn-left { left: 0; border-radius: 0 20px 20px 0; } .btn-right { right: 0; border-radius: 20px 0 0 15px; }
-
-        .movie-card { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex-shrink: 0; width: 140px; outline: none; }
-        @media (min-width: 1025px) { .movie-card { width: 190px !important; } }
-
         .logo-tv { background: var(--main-yellow); color: black; padding: 0 8px; border-radius: 6px; margin-right: 5px; font-weight: 900; }
         .glass-nav { background: rgba(5, 8, 17, 0.96); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+        .movie-card { transition: 0.3s; cursor: pointer; flex-shrink: 0; outline: none; }
+        .movie-card:hover { transform: scale(1.05); }
+
+        /* ستايل الممثلين الدائري كما في الرسم */
+        .cast-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--main-yellow); margin-bottom: 5px; }
+        
+        /* أزرار السيرفرات والمواسم */
+        .btn-gold { background: var(--main-yellow); color: black; font-weight: 800; padding: 10px 20px; border-radius: 12px; transition: 0.3s; }
+        .btn-gold:hover { transform: scale(1.05); opacity: 0.9; }
+
         .video-container { position: relative; width: 100%; background: #000; border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 9; border: 2px solid var(--main-yellow); }
         #videoPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        
-        .cast-img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 2px solid var(--main-yellow); margin: 0 auto 5px; }
-        .btn-gold { background: var(--main-yellow); color: black; font-weight: 900; padding: 10px 25px; border-radius: 12px; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
     </style>
 </head>
 <body>
 
-    <!-- زر الأعلى -->
-    <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-10 right-10 z-[300] bg-yellow-400 text-black w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all opacity-0 hover:scale-110"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg></button>
-
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-[2000] px-4 md:px-12 py-3 flex flex-col md:flex-row justify-between items-center glass-nav gap-2">
-        <div class="flex items-center justify-between w-full md:w-auto gap-6">
-            <div class="text-2xl md:text-3xl font-black cursor-pointer tracking-tighter shrink-0" onclick="location.reload()">SbaTa<span class="logo-tv">Tv</span></div>
-            <div class="flex gap-6 items-center font-bold">
-                <div class="group relative">
-                    <button class="text-yellow-400 text-sm md:text-xl px-2 py-1">أفلام ▾</button>
-                    <div class="dropdown-content">
-                        <div onclick="changeType('movie', 'ar')" class="dropdown-item">🎬 عربية</div>
-                        <div onclick="changeType('movie', 'en')" class="dropdown-item">🇺🇸 أجنبية</div>
-                    </div>
-                </div>
-                <div class="group relative">
-                    <button class="text-gray-400 hover:text-yellow-400 text-sm md:text-xl px-2 py-1 transition">مسلسلات ▾</button>
-                    <div class="dropdown-content">
-                        <div onclick="changeType('tv', 'ar')" class="dropdown-item">🎬 عربية</div>
-                        <div onclick="changeType('tv', 'en')" class="dropdown-item">🇺🇸 أجنبية</div>
-                        <div onclick="changeType('tv', 'tr')" class="dropdown-item">🇹🇷 تركية</div>
-                    </div>
-                </div>
+    <nav class="fixed top-0 w-full z-[1000] px-4 md:px-12 py-3 flex flex-col md:flex-row justify-between items-center glass-nav gap-2">
+        <div class="flex items-center justify-between w-full md:w-auto gap-8">
+            <div class="text-2xl md:text-3xl font-black cursor-pointer tracking-tighter" onclick="location.reload()">SbaTa<span class="logo-tv">Tv</span></div>
+            <div class="flex gap-6 font-bold">
+                <button onclick="changeType('movie', 'en')" class="text-yellow-400 text-sm md:text-base">MOVIES</button>
+                <button onclick="changeType('tv', 'en')" class="text-gray-400 hover:text-yellow-400 text-sm md:text-base transition">SERIES</button>
             </div>
         </div>
-        <input type="text" id="searchInput" placeholder="ابحث عن العناوين الأصلية..." class="bg-white/10 border border-yellow-400/30 rounded-full px-5 py-1 text-sm outline-none focus:border-yellow-400 w-full md:w-80 text-white font-bold transition-all">
+        <input type="text" id="searchInput" placeholder="Search original titles..." class="bg-white/10 border border-yellow-400/30 rounded-full px-5 py-1 text-sm outline-none focus:border-yellow-400 w-full md:w-80 text-white font-bold">
     </nav>
 
     <!-- الرئيسية -->
     <div id="homePage">
-        <header id="mainHero" class="relative h-[60vh] md:h-[80vh] flex items-end p-8 md:p-20 pb-12 overflow-hidden text-right">
+        <header class="relative h-[60vh] md:h-[75vh] flex items-end p-8 md:p-20 pb-12 overflow-hidden">
             <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-40">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/30 text-right"></div>
-            <div class="relative z-10 max-w-4xl">
-                <h1 id="heroTitle" class="text-3xl md:text-7xl font-black mb-2 uppercase italic drop-shadow-2xl text-white">...</h1>
-                <p id="heroDesc" class="text-gray-300 text-sm md:text-xl mb-4 line-clamp-2 font-bold italic">...</p>
-                <button id="heroPlayBtn" class="btn-gold text-lg md:text-2xl px-12 shadow-2xl">▶ شاهد الآن</button>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/30"></div>
+            <div class="relative z-10 max-w-4xl text-right">
+                <h1 id="heroTitle" class="text-3xl md:text-7xl font-black mb-2 uppercase italic drop-shadow-2xl text-white tracking-tighter">...</h1>
+                <p id="heroDesc" class="text-gray-300 text-sm md:text-lg mb-4 line-clamp-3 font-bold italic">...</p>
+                <button id="heroPlayBtn" class="btn-gold text-lg md:text-2xl px-12 shadow-2xl">▶ WATCH NOW</button>
             </div>
         </header>
 
-        <main class="px-4 md:px-20 pb-20 -mt-10 relative z-20">
-            <div id="homeSections">
-                <!-- TRENDING -->
-                <section class="mb-14">
-                    <h2 class="text-xl md:text-3xl font-black mb-6 flex items-center gap-3 text-yellow-400 uppercase italic"><span class="w-1.5 h-8 bg-yellow-400 block shadow-[0_0_15px_#facc15]"></span> TRENDING</h2>
-                    <div class="relative group slider-container">
-                        <div id="trendingGrid" class="flex gap-4 overflow-x-auto no-scrollbar pb-2 scroll-smooth"></div>
-                        <div onclick="slide('trendingGrid', -400)" class="slider-btn btn-left">❮</div>
-                        <div onclick="slide('trendingGrid', 400)" class="slider-btn btn-right">❯</div>
-                    </div>
-                </section>
-                <!-- TOP PICKS -->
-                <section class="mb-14">
-                    <h2 class="text-xl md:text-3xl font-black mb-6 flex items-center gap-3 text-yellow-400 uppercase italic"><span class="w-1.5 h-8 bg-yellow-400 block shadow-[0_0_15px_#facc15]"></span> TOP PICKS</h2>
-                    <div class="relative group slider-container">
-                        <div id="topPicksGrid" class="flex gap-4 overflow-x-auto no-scrollbar pb-2 scroll-smooth"></div>
-                        <div onclick="slide('topPicksGrid', -400)" class="slider-btn btn-left">❮</div>
-                        <div onclick="slide('topPicksGrid', 400)" class="slider-btn btn-right">❯</div>
-                    </div>
-                </section>
-            </div>
-            <h2 id="gridTitle" class="text-xl md:text-4xl font-black mb-10 border-r-8 border-yellow-400 pr-4 italic uppercase">Movies</h2>
+        <main class="px-4 md:px-20 pb-20 mt-10 relative z-20">
+            <h2 id="gridTitle" class="text-xl md:text-3xl font-black mb-8 border-r-8 border-yellow-400 pr-4 uppercase italic">Trending Now</h2>
             <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4"></div>
-            <div class="flex justify-center mt-20" id="loadMoreArea"><button onclick="loadNextPage()" class="bg-white/5 border border-yellow-400/20 text-white px-10 py-3 rounded-full font-bold hover:bg-yellow-400 hover:text-black transition shadow-xl">تحميل المزيد ↓</button></div>
+            <div class="flex justify-center mt-16"><button onclick="loadNextPage()" class="bg-white/5 border border-yellow-400/20 text-white px-10 py-3 rounded-full font-bold hover:bg-yellow-400 hover:text-black transition">Explore More ↓</button></div>
         </main>
     </div>
 
-    <!-- صفحة التفاصيل (إصلاح الفراغات ونظام الرسم اليدوي) -->
+    <!-- صفحة التفاصيل (بناءً على رسمك اليدوي) -->
     <div id="detailPage" class="fade-in pb-20">
-        <button onclick="closeDetails()" class="fixed top-20 right-4 z-[10000] btn-gold px-6 shadow-2xl">رجوع</button>
-        <div id="detailDynamicContent"></div>
+        <!-- زر الرجوع (أعلى اليمين كما في الرسم) -->
+        <button onclick="closeDetails()" class="fixed top-20 right-6 z-[10000] btn-gold px-6 py-2 shadow-2xl">رجوع</button>
+        
+        <div id="detailDynamicContent">
+            <!-- سيتم ملؤه ديناميكياً بناءً على الفيلم/المسلسل -->
+        </div>
     </div>
 
-    <!-- صفحة المشغل (إصلاح الفراغات) -->
+    <!-- المشغل -->
     <div id="playerPage" class="fade-in pb-20">
-        <nav class="p-4 md:px-12 flex items-center justify-between bg-black/80 sticky top-0 z-[10000]">
+        <nav class="p-4 flex items-center justify-between bg-black/80 sticky top-0 z-[10000]">
             <button onclick="closePlayer()" class="btn-gold px-6 py-1 text-sm">رجوع</button>
-            <h2 id="playerTitle" class="text-sm md:text-xl font-bold truncate text-white uppercase px-4 italic">...</h2>
+            <h2 id="playerTitle" class="text-sm md:text-xl font-bold truncate text-white uppercase italic px-4">...</h2>
         </nav>
-        <main class="max-w-[1400px] mx-auto p-4 md:p-8">
-            <div id="serverList" class="flex gap-3 mb-6 overflow-x-auto no-scrollbar font-black text-black"></div>
-            <div class="video-container mb-10"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div>
-            <div id="playerInfoArea"></div>
+        <main class="max-w-[1200px] mx-auto p-4">
+            <div id="serverList" class="flex gap-2 mb-4 overflow-x-auto no-scrollbar font-black text-black"></div>
+            <div class="video-container"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div>
         </main>
     </div>
 
@@ -135,45 +97,15 @@
         const IMG_URL = 'https://image.tmdb.org/t/p/w500';
         const IMG_ORG = 'https://image.tmdb.org/t/p/original';
         
-        let currentType = 'movie', currentPage = 1, currentLanguage = '';
+        let currentType = 'movie', currentPage = 1;
 
-        window.onscroll = () => { document.getElementById('scrollTopBtn').style.opacity = window.scrollY > 500 ? "1" : "0"; };
-        function slide(id, amt) { document.getElementById(id).scrollBy({left: amt, behavior: 'smooth'}); }
-
-        // إصلاح البحث المباشر ليعمل فوراً ويظهر في المقدمة
+        // البحث المباشر
         document.getElementById('searchInput').addEventListener('input', (e) => {
-            const q = e.target.value;
-            const homeSections = document.getElementById('homeSections');
-            const mainHero = document.getElementById('mainHero');
-            const gridTitle = document.getElementById('gridTitle');
-            if(q.length > 2) {
-                homeSections.style.display = 'none'; mainHero.style.display = 'none';
-                fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${q}&language=en-US`)
-                .then(r => r.json()).then(d => { displayGrid(d.results, false); gridTitle.innerText = `Results for: ${q.toUpperCase()}`; });
-            } else if(q.length === 0) {
-                homeSections.style.display = 'block'; mainHero.style.display = 'flex';
-                gridTitle.innerText = 'Trending Now'; fetchContent();
+            if(e.target.value.length > 2) {
+                fetch(`${BASE_URL}/search/${currentType}?api_key=${API_KEY}&query=${e.target.value}&language=en-US`)
+                .then(r => r.json()).then(d => displayGrid(d.results, false));
             }
         });
-
-        async function fetchTrending() {
-            const res = await fetch(`${BASE_URL}/trending/all/week?api_key=${API_KEY}&language=en-US`);
-            const data = await res.json();
-            const grid = document.getElementById('trendingGrid'); grid.innerHTML = '';
-            data.results.forEach(item => { if(item.poster_path) grid.innerHTML += `<div class="movie-card" onclick="showDetails(${item.id}, '${item.media_type}')"><img src="${IMG_URL + item.poster_path}" class="rounded-xl shadow-lg w-full"></div>`; });
-        }
-
-        async function fetchTopPicks() {
-            const ids = [157018, 247885, 94997, 1399, 1396]; 
-            const grid = document.getElementById('topPicksGrid'); grid.innerHTML = '';
-            for(let id of ids) {
-                try {
-                    const res = await fetch(`${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=en-US`);
-                    const item = await res.json();
-                    if(item.poster_path) grid.innerHTML += `<div class="movie-card group shrink-0" onclick="showDetails(${item.id}, 'tv')"><img src="${IMG_URL + item.poster_path}" class="rounded-xl shadow-lg border-2 border-transparent hover:border-yellow-400 transition-all w-full"></div>`;
-                } catch(e) {}
-            }
-        }
 
         async function fetchContent(isAppend = false) {
             let url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&page=${currentPage}`;
@@ -187,95 +119,120 @@
             const grid = document.getElementById('movieGrid'); if (!isAppend) grid.innerHTML = '';
             items.forEach(item => {
                 if(!item.poster_path) return;
-                const title = item.original_title || item.original_name || item.title;
-                grid.innerHTML += `<div class="movie-card group" onclick="showDetails(${item.id}, '${currentType}')"><img src="${IMG_URL + item.poster_path}" class="rounded-xl shadow-lg border border-white/5"><h3 class="mt-3 text-[11px] font-bold truncate text-center uppercase italic opacity-80">${title}</h3></div>`;
+                grid.innerHTML += `<div class="movie-card group" onclick="showDetails(${item.id}, '${currentType}')"><img src="${IMG_URL + item.poster_path}" class="rounded-xl shadow-lg border border-white/5"><h3 class="mt-2 text-[10px] font-bold truncate text-center uppercase italic opacity-80">${item.original_title || item.original_name}</h3></div>`;
             });
         }
 
         function updateHero(item) {
             document.getElementById('heroImg').src = item.backdrop_path ? IMG_ORG + item.backdrop_path : IMG_ORG + item.poster_path;
             document.getElementById('heroTitle').innerText = item.original_title || item.original_name;
-            document.getElementById('heroDesc').innerText = item.overview || "Stream now on SbaTa Tv.";
+            document.getElementById('heroDesc').innerText = item.overview || "حصرياً على SbaTa Tv.";
             document.getElementById('heroPlayBtn').onclick = () => showDetails(item.id, currentType);
         }
 
+        // --- دالة بناء صفحة التفاصيل بناءً على رسمك اليدوي ---
         async function showDetails(id, type) {
-            const resAr = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=ar-SA&append_to_response=similar,credits`);
+            const resAr = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=ar-SA&append_to_response=credits,similar`);
             const dataAr = await resAr.json();
             const resEn = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=en-US`);
             const dataEn = await resEn.json();
-            
-            document.getElementById('detailPage').style.display = 'block'; document.getElementById('detailPage').scrollTo(0,0);
-            
-            let seasonsHtml = '';
-            if(type === 'tv' && dataAr.seasons && dataAr.seasons.length > 0) {
-                seasonsHtml = `<div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-16 text-right text-white"><div class="text-right"><h3 class="text-2xl font-black text-yellow-400 mb-6 uppercase italic underline decoration-yellow-400">Seasons</h3><div class="flex flex-col gap-3">${dataAr.seasons.filter(s=>s.season_number > 0).map(s => `<button onclick="loadEpisodes(${id}, ${s.season_number}, '${dataEn.original_name.replace(/'/g, "")}')" class="btn-gold">${s.name}</button>`).join('')}</div></div><div class="md:col-span-2 text-right"><h3 class="text-2xl font-black text-yellow-400 mb-6 uppercase italic underline decoration-yellow-400">Episodes</h3><div id="epGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div></div></div>`;
-            }
 
-            let castHtml = dataAr.credits.cast.length > 0 ? `<h3 class="text-2xl font-black mb-8 text-yellow-400 uppercase italic underline decoration-yellow-400">Top Cast</h3><div class="flex gap-6 overflow-x-auto no-scrollbar mb-16">${dataAr.credits.cast.slice(0,10).map(c => `<div class="cast-item text-center"><img src="${c.profile_path?IMG_URL+c.profile_path:'https://via.placeholder.com/100'}" class="cast-img mx-auto shadow-xl"><p class="text-[10px] mt-2 font-bold uppercase text-white">${c.name}</p></div>`).join('')}</div>` : '';
-            let simHtml = dataAr.similar.results.length > 0 ? `<h3 class="text-2xl font-black mb-8 text-yellow-400 uppercase tracking-widest italic underline decoration-yellow-400">Recommended</h3><div class="grid grid-cols-3 md:grid-cols-8 gap-4 pb-24">${dataAr.similar.results.slice(0,16).map(s => `<div class="movie-card" onclick="showDetails(${s.id}, '${type}')"><img src="${IMG_URL+s.poster_path}" class="rounded-xl shadow-lg hover:border-yellow-400 transition-all border border-transparent"></div>`).join('')}</div>` : '';
+            document.getElementById('detailPage').style.display = 'block';
+            document.getElementById('detailPage').scrollTo(0,0);
 
-            document.getElementById('detailDynamicContent').innerHTML = `
-                <div class="relative min-h-[50vh] md:min-h-[70vh] flex items-center p-8 md:p-20 overflow-hidden text-right">
-                    <img src="${dataAr.backdrop_path ? IMG_ORG + dataAr.backdrop_path : ''}" class="absolute inset-0 w-full h-full object-cover opacity-30">
+            // بناء الهيكل (البوستر يمين، النص يسار)
+            let html = `
+                <div class="relative min-h-[50vh] flex items-center p-6 md:p-20 overflow-hidden text-right">
+                    <img src="${dataAr.backdrop_path ? IMG_ORG + dataAr.backdrop_path : ''}" class="absolute inset-0 w-full h-full object-cover opacity-20">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent"></div>
-                    <div class="relative z-10 flex flex-col md:flex-row gap-12 items-center w-full">
-                        <img src="${IMG_URL + dataAr.poster_path}" class="w-48 md:w-72 rounded-3xl shadow-2xl border-4 border-yellow-400/20 shrink-0">
+                    <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center w-full">
+                        <!-- البوستر (كما في الرسم) -->
+                        <img src="${IMG_URL + dataAr.poster_path}" class="w-48 md:w-80 rounded-2xl shadow-2xl border-2 border-yellow-400/30 shrink-0">
                         <div class="flex-1">
-                            <h1 class="text-3xl md:text-7xl font-black mb-4 uppercase italic text-white leading-tight tracking-tighter">${dataEn.original_title || dataEn.original_name}</h1>
-                            <p class="text-gray-200 text-sm md:text-2xl leading-relaxed italic mb-10 border-r-4 border-yellow-400 pr-6 text-white font-bold">${dataAr.overview || "القصة غير متوفرة حالياً."}</p>
-                            <button onclick="setupServers(${id}, ${type==='tv'?'1':'null'}, ${type==='tv'?'1':'null'}, '${dataEn.original_title || dataEn.original_name}', '${dataAr.overview?dataAr.overview.replace(/'/g, ""):""}')" class="btn-gold px-12 py-3 text-xl shadow-xl shadow-yellow-500/20">▶ شاهد الآن</button>
+                            <!-- العنوان والقصة -->
+                            <h1 class="text-3xl md:text-7xl font-black mb-4 uppercase text-white tracking-tighter">${dataEn.original_title || dataEn.original_name}</h1>
+                            <p class="text-gray-200 text-lg md:text-2xl leading-relaxed italic mb-8 border-r-4 border-yellow-400 pr-6">${dataAr.overview || "القصة غير متوفرة حالياً."}</p>
+                            <button onclick="setupServers(${id}, null, null, '${dataEn.original_title || dataEn.original_name}')" class="btn-gold px-12 py-3 text-xl shadow-xl">▶ مشاهدة الآن</button>
                         </div>
                     </div>
                 </div>
-                <div class="px-8 md:px-24 mt-10 text-right">
-                    ${seasonsHtml}
-                    ${castHtml}
-                    ${simHtml}
+
+                <div class="px-6 md:px-20 mt-10 text-right">
+                    <!-- قسم المواسم والحلقات (كما في الرسم) -->
+                    ${type === 'tv' ? `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-16">
+                            <div>
+                                <h3 class="text-2xl font-black text-yellow-400 mb-6 uppercase">المواسم (Seasons)</h3>
+                                <div class="flex flex-col gap-3">
+                                    ${dataAr.seasons.filter(s=>s.season_number > 0).map(s => `
+                                        <button onclick="loadEpisodes(${id}, ${s.season_number}, '${dataEn.original_name}')" class="btn-gold text-right hover:pr-8">${s.name}</button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div class="md:col-span-2">
+                                <h3 class="text-2xl font-black text-yellow-400 mb-6 uppercase">الحلقات (Episodes)</h3>
+                                <div id="epGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <p class="text-gray-500 italic">اختر الموسم لعرض الحلقات...</p>
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- أبطال المسلسل (صور دائرية كما في الرسم) -->
+                    <h3 class="text-2xl font-black text-yellow-400 mb-8 uppercase italic underline">أبطال المسلسل (Top Cast)</h3>
+                    <div class="flex gap-6 overflow-x-auto no-scrollbar mb-16">
+                        ${dataAr.credits.cast.slice(0,10).map(c => `
+                            <div class="text-center w-24 flex-shrink-0">
+                                <img src="${c.profile_path ? IMG_URL+c.profile_path : 'https://via.placeholder.com/100'}" class="cast-img mx-auto">
+                                <p class="text-[10px] font-bold mt-2 uppercase">${c.name}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- ترند المسلسلات/أفلام مشابهة -->
+                    <h3 class="text-2xl font-black text-yellow-400 mb-8 uppercase italic underline">قد يعجبك أيضاً (Recommendations)</h3>
+                    <div class="grid grid-cols-3 md:grid-cols-8 gap-4 pb-20">
+                        ${dataAr.similar.results.slice(0,16).map(s => `
+                            <div class="movie-card group" onclick="showDetails(${s.id}, '${type}')">
+                                <img src="${IMG_URL + s.poster_path}" class="rounded-xl shadow-lg border border-white/10 hover:border-yellow-400">
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
             `;
-            if(type === 'tv' && dataAr.seasons.length > 0) loadEpisodes(id, dataAr.seasons[dataAr.seasons.length-1].season_number, dataEn.original_name);
+            document.getElementById('detailDynamicContent').innerHTML = html;
         }
 
         async function loadEpisodes(tvId, sNum, tvName) {
             const res = await fetch(`${BASE_URL}/tv/${tvId}/season/${sNum}?api_key=${API_KEY}&language=en-US`);
             const data = await res.json();
-            const grid = document.getElementById('epGrid');
-            if(grid) grid.innerHTML = data.episodes.map(ep => `<div class="movie-card w-full" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - EP ${ep.episode_number}', '${ep.overview?ep.overview.replace(/'/g, ""):""}')"><img src="${ep.still_path ? IMG_URL+ep.still_path : 'https://via.placeholder.com/500x281'}" class="rounded-xl aspect-video object-cover shadow-lg"><h4 class="mt-2 text-xs font-bold text-center uppercase text-white">EP ${ep.episode_number}</h4></div>`).join('');
+            document.getElementById('epGrid').innerHTML = data.episodes.map(ep => `
+                <div class="movie-card group" onclick="setupServers(${tvId}, ${sNum}, ${ep.episode_number}, '${tvName} - Episode ${ep.episode_number}')">
+                    <img src="${ep.still_path ? IMG_URL+ep.still_path : 'https://via.placeholder.com/500x281'}" class="rounded-xl aspect-video object-cover shadow-lg border border-white/5 hover:border-yellow-400">
+                    <h4 class="mt-2 text-[10px] font-bold text-center uppercase">Ep ${ep.episode_number}</h4>
+                </div>
+            `).join('');
         }
 
-        async function setupServers(id, s, e, title, desc) {
+        function setupServers(id, s, e, title) {
             const list = document.getElementById('serverList'); list.innerHTML = '';
             const isTV = s !== null;
             const svs = [{n:'SERVER 1', u: isTV ? `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${s}&epi=${e}` : `https://vidsrc.me/embed/movie?tmdb=${id}`}, {n:'SERVER 2', u: isTV ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}` : `https://vidsrc.to/embed/movie/${id}`}];
             svs.forEach((v, i) => {
-                const b = document.createElement('button'); b.className = `btn-gold ${i===0?'active' : ''} text-sm px-10 py-3`; b.innerText = v.n;
+                const b = document.createElement('button'); b.className = `btn-gold ${i===0?'active' : ''} text-sm px-6 py-2`; b.innerText = v.n;
                 b.onclick = (event) => { document.querySelectorAll('.server-btn').forEach(x=>x.classList.remove('active')); event.target.classList.add('active'); document.getElementById('videoPlayer').src = v.u; };
                 list.appendChild(b);
             });
-            
-            const type = isTV ? 'tv' : 'movie';
-            const extraRes = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=ar-SA&append_to_response=credits,similar`);
-            const extra = await extraRes.json();
-            
-            document.getElementById('playerInfoArea').innerHTML = `
-                <div class="flex justify-between items-center mb-10"><h1 class="text-3xl md:text-6xl font-black italic uppercase text-yellow-400">${title}</h1><div class="bg-yellow-400 text-black px-6 py-2 rounded-2xl font-black text-2xl shadow-xl">⭐ ${(extra.vote_average || 8.0).toFixed(1)}</div></div>
-                <p class="text-gray-200 text-lg md:text-2xl leading-relaxed italic font-bold border-r-8 border-yellow-400 pr-10 mb-16">${desc || "مشاهدة ممتعة على SbaTa Tv."}</p>
-                <h3 class="text-3xl font-black mb-10 text-yellow-400 uppercase italic underline decoration-yellow-400">Top Cast</h3>
-                <div class="flex gap-8 overflow-x-auto no-scrollbar mb-16">${extra.credits.cast.slice(0,12).map(c => `<div class="cast-item text-center w-24 shrink-0"><img src="${c.profile_path?IMG_URL+c.profile_path:'https://via.placeholder.com/100'}" class="cast-img mx-auto"><p class="text-[10px] mt-2 font-bold text-white uppercase">${c.name}</p></div>`).join('')}</div>
-                <h3 class="text-3xl font-black mb-10 text-yellow-400 uppercase italic underline decoration-yellow-400">Recommended for you</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-6">${extra.similar.results.slice(0,16).map(s => `<div class="movie-card" onclick="closePlayer(); setTimeout(()=>showDetails(${s.id}, '${type}'),100)"><img src="${IMG_URL+s.poster_path}" class="rounded-2xl shadow-2xl hover:border-yellow-400 transition-all border-2 border-transparent"></div>`).join('')}</div>
-            `;
             openPlayer(svs[0].u, title);
         }
 
-        function openPlayer(url, title) { document.getElementById('playerPage').style.display = 'block'; document.getElementById('videoPlayer').src = url; document.getElementById('playerTitle').innerText = title; document.body.style.overflow = 'hidden'; }
-        function closePlayer() { document.getElementById('playerPage').style.display='none'; document.getElementById('videoPlayer').src=''; document.body.style.overflow = 'auto'; }
+        function openPlayer(url, title) { document.getElementById('playerPage').style.display = 'block'; document.getElementById('videoPlayer').src = url; document.getElementById('playerTitle').innerText = title; }
+        function closePlayer() { document.getElementById('playerPage').style.display='none'; document.getElementById('videoPlayer').src=''; }
         function closeDetails() { document.getElementById('detailPage').style.display='none'; document.body.style.overflow = 'auto'; }
         function changeType(t, l) { currentType=t; currentPage=1; fetchContent(); }
         function loadNextPage() { currentPage++; fetchContent(true); }
 
-        fetchTrending(); fetchTopPicks(); fetchContent();
+        fetchContent();
     </script>
 </body>
 </html>
