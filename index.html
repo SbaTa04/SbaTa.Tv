@@ -3,55 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SbaTa Tv | Safe Premium 2026</title>
+    <title>SbaTa Tv | Golden Edition 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main-yellow: #facc15; --bg-dark: #050811; }
         body { background-color: var(--bg-dark); color: white; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
-        
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         ::-webkit-scrollbar { display: none; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-
-        #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 9999; display: none; overflow-y: auto; scroll-behavior: smooth; }
-        
+        *:focus { outline: none !important; }
+        *:focus-visible { outline: 3px solid var(--main-yellow) !important; border-radius: 12px; transform: scale(1.05) !important; }
+        #detailPage, #playerPage { position: fixed; inset: 0; background: var(--bg-dark); z-index: 9999; display: none; overflow-y: auto; scroll-behavior: smooth; padding-bottom: 60px; }
         .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background: #111; border: 1px solid var(--main-yellow); border-radius: 12px; min-width: 180px; z-index: 5000; overflow: hidden; }
         .group:hover .dropdown-content { display: block; }
         .dropdown-item { padding: 12px 20px; display: block; font-size: 15px; font-weight: 800; color: #fff; text-align: right; border-bottom: 1px solid #222; cursor: pointer; }
         .dropdown-item:hover { background: var(--main-yellow); color: black; }
-
         .slider-container { position: relative; width: 100%; }
         .slider-row { display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; padding: 10px 0; }
         .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; background: rgba(0,0,0,0.7); color: var(--main-yellow); border-radius: 50%; z-index: 50; cursor: pointer; border: 1px solid var(--main-yellow); font-size: 2rem; display: flex; align-items: center; justify-content: center; opacity: 0.8; }
-        .btn-left { left: 5px; } .btn-right { right: 5px; }
-
-        .movie-card { transition: 0.4s; flex-shrink: 0; width: 140px; cursor: pointer; }
-        @media (min-width: 1024px) { .movie-card { width: 190px !important; } }
+        .btn-left { left: 10px; } .btn-right { right: 10px; }
+        .movie-card { transition: 0.4s; flex-shrink: 0; width: 140px; cursor: pointer; outline: none; }
+        @media (min-width: 1024px) { .movie-card { width: 195px !important; } }
         .movie-img { width: 100%; aspect-ratio: 2/3; border-radius: 15px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
-        
-        .section-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 15px; display: flex; items-center; gap: 10px; color: var(--main-yellow); }
-        .section-title span { width: 4px; height: 24px; background: var(--main-yellow); border-radius: 2px; }
-
-        .btn-gold { background: var(--main-yellow); color: black !important; font-weight: 900; padding: 10px 20px; border-radius: 10px; transition: 0.3s; cursor: pointer; border: none; }
-        .glass-nav { background: rgba(5, 8, 17, 0.96); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
         .logo-tv { background: var(--main-yellow); color: black; padding: 0 8px; border-radius: 6px; margin-right: 5px; font-weight: 900; }
-        .channel-circle { width: 85px; height: 85px; border-radius: 50%; border: 3px solid var(--main-yellow); overflow: hidden; flex-shrink: 0; cursor: pointer; transition: 0.3s; background: #000; }
-        .cast-img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 2px solid var(--main-yellow); margin: 0 auto 5px; }
-
-        /* مشغل الفيديو مع الدرع الحامي */
-        .video-container { position: relative; width: 100%; background: #000; border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 9; border: 2px solid var(--main-yellow); box-shadow: 0 0 50px rgba(0,0,0,1); }
+        .glass-nav { background: rgba(5, 8, 17, 0.96); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .video-container { position: relative; width: 100%; background: #000; border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 9; border: 2px solid var(--main-yellow); }
         #videoPlayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; z-index: 10; }
+        .cast-img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 2px solid var(--main-yellow); margin: 0 auto 5px; }
+        .btn-gold { background: var(--main-yellow); color: black !important; font-weight: 900; padding: 10px 25px; border-radius: 10px; transition: 0.3s; cursor: pointer; border: none; }
+        .section-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 15px; color: var(--main-yellow); display: flex; items-center; gap: 10px; }
+        .section-title span { width: 4px; height: 24px; background: var(--main-yellow); border-radius: 2px; }
+        .channel-circle { width: 85px; height: 85px; border-radius: 50%; border: 3px solid var(--main-yellow); overflow: hidden; flex-shrink: 0; cursor: pointer; transition: 0.3s; background: #000; }
     </style>
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="fixed top-0 w-full z-[2000] px-4 md:px-12 py-3 flex flex-col md:flex-row justify-between items-center glass-nav gap-2">
-        <div class="flex items-center justify-between w-full md:w-auto gap-8 text-center">
-            <div class="text-2xl md:text-3xl font-black cursor-pointer tracking-tighter shrink-0" onclick="location.reload()">SbaTa<span class="logo-tv">Tv</span></div>
+        <div class="flex items-center justify-between w-full md:w-auto gap-8">
+            <div class="text-2xl md:text-3xl font-black cursor-pointer shrink-0" onclick="location.reload()">SbaTa<span class="logo-tv">Tv</span></div>
             <div class="flex gap-4 text-xs md:text-sm font-bold uppercase">
                 <button onclick="location.reload()" class="text-yellow-400">الرئيسية</button>
                 <button onclick="changeType('movie')" class="hover:text-yellow-400">الأفلام</button>
@@ -59,77 +49,37 @@
                 <button onclick="document.getElementById('live-section').scrollIntoView({behavior:'smooth'})" class="hover:text-yellow-400">القنوات</button>
             </div>
         </div>
-        <input type="text" id="searchInput" placeholder="Search Original Titles..." class="bg-white/10 border border-yellow-400/30 rounded-full px-5 py-1 text-sm outline-none focus:border-yellow-400 w-full md:w-80 text-white font-bold transition-all">
+        <input type="text" id="searchInput" placeholder="Search Original Titles..." class="bg-white/10 border border-yellow-400/30 rounded-full px-5 py-1 text-sm outline-none focus:border-yellow-400 w-full md:w-80 text-white font-bold">
     </nav>
 
-    <!-- الرئيسية -->
     <div id="homePage">
-        <header id="mainHero" class="relative h-[60vh] md:h-[80vh] flex items-end p-8 md:p-20 pb-12 overflow-hidden text-right">
+        <header id="mainHero" class="relative h-[55vh] md:h-[75vh] flex items-end p-8 md:p-20 pb-12 overflow-hidden text-right">
             <img id="heroImg" src="" class="absolute inset-0 w-full h-full object-cover opacity-40 transition-all duration-1000">
-            <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/30 text-right"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-black/30"></div>
             <div class="relative z-10 max-w-4xl">
                 <h1 id="heroTitle" class="text-3xl md:text-7xl font-black mb-2 uppercase italic drop-shadow-2xl text-white">...</h1>
-                <p id="heroDesc" class="text-gray-300 text-sm md:text-xl mb-4 line-clamp-2 font-bold italic">...</p>
-                <button id="heroPlayBtn" class="btn-gold text-lg md:text-2xl px-12 shadow-2xl font-black">▶ WATCH NOW</button>
+                <button id="heroPlayBtn" class="btn-gold text-lg md:text-2xl px-12 shadow-2xl">▶ WATCH NOW</button>
             </div>
         </header>
 
-        <main class="px-4 md:px-20 pb-20 mt-10 relative z-20">
-            <section class="mb-14" id="live-section">
-                <h2 class="section-title"><span></span> قنوات البث المباشر</h2>
-                <div class="flex gap-6 overflow-x-auto no-scrollbar pb-4" id="channelsGrid"></div>
-            </section>
-
+        <main class="px-4 md:px-20 pb-20 -mt-5 relative z-20">
+            <section class="mb-14" id="live-section"><h2 class="section-title"><span></span> قنوات البث المباشر</h2><div class="flex gap-6 overflow-x-auto no-scrollbar pb-4" id="channelsGrid"></div></section>
             <div id="homeSections">
-                <section class="mb-14 slider-container">
-                    <h2 class="section-title"><span></span> آخر الأفلام المضافة</h2>
-                    <div class="slider-row no-scrollbar" id="row-latest"></div>
-                    <div onclick="slide('row-latest', -500)" class="slider-btn btn-left">❮</div>
-                    <div onclick="slide('row-latest', 500)" class="slider-btn btn-right">❯</div>
-                </section>
-                <section class="mb-14 slider-container">
-                    <h2 class="section-title"><span></span> تريند TRENDING</h2>
-                    <div class="slider-row no-scrollbar" id="row-trending"></div>
-                    <div onclick="slide('row-trending', -500)" class="slider-btn btn-left">❮</div>
-                    <div onclick="slide('row-trending', 500)" class="slider-btn btn-right">❯</div>
-                </section>
-                <section class="mb-14 slider-container">
-                    <h2 class="section-title"><span></span> TOP PICKS</h2>
-                    <div class="slider-row no-scrollbar" id="topPicksGrid"></div>
-                    <div onclick="slide('topPicksGrid', -500)" class="slider-btn btn-left">❮</div>
-                    <div onclick="slide('topPicksGrid', 400)" class="slider-btn btn-right">❯</div>
-                </section>
+                <section class="mb-14 slider-container"><h2 class="section-title"><span></span> آخر الأفلام المضافة</h2><div class="slider-row no-scrollbar" id="row-latest"></div><div onclick="slide('row-latest', -500)" class="slider-btn btn-left">❮</div><div onclick="slide('row-latest', 500)" class="slider-btn btn-right">❯</div></section>
+                <section class="mb-14 slider-container"><h2 class="section-title"><span></span> تريند TRENDING</h2><div class="slider-row no-scrollbar" id="row-trending"></div><div onclick="slide('row-trending', -500)" class="slider-btn btn-left">❮</div><div onclick="slide('row-trending', 500)" class="slider-btn btn-right">❯</div></section>
+                <section class="mb-14 slider-container"><h2 class="section-title"><span></span> TOP PICKS</h2><div class="slider-row no-scrollbar" id="topPicksGrid"></div><div onclick="slide('topPicksGrid', -500)" class="slider-btn btn-left">❮</div><div onclick="slide('topPicksGrid', 500)" class="slider-btn btn-right">❯</div></section>
             </div>
-
             <h2 id="gridTitle" class="section-title"><span></span> استكشف المكتبة</h2>
             <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 md:gap-6"></div>
             <div class="flex justify-center mt-20" id="loadMoreArea"><button onclick="loadNextPage()" class="bg-white/5 border border-yellow-400/20 text-white px-10 py-3 rounded-full font-bold hover:bg-yellow-400 hover:text-black transition shadow-xl">تحميل المزيد ↓</button></div>
         </main>
     </div>
 
-    <!-- صفحة التفاصيل -->
-    <div id="detailPage" class="fade-in pb-20">
-        <button onclick="closeDetails()" class="fixed top-20 right-6 z-[10000] btn-gold px-6 shadow-2xl">رجوع</button>
-        <div id="detailDynamicContent"></div>
-    </div>
+    <div id="detailPage" class="fade-in pb-20"><button onclick="closeDetails()" class="fixed top-20 right-6 z-[10000] btn-gold px-6 shadow-2xl">رجوع</button><div id="detailHero"></div><div id="detailLists" class="px-8 md:px-24 mt-10 text-right"></div></div>
 
-    <!-- صفحة المشغل (إضافة درع Sandbox هنا) -->
     <div id="playerPage" class="fade-in pb-20">
-        <nav class="p-4 md:px-12 flex items-center justify-between bg-black/80 sticky top-0 z-[10000]">
-            <button onclick="closePlayer()" class="btn-gold px-6 py-1 text-sm font-black text-black">رجوع</button>
-            <h2 id="playerTitle" class="text-sm md:text-xl font-bold truncate text-white uppercase px-4 italic">...</h2>
-        </nav>
-        <main class="max-w-[1400px] mx-auto p-4 md:p-8">
-            <div id="serverList" class="flex gap-3 mb-6 overflow-x-auto no-scrollbar font-black text-black"></div>
-            
-            <div class="video-container mb-10 shadow-2xl">
-                <!-- تم إضافة sandbox لتقليل الإعلانات المزعجة من المصدر -->
-                <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay" 
-                sandbox="allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation"></iframe>
-            </div>
-
-            <div id="playerInfo" class="bg-white/5 p-8 rounded-[30px] border border-white/10 text-right shadow-2xl"></div>
-        </main>
+        <nav class="p-4 md:px-12 flex items-center justify-between bg-black/80 sticky top-0 z-[10000]"><button onclick="closePlayer()" class="btn-gold px-6 py-1 text-sm">رجوع</button><h2 id="playerTitle" class="text-sm md:text-xl font-bold truncate text-white uppercase px-4 italic">...</h2></nav>
+        <main class="max-w-[1400px] mx-auto p-4 md:p-8"><div id="serverList" class="flex gap-3 mb-6 overflow-x-auto no-scrollbar font-black text-black"></div><div class="video-container mb-10"><iframe id="videoPlayer" src="" allowfullscreen allow="autoplay"></iframe></div><div id="playerInfo"></div></main>
     </div>
 
     <script>
@@ -137,15 +87,12 @@
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMG_URL = 'https://image.tmdb.org/t/p/w500';
         const IMG_ORG = 'https://image.tmdb.org/t/p/original';
-        
         let currentType = 'movie', currentPage = 1;
-
         const liveChannels = [
             { name: 'BeIN News', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/BeIN_Sports_logo.svg/1200px-BeIN_Sports_logo.svg.png', url: 'https://vaughn.live/embed/video/beinsportsnews' },
             { name: 'MBC 1', img: 'https://upload.wikimedia.org/wikipedia/ar/thumb/7/70/MBC1_Logo.svg/1200px-MBC1_Logo.svg.png', url: 'https://www.elahmad.com/tv/embed/mbc1.php' }
         ];
 
-        window.onscroll = () => { document.getElementById('scrollTopBtn').style.opacity = window.scrollY > 500 ? "1" : "0"; };
         function slide(id, amt) { document.getElementById(id).scrollBy({left: amt, behavior: 'smooth'}); }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
@@ -154,7 +101,7 @@
             if(q.length > 2) {
                 homeSec.style.display = 'none'; hero.style.display = 'none';
                 fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${q}&language=en-US`)
-                .then(r => r.json()).then(d => { displayGrid(d.results, false); document.getElementById('gridTitle').innerText = `RESULTS FOR: ${q.toUpperCase()}`; });
+                .then(r => r.json()).then(d => { displayGrid(d.results, false); document.getElementById('gridTitle').innerText = `RESULTS: ${q.toUpperCase()}`; });
             } else if(q.length === 0) {
                 homeSec.style.display = 'block'; hero.style.display = 'flex'; document.getElementById('gridTitle').innerText = 'Trending Now'; fetchContent();
             }
@@ -171,7 +118,6 @@
             document.getElementById('channelsGrid').innerHTML = liveChannels.map(c => `<div class="text-center shrink-0" onclick="openLivePlayer('${c.url}', '${c.name}')"><div class="channel-circle"><img src="${c.img}" class="w-full h-full object-contain p-2"></div><p class="text-[10px] mt-2 font-bold">${c.name}</p></div>`).join('');
             const hero = await fetchRow(`${BASE_URL}/movie/popular?api_key=${API_KEY}`, 'row-latest', 'movie');
             fetchRow(`${BASE_URL}/trending/all/week?api_key=${API_KEY}`, 'row-trending', 'movie');
-            
             const topIds = [157018, 247885, 94997, 1399, 1396];
             let topPicksHtml = '';
             for(let id of topIds) {
@@ -180,13 +126,8 @@
                 topPicksHtml += `<div class="movie-card shrink-0" onclick="showDetails(${item.id}, 'tv')"><img src="${IMG_URL + item.poster_path}" class="movie-img shadow-lg border-2 border-transparent hover:border-yellow-400 transition-all w-full"></div>`;
             }
             document.getElementById('topPicksGrid').innerHTML = topPicksHtml;
-
             fetchContent();
-            if(hero) {
-                document.getElementById('heroImg').src = IMG_ORG + hero.backdrop_path;
-                document.getElementById('heroTitle').innerText = hero.original_title;
-                document.getElementById('heroPlayBtn').onclick = () => showDetails(hero.id, 'movie');
-            }
+            if(hero) { document.getElementById('heroImg').src = IMG_ORG + hero.backdrop_path; document.getElementById('heroTitle').innerText = hero.original_title; document.getElementById('heroPlayBtn').onclick = () => showDetails(hero.id, 'movie'); }
         }
 
         async function showDetails(id, type) {
@@ -196,26 +137,13 @@
             const dataEn = await resEn.json();
             document.getElementById('detailPage').style.display = 'block'; document.getElementById('detailPage').scrollTo(0,0);
             
-            document.getElementById('detailDynamicContent').innerHTML = `
+            let seasonsHtml = (type === 'tv' && dataAr.seasons) ? `<div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-12 text-right text-white"><div class="text-right"><h3 class="text-2xl font-black text-yellow-400 mb-6 uppercase italic underline">Seasons</h3><div class="flex flex-col gap-3">${dataAr.seasons.filter(s=>s.season_number > 0).map(s => `<button onclick="loadEpisodes(${id}, ${s.season_number}, '${dataEn.original_name.replace(/'/g, "")}')" class="btn-gold">${s.name}</button>`).join('')}</div></div><div class="md:col-span-2 text-right"><h3 class="text-2xl font-black text-yellow-400 mb-6 uppercase italic underline">Episodes</h3><div id="epGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div></div></div>` : '';
+
+            document.getElementById('detailHero').innerHTML = `
                 <div class="relative min-h-[55vh] flex items-center p-8 md:p-20 overflow-hidden text-right text-white">
-                    <img src="${dataAr.backdrop_path ? IMG_ORG + dataAr.backdrop_path : ''}" class="absolute inset-0 w-full h-full object-cover opacity-30">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent"></div>
-                    <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center w-full">
-                        <img src="${IMG_URL + dataAr.poster_path}" class="w-56 rounded-3xl shadow-2xl border-4 border-yellow-400/20 shrink-0">
-                        <div class="flex-1">
-                            <h1 class="text-3xl md:text-7xl font-black mb-4 uppercase text-white leading-tight">${dataEn.original_title || dataEn.original_name}</h1>
-                            <p class="text-gray-200 text-sm md:text-2xl leading-relaxed italic mb-10 border-r-4 border-yellow-400 pr-6 text-white font-bold">${dataAr.overview || "القصة غير متوفرة."}</p>
-                            <button onclick="setupServers(${id}, ${type==='tv'?'1':'null'}, ${type==='tv'?'1':'null'}, '${dataEn.original_title || dataEn.original_name}', '${dataAr.overview?dataAr.overview.replace(/'/g, ""):""}', '${type}')" class="btn-gold px-12 py-3 text-xl shadow-xl text-black">▶ شاهد الآن</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-8 md:px-24 mt-10 text-right">
-                    ${type === 'tv' ? `<div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-16 text-right"><div class="text-right"><h3 class="text-2xl font-black text-yellow-400 mb-6 uppercase italic underline">Seasons</h3><div class="flex flex-col gap-3">${dataAr.seasons.filter(s=>s.season_number > 0).map(s => `<button onclick="loadEpisodes(${id}, ${s.season_number}, '${dataEn.original_name.replace(/'/g, "")}')" class="btn-gold text-black font-black">${s.name}</button>`).join('')}</div></div><div class="md:col-span-2 text-right"><h3 class="text-2xl font-black text-yellow-400 mb-6 uppercase italic underline">Episodes</h3><div id="epGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div></div></div>` : ''}
-                    <h3 class="text-2xl font-black mb-10 text-yellow-400 uppercase italic underline text-right text-white font-black">Top Cast</h3>
-                    <div class="flex gap-8 overflow-x-auto no-scrollbar mb-16">${dataAr.credits.cast.slice(0,10).map(c => `<div class="cast-item text-center flex-shrink-0 w-24"><img src="${c.profile_path?IMG_URL+c.profile_path:'https://via.placeholder.com/100'}" class="cast-img mx-auto shadow-xl"><p class="text-[10px] mt-2 font-bold text-white uppercase font-black">${c.name}</p></div>`).join('')}</div>
-                </div>
-            `;
-            if(type === 'tv') loadEpisodes(id, dataAr.seasons[dataAr.seasons.length-1].season_number, dataEn.original_name);
+                    <img src="${dataAr.backdrop_path ? IMG_ORG + dataAr.backdrop_path : ''}" class="absolute inset-0 w-full h-full object-cover opacity-30"><div class="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent"></div><div class="relative z-10 flex flex-col md:flex-row gap-10 items-center w-full"><img src="${IMG_URL + dataAr.poster_path}" class="w-56 rounded-3xl shadow-2xl border-4 border-yellow-400 shrink-0"><div class="flex-1"><h1 class="text-3xl md:text-7xl font-black mb-4 uppercase text-white leading-tight">${dataEn.original_title || dataEn.original_name}</h1><p class="text-gray-200 text-sm md:text-2xl leading-relaxed italic mb-10 border-r-4 border-yellow-400 pr-6 text-white font-bold">${dataAr.overview || "القصة غير متوفرة."}</p><button onclick="setupServers(${id}, ${type==='tv'?'1':'null'}, ${type==='tv'?'1':'null'}, '${dataEn.original_title || dataEn.original_name}', '${dataAr.overview?dataAr.overview.replace(/'/g, ""):""}', '${type}')" class="btn-gold px-12 py-3 text-xl shadow-xl text-black">▶ شاهد الآن</button></div></div></div>`;
+            document.getElementById('detailLists').innerHTML = `${seasonsHtml}<h3 class="text-2xl font-black mb-10 text-yellow-400 uppercase italic underline text-right text-white font-black">Top Cast</h3><div class="flex gap-8 overflow-x-auto no-scrollbar mb-16">${dataAr.credits.cast.slice(0,10).map(c => `<div class="cast-item text-center flex-shrink-0 w-24"><img src="${c.profile_path?IMG_URL+c.profile_path:'https://via.placeholder.com/100'}" class="cast-img mx-auto shadow-xl"><p class="text-[10px] mt-2 font-bold text-white uppercase font-black">${c.name}</p></div>`).join('')}</div>`;
+            if(type === 'tv' && dataAr.seasons.length > 0) loadEpisodes(id, dataAr.seasons[dataAr.seasons.length-1].season_number, dataEn.original_name);
         }
 
         async function loadEpisodes(tvId, sNum, tvName) {
@@ -225,35 +153,24 @@
         }
 
         async function setupServers(id, s, e, title, desc, type) {
-            const list = document.getElementById('serverList'); list.innerHTML = '';
             const isTV = s !== null && s !== 'null';
-            const svs = [{n:'SERVER 1', u: isTV ? `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${s}&epi=${e}` : `https://vidsrc.me/embed/movie?tmdb=${id}`}, {n:'SERVER 2', u: isTV ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}` : `https://vidsrc.to/embed/movie/${id}`}];
-            
+            const svs = [{n:'S1 VIP', u: isTV ? `https://vidsrc.me/embed/tv?tmdb=${id}&sea=${s}&epi=${e}` : `https://vidsrc.me/embed/movie?tmdb=${id}`}, {n:'S2 HD', u: isTV ? `https://vidsrc.to/embed/tv/${id}/${s}/${e}` : `https://vidsrc.to/embed/movie/${id}`}];
             document.getElementById('serverList').innerHTML = svs.map((v, i) => `<button class="btn-gold ${i===0?'active':''} text-black font-black text-sm px-10 py-2 rounded-xl" onclick="document.getElementById('videoPlayer').src='${v.u}'">${v.n}</button>`).join('');
-
-            const extraRes = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}&language=ar-SA&append_to_response=credits,similar`);
+            const extraRes = await fetch(`${BASE_URL}/${isTV?'tv':'movie'}/${id}?api_key=${API_KEY}&language=ar-SA&append_to_response=credits,similar`);
             const extra = await extraRes.json();
-            
-            document.getElementById('playerInfo').innerHTML = `
-                <div class="flex justify-between items-center mb-8 mt-10 text-right"><h1 class="text-3xl md:text-6xl font-black italic uppercase text-yellow-400">${title}</h1><div class="bg-yellow-400 text-black px-6 py-2 rounded-2xl font-black text-2xl shadow-xl">⭐ ${(extra.vote_average || 8.0).toFixed(1)}</div></div>
-                <p class="text-gray-200 text-lg md:text-2xl leading-relaxed italic font-bold border-r-8 border-yellow-400 pr-10 mb-16 text-right">${desc || "مشاهدة ممتعة."}</p>
-                <h3 class="text-3xl font-black mb-10 text-yellow-400 uppercase italic underline text-right">Recommended for you</h3>
-                <div class="grid grid-cols-3 md:grid-cols-8 gap-4">${extra.similar.results.slice(0,16).map(s => `<div class="movie-card group" onclick="closePlayer(); setTimeout(()=>showDetails(${s.id}, '${type}'),100)"><img src="${IMG_URL+s.poster_path}" class="rounded-xl shadow-lg hover:border-yellow-400 transition-all border-2 border-transparent"></div>`).join('')}</div>
-            `;
-
+            document.getElementById('playerInfo').innerHTML = `<div class="flex justify-between items-center mb-8 mt-10 text-right text-white"><h1 class="text-3xl md:text-6xl font-black italic uppercase text-yellow-400">${title}</h1><div class="bg-yellow-400 text-black px-6 py-2 rounded-2xl font-black text-2xl shadow-xl">⭐ ${(extra.vote_average || 8.0).toFixed(1)}</div></div><p class="text-gray-200 text-lg md:text-2xl leading-relaxed italic font-bold border-r-8 border-yellow-400 pr-10 mb-16 text-right">${desc || "مشاهدة ممتعة."}</p><h3 class="text-3xl font-black mb-10 text-yellow-400 uppercase italic underline text-right">Recommended</h3><div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4">${extra.similar.results.slice(0,16).map(s => `<div class="movie-card group w-full" onclick="closePlayer(); setTimeout(()=>showDetails(${s.id}, '${isTV?'tv':'movie'}'),100)"><img src="${IMG_URL+s.poster_path}" class="movie-img shadow-2xl hover:border-yellow-400 transition-all border-2 border-transparent"></div>`).join('')}</div>`;
             document.getElementById('videoPlayer').src = svs[0].u;
             document.getElementById('playerTitle').innerText = title;
             document.getElementById('playerPage').style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
 
-        function openLivePlayer(url, title) { document.getElementById('videoPlayer').src = url; document.getElementById('playerTitle').innerText = title; document.getElementById('playerInfo').innerHTML = `<h1 class="text-4xl font-black text-yellow-400 text-right mt-10 uppercase italic underline decoration-yellow-400">${title} - LIVE</h1>`; document.getElementById('playerPage').style.display = 'block'; }
+        function openLivePlayer(url, title) { document.getElementById('videoPlayer').src = url; document.getElementById('playerTitle').innerText = title; document.getElementById('playerPage').style.display = 'block'; }
         function closePlayer() { document.getElementById('playerPage').style.display='none'; document.getElementById('videoPlayer').src=''; document.body.style.overflow = 'auto'; }
         function closeDetails() { document.getElementById('detailPage').style.display='none'; document.body.style.overflow = 'auto'; }
         function changeType(t) { currentType=t; currentPage=1; fetchContent(); }
         async function fetchContent(isAppend = false) { let url = `${BASE_URL}/discover/${currentType}?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&page=${currentPage}`; const res = await fetch(url); const data = await res.json(); const grid = document.getElementById('movieGrid'); if(!isAppend) grid.innerHTML = ''; grid.innerHTML += data.results.map(item => `<div class="movie-card group w-full" onclick="showDetails(${item.id}, '${currentType}')"><img src="${IMG_URL + item.poster_path}" class="movie-img shadow-lg border border-white/5"><h3 class="mt-3 text-[10px] font-bold truncate text-center uppercase text-white/70">${item.original_title || item.original_name}</h3></div>`).join(''); }
         function loadNextPage() { currentPage++; fetchContent(true); }
-
         init();
     </script>
 </body>
